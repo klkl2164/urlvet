@@ -1,7 +1,12 @@
 // Builds the url.vet result UI as DOM nodes, for the popup, the blocked page
 // and the on-page card. Text is always set with textContent: scanned URLs and
 // reasons come from the network and must never be parsed as HTML.
-import { incompleteNote, redirectNote, shortLinkNote } from "./shared.js";
+import {
+  incompleteNote,
+  redirectNote,
+  shortLinkNote,
+  verdictName,
+} from "./shared.js";
 
 const SVG = "http://www.w3.org/2000/svg";
 
@@ -78,7 +83,7 @@ function ring(score) {
     {
       class: "ring",
       role: "img",
-      "aria-label": `Trust score ${score ?? "unknown"} out of 100`,
+      "aria-label": `信任分 ${score ?? "未知"}，满分 100`,
     },
     svg,
     el(
@@ -117,11 +122,14 @@ export function verdictCard(result) {
     el(
       "div",
       { class: "verdict-main" },
-      el("span", { class: "eyebrow", text: "Verdict" }),
+      el("span", { class: "eyebrow", text: "判定结果" }),
       el(
         "div",
         { class: "verdict-line" },
-        el("span", { class: "verdict-word", text: result.verdict }),
+        el("span", {
+          class: "verdict-word",
+          text: verdictName(result.verdict),
+        }),
         el("span", { class: "badge", text: result.label }),
       ),
       el("p", { class: "quip", text: result.quip }),
@@ -134,25 +142,27 @@ export function verdictCard(result) {
 export function flags(result, max = 3) {
   const bad = result.verdict !== "Safe" && result.bad.length > 0;
   const items = bad ? result.bad : result.good;
-  if (!items.length) return null;
+  if (!items.length) return [];
   const shown = items.slice(0, max);
   const more = items.length - shown.length;
-  return el(
-    "section",
-    {},
-    el("h3", {
-      class: `eyebrow flags-title ${bad ? "bad" : "good"}`,
-      text: bad ? "Red flags" : "Green flags",
-    }),
+  return [
     el(
-      "ul",
-      { class: `flags ${bad ? "bad" : "good"}` },
-      shown.map((r) => el("li", { text: r })),
+      "section",
+      {},
+      el("h3", {
+        class: `eyebrow flags-title ${bad ? "bad" : "good"}`,
+        text: bad ? "风险标记" : "正面标记",
+      }),
+      el(
+        "ul",
+        { class: `flags ${bad ? "bad" : "good"}` },
+        shown.map((r) => el("li", { text: r })),
+      ),
+      more > 0
+        ? el("p", { class: "more", text: `完整报告中还有 ${more} 条` })
+        : null,
     ),
-    more > 0
-      ? el("p", { class: "more", text: `+${more} more in the full report` })
-      : null,
-  );
+  ];
 }
 
 /** Short-link and incomplete-scan notes, in the website's own words. */

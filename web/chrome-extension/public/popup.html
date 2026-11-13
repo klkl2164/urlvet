@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,7 +16,7 @@
           id="openSettings"
           class="icon-btn"
           type="button"
-          aria-label="Settings"
+          aria-label="设置"
         >
           <svg
             viewBox="0 0 24 24"
@@ -39,10 +39,10 @@
         </button>
       </header>
       <p class="tagline">
-        sketchy link? just <span class="underline">url.vet</span> it
+        链接有点可疑？直接 <span class="underline">url.vet</span> 一下
       </p>
 
-      <section id="page" class="page" aria-label="This page"></section>
+      <section id="page" class="page" aria-label="此页面"></section>
 
       <form id="form" class="search" novalidate>
         <input
@@ -51,11 +51,11 @@
           inputmode="url"
           autocomplete="off"
           spellcheck="false"
-          placeholder="Paste a link"
-          aria-label="Link to check"
+          placeholder="粘贴链接"
+          aria-label="要检查的链接"
         />
         <button id="checkBtn" class="pill pill-solid" type="submit">
-          Check
+          检查
         </button>
       </form>
       <p id="formError" class="form-error" role="alert" hidden></p>
@@ -63,8 +63,8 @@
       <section id="result" class="result" aria-live="polite"></section>
 
       <footer class="foot">
-        <span>No accounts, no tracking.</span>
-        <a id="privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <span>无需账号，不做追踪。</span>
+        <a id="privacy" target="_blank" rel="noopener noreferrer">隐私</a>
       </footer>
     </main>
 
@@ -84,33 +84,31 @@
               d="M15.75 19.5 8.25 12l7.5-7.5"
             />
           </svg>
-          Back
+          返回
         </button>
-        <span class="eyebrow">Settings</span>
+        <span class="eyebrow">设置</span>
       </header>
 
       <label class="switch-row">
         <span class="switch-text">
-          <span class="switch-title">Warn me on risky pages</span>
+          <span class="switch-title">在危险页面上警告我</span>
           <span class="switch-desc"
-            >Checks pages as they open and warns you if one looks risky. The
-            10,000 best-known sites are never sent; for the rest, only the
-            address is.</span
+            >页面打开时自动检查，看起来危险就提醒你。最知名的 10,000
+            个站点从不会发送；其余的也只发送地址。</span
           >
         </span>
         <input id="autoCheck" class="switch" type="checkbox" role="switch" />
       </label>
       <label class="check-row" id="warnSuspiciousRow">
         <input id="warnSuspicious" type="checkbox" />
-        <span>Also warn about suspicious pages</span>
+        <span>可疑页面也提醒</span>
       </label>
 
       <label class="switch-row">
         <span class="switch-text">
-          <span class="switch-title">Guard my passwords</span>
+          <span class="switch-title">保护我的密码</span>
           <span class="switch-desc"
-            >Warns you before you type a password on a page that isn't
-            Safe.</span
+            >在不属于安全的页面上输入密码前提醒你。</span
           >
         </span>
         <input
@@ -122,11 +120,10 @@
       </label>
 
       <section class="panel">
-        <h2 class="eyebrow">Trusted sites</h2>
+        <h2 class="eyebrow">信任的站点</h2>
         <p class="panel-desc">
-          Never checked or warned about. Add one here, or from a warning with
-          <em>Trust this site</em>. The 10,000 best-known sites are already
-          skipped and aren't listed.
+          永不检查，也不提醒。可以在这里添加，或者在警告卡片上点
+          <em>信任此站点</em>。最知名的 10,000 个站点已经默认跳过，不会列在这里。
         </p>
         <ul id="trustedList" class="chips"></ul>
         <form id="trustForm" class="add-row" novalidate>
@@ -136,24 +133,24 @@
             spellcheck="false"
             autocomplete="off"
             placeholder="example.com"
-            aria-label="Site to trust"
+            aria-label="要信任的站点"
           />
-          <button class="pill pill-outline" type="submit">Add</button>
+          <button class="pill pill-outline" type="submit">添加</button>
         </form>
         <p id="trustError" class="form-error" role="alert" hidden></p>
       </section>
 
       <fieldset class="server">
-        <legend class="eyebrow">Server</legend>
+        <legend class="eyebrow">服务器</legend>
         <p class="server-desc">
-          For your own copy of url.vet. Leave as is to use url.vet.
+          用于你自己搭建的 url.vet。保持原样即使用 url.vet。
         </p>
         <label class="field"
           ><span>API</span
           ><input id="apiBase" type="url" spellcheck="false" autocomplete="off"
         /></label>
         <label class="field"
-          ><span>Website</span
+          ><span>网站</span
           ><input
             id="siteBase"
             type="url"
@@ -162,13 +159,13 @@
         /></label>
         <div class="server-actions">
           <button id="saveServer" class="pill pill-solid" type="button">
-            Save
+            保存
           </button>
           <button id="resetServer" class="pill pill-outline" type="button">
-            Use url.vet
+            使用 url.vet
           </button>
           <button id="localServer" class="pill pill-outline" type="button">
-            Use localhost
+            使用 localhost
           </button>
         </div>
         <p id="serverStatus" class="server-status" role="status"></p>

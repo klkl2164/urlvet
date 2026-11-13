@@ -7,11 +7,11 @@
   export let onSelect: (tab: Tab) => void;
 
   const TABS: { id: Tab; label: string; short?: string }[] = [
-    { id: "overview", label: "Overview" },
-    { id: "recent", label: "Recent scans", short: "Scans" },
-    { id: "reports", label: "Reports" },
-    { id: "errors", label: "Errors" },
-    { id: "cache", label: "Cache" },
+    { id: "overview", label: "总览" },
+    { id: "recent", label: "最近扫描", short: "扫描" },
+    { id: "reports", label: "报告" },
+    { id: "errors", label: "错误" },
+    { id: "cache", label: "缓存" },
   ];
 
   $: counts = { reports: reportCount, errors: errorCount } as Partial<Record<Tab, number>>;
@@ -19,7 +19,7 @@
 
 <!-- Underline tabs: all five fit on a phone; scrolls sideways only as a last resort. -->
 <nav
-  aria-label="Admin sections"
+  aria-label="管理后台栏目"
   class="-mb-px flex justify-between sm:justify-start gap-1.5 min-[360px]:gap-2 sm:gap-6 overflow-x-auto no-scrollbar"
 >
   {#each TABS as tab}

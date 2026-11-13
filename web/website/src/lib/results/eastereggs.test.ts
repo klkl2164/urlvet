@@ -1,21 +1,22 @@
 import { describe, expect, it } from 'vitest';
+import { REPO } from '../site';
 import { easterEgg, localAddressMessage } from './eastereggs';
 
 describe('easterEgg', () => {
   it.each([
-    ['url.vet', 'Checking me?'],
-    ['https://www.url.vet/about', 'Checking me?'],
-    ['https://github.com/urlvet/urlvet', 'where I live'],
+    ['url.vet', '检查我自己'],
+    ['https://www.url.vet/about', '检查我自己'],
+    [REPO, '那是我住的地方'],
     ['https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'Never gonna give you up'],
     ['https://youtu.be/dQw4w9WgXcQ', 'Never gonna give you up'],
-    ['pаypal.com', 'Spot the difference'],
-    ['imnotascam.lol', 'from our tagline'],
-    ['paypal.com', 'The real one'],
-    ['https://www.apple.com/iphone', 'Cyrillic twin'],
-    ['example.com', 'most innocent'],
-    ['en.wikipedia.org/wiki/Phishing', 'Citation needed'],
-    ['1.1.1.1', 'phone book'],
-    ['https://invoice.zip', 'isn’t a file'.replace('’', "'")],
+    ['pаypal.com', '看出差别了吗'],
+    ['imnotascam.lol', '首页的标语'],
+    ['paypal.com', '这是真的那个'],
+    ['https://www.apple.com/iphone', '这是真的那个'],
+    ['example.com', '最无辜'],
+    ['en.wikipedia.org/wiki/Phishing', '需要引用来源'],
+    ['1.1.1.1', '电话簿'],
+    ['https://invoice.zip', '不是文件'],
   ])('%s', (url, expected) => {
     expect(easterEgg(url)).toContain(expected);
   });
@@ -29,18 +30,15 @@ describe('easterEgg', () => {
 
 describe('localAddressMessage', () => {
   it.each(['localhost', 'http://localhost:3000', '127.0.0.1', 'http://[::1]/'])(
-    '%s is your own computer',
+    '%s 是你自己的电脑',
     (url) => {
-      expect(localAddressMessage(url)).toContain('your own computer');
+      expect(localAddressMessage(url)).toContain('你自己的电脑');
     }
   );
 
-  it.each(['192.168.1.1', '10.0.0.5', '172.20.1.1', 'printer.local'])(
-    '%s is a private network',
-    (url) => {
-      expect(localAddressMessage(url)).toContain('private network');
-    }
-  );
+  it.each(['192.168.1.1', '10.0.0.5', '172.20.1.1', 'printer.local'])('%s 是私有网络', (url) => {
+    expect(localAddressMessage(url)).toContain('私有网络');
+  });
 
   it('lets public addresses through', () => {
     expect(localAddressMessage('example.com')).toBeNull();

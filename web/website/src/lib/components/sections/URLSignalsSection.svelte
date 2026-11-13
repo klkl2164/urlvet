@@ -17,9 +17,9 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Domain Ending (TLD):</span>
+            <span>域名后缀（TLD）：</span>
             <TooltipIcon
-              text="The last part of a domain name (like .com, .org, .io). It can hint at the site's trust level or purpose."
+              text="域名最后的部分（例如 .com、.org、.io），可以暗示网站的信任程度或用途。"
             />
           </div>
           <span class="font-medium text-gray-800 dark:text-white">.{features.tld.tld}</span>
@@ -29,19 +29,19 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>High Trust Domain Ending:</span>
+            <span>高信任域名后缀：</span>
             <TooltipIcon
-              text="Indicates whether this domain ending (TLD) is widely recognized and commonly used by highly trusted entities like government and other institutions."
+              text="表示这个域名后缀（TLD）是否被广泛认可，并为政府等高度可信的机构所常用。"
             />
           </div>
           {#if features.tld.is_trusted_tld}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> Yes</span
+              ><StatusIcon kind="ok" /> 是</span
             >
           {:else}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> No</span
+              ><StatusIcon kind="bad" /> 否</span
             >
           {/if}
         </div>
@@ -50,19 +50,17 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Is Risky TLD:</span>
-            <TooltipIcon
-              text="Some TLDs are frequently abused by scammers or malicious sites. 'Yes' suggests caution."
-            />
+            <span>是否为高风险 TLD：</span>
+            <TooltipIcon text="有些 TLD 经常被诈骗者或恶意网站滥用。「是」表示需要谨慎。" />
           </div>
           {#if features.tld.is_risky_tld}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Yes</span
+              ><StatusIcon kind="bad" /> 是</span
             >
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No</span
+              ><StatusIcon kind="ok" /> 否</span
             >
           {/if}
         </div>
@@ -71,23 +69,21 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>TLD Recognized by ICANN:</span>
-            <TooltipIcon
-              text="ICANN oversees global domain names. Recognition means this TLD is officially managed and monitored."
-            />
+            <span>TLD 是否被 ICANN 认可：</span>
+            <TooltipIcon text="ICANN 负责管理全球域名。被认可意味着这个 TLD 由官方管理和监督。" />
           </div>
           {#if features.tld.is_icann}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> Yes</span
+              ><StatusIcon kind="ok" /> 是</span
             >
           {:else if features.tld.is_hosting_platform}
             <span class="text-yellow-600 dark:text-yellow-400 font-medium flex items-center gap-1.5"
-              >Hosting Platform</span
+              >托管平台</span
             >
           {:else}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> No</span
+              ><StatusIcon kind="bad" /> 否</span
             >
           {/if}
         </div>
@@ -98,19 +94,19 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Uses Link Shortener:</span>
+            <span>使用短链接服务：</span>
             <TooltipIcon
-              text="Shows if the URL uses a shortening service (like bit.ly). Shortened links can hide a site's real destination."
+              text="显示 URL 是否使用了缩短服务（例如 bit.ly）。短链接会隐藏网站的真实去向。"
             />
           </div>
           {#if features.url.url_shortener}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Yes</span
+              ><StatusIcon kind="bad" /> 是</span
             >
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No</span
+              ><StatusIcon kind="ok" /> 否</span
             >
           {/if}
         </div>
@@ -119,19 +115,17 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Uses Direct IP Address:</span>
-            <TooltipIcon
-              text="Some malicious sites use IP addresses instead of domain names to avoid detection. Legitimate websites rarely do this."
-            />
+            <span>直接使用 IP 地址：</span>
+            <TooltipIcon text="有些恶意网站用 IP 地址代替域名来躲避检测。正规网站很少这样做。" />
           </div>
           {#if features.url.uses_ip}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Yes</span
+              ><StatusIcon kind="bad" /> 是</span
             >
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No</span
+              ><StatusIcon kind="ok" /> 否</span
             >
           {/if}
         </div>
@@ -140,19 +134,19 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Contains Punycode Characters:</span>
+            <span>包含 Punycode 字符：</span>
             <TooltipIcon
-              text="Punycode allows special or non-Latin characters in domains (like xn--example). Scammers sometimes exploit this for lookalike attacks."
+              text="Punycode 让域名可以使用特殊字符或非拉丁字符（例如 xn--example）。诈骗者有时利用它做相似域名的攻击。"
             />
           </div>
           {#if features.url.contains_punycode}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Yes</span
+              ><StatusIcon kind="bad" /> 是</span
             >
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No</span
+              ><StatusIcon kind="ok" /> 否</span
             >
           {/if}
         </div>
@@ -161,19 +155,17 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>URL Too Long:</span>
-            <TooltipIcon
-              text="Very long URLs can be used to obscure malicious content or trick users into trusting a fake site."
-            />
+            <span>URL 过长：</span>
+            <TooltipIcon text="超长的 URL 可以用来掩盖恶意内容，或诱使用户信任一个假网站。" />
           </div>
           {#if features.url.too_long}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Yes</span
+              ><StatusIcon kind="bad" /> 是</span
             >
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No</span
+              ><StatusIcon kind="ok" /> 否</span
             >
           {/if}
         </div>
@@ -182,19 +174,17 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>URL Too Deep (Many Slashes):</span>
-            <TooltipIcon
-              text="A URL with many nested paths may indicate redirections or hidden content, often seen in phishing attempts."
-            />
+            <span>URL 层级过深（斜杠过多）：</span>
+            <TooltipIcon text="多层嵌套路径的 URL 可能意味着重定向或隐藏内容，常见于钓鱼尝试。" />
           </div>
           {#if features.url.too_deep}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Yes</span
+              ><StatusIcon kind="bad" /> 是</span
             >
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No</span
+              ><StatusIcon kind="ok" /> 否</span
             >
           {/if}
         </div>
@@ -203,19 +193,19 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Has Look-Alike Letters (Homoglyph):</span>
+            <span>包含相似字母（同形字符）：</span>
             <TooltipIcon
-              text="Detects if the domain name includes characters that look like others (e.g., 'go0gle.com'). Often used for impersonation."
+              text="检测域名中是否包含看起来像其他字符的字符（例如 'go0gle.com'），这种手法常用于冒充。"
             />
           </div>
           {#if features.url.has_homoglyph}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Yes</span
+              ><StatusIcon kind="bad" /> 是</span
             >
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No</span
+              ><StatusIcon kind="ok" /> 否</span
             >
           {/if}
         </div>
@@ -224,9 +214,9 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Subdomain Count:</span>
+            <span>子域名数量：</span>
             <TooltipIcon
-              text="Shows how many subdomains (like shop.example.com) are used. Too many can hint at suspicious or temporary setups."
+              text="显示使用了多少个子域名（例如 shop.example.com）。过多可能意味着可疑或临时的搭建。"
             />
           </div>
           <span class="font-medium text-gray-800 dark:text-white"
@@ -240,9 +230,9 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Domain Randomness (Entropy):</span>
+            <span>域名随机度（熵）：</span>
             <TooltipIcon
-              text="Measures the unpredictability of the domain name. High entropy often indicates randomly generated domains used by malware (DGAs)."
+              text="衡量域名的不可预测程度。熵值高通常说明是恶意软件（DGA）随机生成的域名。"
             />
           </div>
           <div class="flex items-center gap-2">
@@ -252,7 +242,7 @@
             {#if domainRandomness.entropy > 3.8}
               <span
                 class="text-xs px-1.5 py-0.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-sm"
-                >High Entropy</span
+                >高熵</span
               >
             {/if}
           </div>
@@ -264,29 +254,26 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Typosquatting Check:</span>
+            <span>仿冒域名检查：</span>
             <TooltipIcon
-              text="Checks if this domain closely resembles a well-known brand by looking for character substitutions, additions, or deletions (e.g. paypa1.com vs paypal.com), or if a brand name is embedded inside a longer domain."
+              text="检查这个域名是否通过替换、增加或删除字符而酷似知名品牌（例如 paypa1.com 与 paypal.com），或者品牌名是否被嵌在更长的域名里。"
             />
           </div>
           {#if typosquatResult.is_suspicious}
             {#if typosquatResult.is_combo_squat}
               <span class="text-red-400 font-medium flex flex-col gap-0.5">
                 <span class="inline-flex items-center gap-1"
-                  ><StatusIcon kind="bad" /> Combo-squatting — contains brand name</span
+                  ><StatusIcon kind="bad" /> 组合仿冒，包含品牌名</span
                 >
                 <span class="text-xs text-red-300 font-normal">
-                  Contains "<span class="font-mono">{typosquatResult.matched_brand}</span>"
-                  (official: {typosquatResult.matched_domain})
+                  包含「<span class="font-mono">{typosquatResult.matched_brand}</span
+                  >」（官方：{typosquatResult.matched_domain}）
                 </span>
               </span>
             {:else}
               <span class="text-red-400 font-medium flex flex-col gap-0.5">
                 <span class="inline-flex items-center gap-1"
-                  ><StatusIcon kind="bad" /> Typosquat, {typosquatResult.distance} character{typosquatResult.distance ===
-                  1
-                    ? ""
-                    : "s"} away from the known brand</span
+                  ><StatusIcon kind="bad" /> 仿冒域名，与已知品牌相差 {typosquatResult.distance} 个字符</span
                 >
                 <span class="text-xs text-red-300 font-normal">
                   <span class="font-mono">{typosquatResult.matched_domain}</span>
@@ -296,7 +283,7 @@
           {:else}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> No match found</span
+              ><StatusIcon kind="ok" /> 未找到匹配</span
             >
           {/if}
         </div>

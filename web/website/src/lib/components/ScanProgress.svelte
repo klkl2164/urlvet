@@ -6,16 +6,16 @@
   export let done = false;
 
   const STEPS = [
-    "Resolving domain & IP",
-    "URL structure & patterns",
-    "TLD & DNS records",
-    "Redirections & HTTP status",
-    "WHOIS & domain age",
-    "Homoglyphs & typosquatting",
-    "SSL & TLS certificate",
-    "Threat intelligence feeds",
-    "Page content & forms",
-    "Computing trust score",
+    "解析域名与 IP",
+    "URL 结构与模式",
+    "TLD 与 DNS 记录",
+    "重定向与 HTTP 状态",
+    "WHOIS 与域名年龄",
+    "同形字符与仿冒域名",
+    "SSL 与 TLS 证书",
+    "威胁情报源",
+    "页面内容与表单",
+    "计算信任分",
   ];
 
   let activeStep = -1;
@@ -96,14 +96,12 @@
                 class="relative inline-flex rounded-full h-2 w-2 bg-accent-light dark:bg-accent-dark"
               ></span>
             </span>
-            <span class="font-mono text-[11px] text-gray-500 tracking-wider uppercase"
-              >Scanning</span
-            >
+            <span class="font-mono text-[11px] text-gray-500 tracking-wider uppercase">扫描中</span>
           {:else}
             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             <span
               class="font-mono text-[11px] text-emerald-600 dark:text-emerald-400 tracking-wider uppercase"
-              >Complete</span
+              >完成</span
             >
           {/if}
         </div>
@@ -120,9 +118,9 @@
             {#if activeStep >= 0 && activeStep < STEPS.length}
               {STEPS[activeStep]}
             {:else if activeStep === STEPS.length}
-              Analysis complete
+              分析完成
             {:else}
-              Initializing...
+              正在初始化…
             {/if}
           </p>
         {/key}

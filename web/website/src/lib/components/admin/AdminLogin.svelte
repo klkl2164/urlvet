@@ -19,7 +19,7 @@
       passwordInput = "";
       onToken(res.token);
     } else {
-      error = res.error ?? "Login failed. Please try again.";
+      error = res.error ?? "登录失败，请重试。";
     }
   }
 </script>
@@ -27,11 +27,9 @@
 <div class="flex items-center justify-center px-6 py-24 md:py-32">
   <div class="w-full max-w-sm">
     <div class="text-center mb-8">
-      <p class="font-mono text-xs uppercase tracking-wider text-gray-500">Admin</p>
-      <h1 class="mt-3 font-serif text-5xl text-gray-900 dark:text-gray-100">Sign in</h1>
-      <p class="text-[15px] text-gray-600 dark:text-gray-400 mt-3">
-        Enter your admin password to continue
-      </p>
+      <p class="font-mono text-xs uppercase tracking-wider text-gray-500">管理后台</p>
+      <h1 class="mt-3 font-serif text-5xl text-gray-900 dark:text-gray-100">登录</h1>
+      <p class="text-[15px] text-gray-600 dark:text-gray-400 mt-3">输入管理密码以继续</p>
     </div>
     <form
       on:submit|preventDefault={submit}
@@ -48,13 +46,13 @@
         <label
           for="admin-password"
           class="block font-mono text-[11px] uppercase tracking-wider text-gray-500 mb-2"
-          >Password</label
+          >密码</label
         >
         <input
           id="admin-password"
           type="password"
           bind:value={passwordInput}
-          placeholder="Admin password"
+          placeholder="管理密码"
           autocomplete="current-password"
           disabled={loggingIn}
           class="w-full bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-full px-4 py-2.5 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-600 focus:outline-hidden focus:border-gray-400 dark:focus:border-gray-600 disabled:opacity-50"
@@ -65,7 +63,7 @@
         disabled={!passwordInput.trim() || loggingIn}
         class="w-full py-2.5 rounded-full bg-gray-900 dark:bg-gray-100 text-gray-50 dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-white transition-colors disabled:opacity-40"
       >
-        {loggingIn ? "Signing in…" : "Sign In"}
+        {loggingIn ? "正在登录…" : "登录"}
       </button>
     </form>
   </div>

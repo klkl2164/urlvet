@@ -115,7 +115,7 @@ export function installCard() {
       R.el("button", {
         class: "close",
         type: "button",
-        "aria-label": "Dismiss",
+        "aria-label": "关闭",
         text: "×",
         onclick: dismiss,
       }),
@@ -130,14 +130,16 @@ export function installCard() {
     if (p.state === "checking") {
       card.append(
         top("scanning"),
-        R.el("p", { class: "checking", text: "Checking this link…" }),
+        R.el("p", { class: "checking", text: "正在检查此链接…" }),
         R.el("p", { class: "link", text: p.url, title: p.url }),
       );
     } else if (p.state === "error") {
       card.append(
         top("idle"),
         R.el("p", { class: "checking", text: p.message }),
-        p.url ? R.el("p", { class: "link", text: p.url, title: p.url }) : null,
+        ...(p.url
+          ? [R.el("p", { class: "link", text: p.url, title: p.url })]
+          : []),
       );
     } else {
       // A warning about the page itself (automatic check or password guard),
@@ -145,11 +147,11 @@ export function installCard() {
       const aboutPage = p.mode === "auto" || p.mode === "guard";
       const lead =
         p.mode === "guard"
-          ? "Careful with your password here."
+          ? "在这里输入密码要小心。"
           : p.mode === "auto"
             ? p.verdict === "Risky"
-              ? "This page looks risky."
-              : "Something about this page is off."
+              ? "这个页面看起来很危险。"
+              : "这个页面有些不对劲。"
             : null;
       const leaving =
         p.mode === "auto" && p.verdict === "Risky" && history.length > 1;
@@ -160,7 +162,7 @@ export function installCard() {
           : R.el("p", { class: "link", text: p.url, title: p.url }),
         ...R.notes(p),
         R.verdictCard(p),
-        R.flags(p, 3),
+        ...R.flags(p, 3),
         R.el(
           "div",
           { class: "actions" },
@@ -169,13 +171,13 @@ export function installCard() {
             href: p.report,
             target: "_blank",
             rel: "noopener noreferrer",
-            text: "See the full report",
+            text: "查看完整报告",
           }),
           leaving
             ? R.el("button", {
                 class: "pill pill-outline",
                 type: "button",
-                text: "Take me back",
+                text: "带我返回",
                 onclick: () => history.back(),
               })
             : null,
@@ -184,7 +186,7 @@ export function installCard() {
           "div",
           { class: "minor" },
           aboutPage
-            ? textBtn("Trust this site", () => {
+            ? textBtn("信任此站点", () => {
                 chrome.runtime.sendMessage({
                   type: "trust",
                   url: location.href,
@@ -193,7 +195,7 @@ export function installCard() {
               })
             : null,
           // The full report has the website's report form.
-          textBtn("Wrong result?", () =>
+          textBtn("结果不对？", () =>
             window.open(p.report, "_blank", "noopener"),
           ),
         ),

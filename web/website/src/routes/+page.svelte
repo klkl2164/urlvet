@@ -15,6 +15,7 @@
   import Shoutouts from "../lib/components/Shoutouts.svelte";
   import type { AnalyzeResult } from "../lib/types";
   import { localAddressMessage } from "../lib/results/eastereggs";
+  import { verdictCopy } from "../lib/verdict";
   import {
     encodeVerdict,
     extractLinks,
@@ -54,9 +55,9 @@
   };
   $: verdictNow = scanResult?.result?.verdict;
   $: liveTitle = loading
-    ? `Checking ${getDomainFromUrl(formatUrl(input)) || "link"}… | url.vet`
+    ? `正在检查 ${getDomainFromUrl(formatUrl(input)) || "链接"}… | url.vet`
     : scanResult && verdictNow && VERDICT_TAB[verdictNow]
-      ? `${verdictNow}: ${scanResult.domain} | url.vet`
+      ? `${verdictCopy(verdictNow).label}：${scanResult.domain} | url.vet`
       : undefined;
   $: verdictDot = !loading && verdictNow ? VERDICT_TAB[verdictNow] : undefined;
 
@@ -105,7 +106,7 @@
         return runAnalyze(links[0]);
       }
       if (/\s/.test(text)) {
-        formError = "No link found in that text";
+        formError = "这段文字里没有找到链接";
         return;
       }
     }
@@ -126,7 +127,7 @@
     }
     const url = formatUrl(q);
     if (!isValidUrl(url)) {
-      formError = "Please enter a valid URL";
+      formError = "请输入有效的 URL";
       return;
     }
 
@@ -175,7 +176,7 @@
         replaceState(share.toString(), {});
       }
     } catch {
-      error = "Analyze request failed";
+      error = "分析请求失败";
       scanState.set({ status: "error", message: error });
     } finally {
       loading = false;
@@ -254,9 +255,9 @@
     />
 
     {#if linkChoices.length}
-      <div class="mt-5 w-full max-w-2xl mx-auto text-left" role="group" aria-label="Links found">
+      <div class="mt-5 w-full max-w-2xl mx-auto text-left" role="group" aria-label="找到的链接">
         <p class="text-sm text-gray-600 dark:text-gray-400">
-          Found {linkChoices.length} links in that message. Which one should we check?
+          在这条消息里找到 {linkChoices.length} 个链接。要检查哪一个？
         </p>
         <ul
           class="mt-3 divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800"
@@ -271,7 +272,7 @@
                 <span class="flex-1 min-w-0 truncate">{link}</span>
                 <span
                   class="shrink-0 font-sans text-xs text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors"
-                  >Check →</span
+                  >检查 →</span
                 >
               </button>
             </li>

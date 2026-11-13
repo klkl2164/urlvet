@@ -62,9 +62,9 @@
 <!-- Cache header -->
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
   <p class="text-sm text-gray-500">
-    {cacheEntries.length} key{cacheEntries.length !== 1 ? "s" : ""} in store
+    {cacheEntries.length} 个键在缓存中
     {#if filteredCache.length !== cacheEntries.length}
-      <span class="text-gray-400 dark:text-gray-600"> · {filteredCache.length} shown</span>
+      <span class="text-gray-400 dark:text-gray-600"> · 显示 {filteredCache.length} 个</span>
     {/if}
   </p>
   <div class="flex items-center gap-2">
@@ -87,22 +87,22 @@
             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
           />
         </svg>
-        Flush All
+        全部清空
       </button>
     {:else}
       <div class="flex flex-wrap items-center gap-2">
         <span class="text-xs text-red-500 dark:text-red-400"
-          >Delete all {cacheEntries.length} keys?</span
+          >删除全部 {cacheEntries.length} 个键？</span
         >
         <button
           on:click={flushAll}
           class="px-3 py-1.5 rounded-lg bg-red-600 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-600 text-white text-xs font-semibold transition-colors"
-          >Confirm</button
+          >确认</button
         >
         <button
           on:click={() => (flushConfirm = false)}
           class="px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-semibold transition-colors"
-          >Cancel</button
+          >取消</button
         >
       </div>
     {/if}
@@ -114,14 +114,14 @@
   <div class="flex flex-col sm:flex-row gap-3 mb-4">
     <input
       bind:value={filterText}
-      placeholder="Search keys…"
+      placeholder="搜索键…"
       class="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full px-4 py-2 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-hidden focus:border-gray-400 dark:focus:border-gray-600"
     />
     <select
       bind:value={filterPrefix}
       class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full px-4 py-2 text-sm text-gray-900 dark:text-gray-200 focus:outline-hidden focus:border-gray-400 dark:focus:border-gray-600"
     >
-      <option value="">All prefixes</option>
+      <option value="">全部前缀</option>
       {#each prefixes as p}
         <option value={p}>{p}</option>
       {/each}
@@ -152,12 +152,10 @@
         d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
       />
     </svg>
-    <p class="text-sm">Cache is empty.</p>
+    <p class="text-sm">缓存为空。</p>
   </div>
 {:else if filteredCache.length === 0 && cacheEntries.length > 0}
-  <p class="text-center text-sm text-gray-400 dark:text-gray-600 py-10">
-    No keys match your filter.
-  </p>
+  <p class="text-center text-sm text-gray-400 dark:text-gray-600 py-10">没有键符合筛选条件。</p>
 {:else}
   <div class="space-y-2">
     {#each filteredCache as entry (entry.key)}
@@ -170,7 +168,7 @@
             <button
               on:click={() => toggleExpand(entry.key)}
               class="shrink-0 text-gray-400 dark:text-gray-600 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-              aria-label={expanded ? "Collapse" : "Expand"}
+              aria-label={expanded ? "收起" : "展开"}
             >
               <svg
                 class="w-4 h-4 transition-transform duration-150 {expanded ? 'rotate-90' : ''}"
@@ -193,8 +191,8 @@
               on:click={() => deleteKey(entry.key)}
               disabled={deletingKey === entry.key}
               class="shrink-0 ml-1 p-1.5 rounded-md text-gray-300 dark:text-gray-700 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-40"
-              aria-label="Delete key"
-              title="Delete key"
+              aria-label="删除键"
+              title="删除键"
             >
               <svg
                 class="w-4 h-4 {deletingKey === entry.key ? 'animate-spin' : ''}"

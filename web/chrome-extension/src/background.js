@@ -61,26 +61,25 @@ async function scan(url) {
   } catch {
     return {
       error: "offline",
-      message: "Couldn't reach url.vet. Check your connection and try again.",
+      message: "连不上 url.vet。请检查网络后重试。",
     };
   }
   if (res.status === 429) {
     return {
       error: "rate",
-      message:
-        "That's a lot of checks in a minute. Give it a moment and try again.",
+      message: "一分钟内检查次数有点多。稍等一下再试。",
     };
   }
   if (res.status === 400) {
     return {
       error: "invalid",
-      message: "That doesn't look like a link url.vet can check.",
+      message: "这看起来不像是 url.vet 能检查的链接。",
     };
   }
   if (!res.ok) {
     return {
       error: "server",
-      message: `url.vet couldn't check this link right now (error ${res.status}).`,
+      message: `url.vet 暂时无法检查这个链接（错误 ${res.status}）。`,
     };
   }
 
@@ -119,13 +118,13 @@ async function scan(url) {
 async function markTab(tabId, result) {
   if (tabId == null) return;
   let state = "idle";
-  let title = "url.vet: check this page or a link";
+  let title = "url.vet：检查此页面或一个链接";
   if (result?.error) {
     state = "error";
-    title = `url.vet couldn't check this page. ${result.message}`;
+    title = `url.vet 无法检查此页面。${result.message}`;
   } else if (result) {
     state = result.verdict;
-    title = `url.vet: ${result.verdict} (trust score ${result.score ?? "?"} of 100)`;
+    title = `url.vet：${verdictCopy(result.verdict).label}（信任分 ${result.score ?? "?"}，满分 100）`;
   }
   const badge = BADGES[state];
   await Promise.all([
@@ -240,12 +239,12 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: "check-link",
-      title: "Check this link with url.vet",
+      title: "用 url.vet 检查此链接",
       contexts: ["link"],
     });
     chrome.contextMenus.create({
       id: "check-selection",
-      title: "Check selected link with url.vet",
+      title: "用 url.vet 检查选中的链接",
       contexts: ["selection"],
     });
   });
@@ -272,7 +271,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!url || !isCheckable(url)) {
     await showCard(tab.id, {
       state: "error",
-      message: "There's no web link in that selection to check.",
+      message: "所选内容里没有可检查的网页链接。",
     });
     return;
   }

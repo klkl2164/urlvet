@@ -11,127 +11,127 @@ export type Faq = {
 
 export const FAQ_GROUPS: { title: string; items: Faq[] }[] = [
   {
-    title: 'Checking a link',
+    title: '检查链接',
     items: [
       {
-        q: 'How do I check if a link is safe?',
-        a: 'Paste it into the box on the url.vet home page and press Scan. A few seconds later you get a verdict (Safe, Suspicious or Risky), a score from 0 to 100, and the reasons behind it. You never have to open the link yourself.',
+        q: '怎么检查一个链接是否安全？',
+        a: '把链接粘贴到 url.vet 首页的输入框里，点击「扫描」。几秒钟后会给出判定结果（安全、可疑或危险）、0 到 100 的分数，以及背后的原因。你完全不需要自己打开这个链接。',
       },
       {
-        q: 'How do I check a link without clicking it?',
-        a: 'On a phone, press and hold the link and choose Copy link. On a computer, right-click it and choose Copy link address. Then paste it into url.vet. The link is never opened on your device.',
+        q: '不点开链接，怎么检查它？',
+        a: '在手机上长按链接，选择「复制链接」。在电脑上右键点击链接，选择「复制链接地址」。然后粘贴到 url.vet。你的设备上不会打开这个链接。',
       },
       {
-        q: 'Can I check a link from WhatsApp, SMS, email or a QR code?',
-        a: 'Yes. Copy the link and paste it here, or paste the whole message and url.vet will find the links in it. For a QR code, scan it with your camera and copy the link instead of opening it.',
+        q: '来自 WhatsApp、短信、邮件或二维码的链接能检查吗？',
+        a: '可以。复制链接粘贴到这里，或者把整条消息粘贴进来，url.vet 会从中找出链接。如果是二维码，用相机扫出来，复制链接，而不是直接打开。',
       },
       {
-        q: 'Is it safe to check a dangerous link here?',
-        a: 'Yes. Our server visits the link, not your device. Nothing from the page runs in your browser; you only see a screenshot.',
+        q: '在这里检查危险链接安全吗？',
+        a: '安全。访问链接的是我们的服务器，不是你的设备。页面上的任何内容都不会在你的浏览器里运行，你只会看到一张截图。',
       },
       {
-        q: 'Will the website know I checked it?',
-        a: 'It sees a visit from our server, not from you. Your IP address is never sent to it.',
+        q: '网站会知道是我检查的吗？',
+        a: '它看到的是一次来自我们服务器的访问，而不是你。你的 IP 地址不会被发给它。',
       },
       {
-        q: 'Can I use url.vet on my phone?',
-        a: "Yes. It works in any phone browser, with nothing to install. If you like, add it to your home screen from your browser's menu. On Android you can then share a link from another app straight to url.vet.",
+        q: '可以在手机上使用 url.vet 吗？',
+        a: '可以。它在任何手机浏览器里都能用，不需要安装任何东西。如果愿意，可以从浏览器菜单里把它添加到主屏幕。在 Android 上，之后就能从其他应用把链接直接分享给 url.vet。',
       },
     ],
   },
   {
-    title: 'Understanding the result',
+    title: '理解结果',
     items: [
       {
-        q: 'What do Safe, Suspicious and Risky mean?',
-        a: 'Every link gets a score from 0 to 100. Safe (65 and up) means no warning signs turned up. Suspicious (30 to 64) means there are some warning signs, or not enough evidence either way, so be careful with logins and payments. Risky (below 30) means strong signs of phishing or a scam, so stay away.',
+        q: '安全、可疑、危险分别是什么意思？',
+        a: '每个链接都会得到一个 0 到 100 的分数。安全（65 及以上）表示没有发现警示信号。可疑（30 到 64）表示存在一些警示信号，或者正反两面的证据都不足，所以在登录和付款时要小心。危险（低于 30）表示有强烈的钓鱼或诈骗迹象，请远离。',
       },
       {
-        q: "Why does my result say some checks didn't finish?",
-        a: "Some checks depend on other services, like the site itself, its domain records or Google Safe Browsing, and those can be slow or unavailable. The result tells you which checks were missed. If a missed check could change the verdict, the result is marked incomplete and isn't saved, so scanning again a minute later retries it.",
+        q: '为什么我的结果里说有些检查没有完成？',
+        a: '有些检查依赖其他服务，比如网站本身、域名的记录或 Google Safe Browsing，这些服务可能很慢或者不可用。结果会告诉你漏掉了哪些检查。如果漏掉的检查可能改变判定结果，这次结果会被标记为不完整并且不保存，过一分钟再扫描就会重试。',
       },
       {
-        q: 'Why did a site I trust come back Suspicious?',
-        a: "New or little-known sites have fewer signals in their favour, so they can score lower. The flags show exactly why. If you think it's wrong, use the Report button on the result. A human reads every report.",
+        q: '为什么我信任的网站被判为可疑？',
+        a: '新建或不太知名的网站能加分的信号更少，分数可能因此偏低。各项标记会清楚说明原因。如果你觉得判断错了，请使用结果页上的「报告」按钮。每一份报告都会有人阅读。',
       },
       {
-        q: 'Does Safe mean the site is honest?',
-        a: 'It means no warning signs turned up. A real shop can still sell bad products, and a brand-new scam may not show any signs yet. Use url.vet as one layer of defense, not the only one.',
+        q: '判定为安全就代表网站是正当的吗？',
+        a: '它只表示没有发现警示信号。正规商家也可能卖劣质商品，一个刚上线的诈骗网站也可能还没露出任何迹象。把 url.vet 当作一层防护，而不是唯一的一层。',
       },
       {
-        q: 'How accurate is url.vet? Can it be wrong?',
-        a: 'It can. url.vet runs a fixed set of checks and shows every reason, so you can judge the result yourself. A new, little-known site can look suspicious, and a scam that went live minutes ago may show no signs yet. If a result looks wrong, use the Report button.',
+        q: 'url.vet 有多准？会出错吗？',
+        a: '会。url.vet 运行一组固定的检查，并展示每一条原因，所以你可以自己判断结果。新建、不知名的网站可能看起来可疑，而几分钟前才上线的诈骗网站也可能还没有任何迹象。如果结果看起来不对，请使用「报告」按钮。',
       },
     ],
   },
   {
-    title: 'Staying safe',
+    title: '保护自己',
     items: [
       {
-        q: 'What is phishing?',
-        a: 'Phishing is a scam where a fake message or website pretends to be someone you trust, like your bank, a delivery company or your employer, to steal your password, card number or money. It usually arrives as a link in an email, SMS or chat message.',
+        q: '什么是钓鱼？',
+        a: '钓鱼是一种骗局：伪造的消息或网站冒充你信任的对象，比如你的银行、快递公司或你的雇主，目的是骗取你的密码、银行卡号或钱财。它通常以邮件、短信或聊天消息里的链接形式出现。',
       },
       {
-        q: 'How can I tell if a link is a phishing scam?',
-        a: "Common signs: the address misspells a real brand (paypa1.com), swaps in lookalike letters from another alphabet, was registered only days ago, uses an unusual ending like .top or .zip, or the page asks for a password or card details on a site the brand doesn't own. url.vet checks for all of these and lists any it finds.",
+        q: '怎么判断一个链接是不是钓鱼骗局？',
+        a: '常见迹象：地址把真实品牌拼错（paypa1.com）、换成其他字母表里的仿冒字符、注册才几天、使用 .top 或 .zip 这类不常见的后缀，或者页面在品牌并不拥有的网站上索要密码或银行卡信息。url.vet 会检查以上每一项，并列出发现的全部问题。',
       },
       {
-        q: 'What is typosquatting?',
-        a: "Typosquatting is registering an address that is one slip away from a real one, like paypa1.com or amaz0n.com, hoping you won't notice. Some fakes go further and swap in letters from other alphabets that look identical. url.vet compares every address against well-known sites to catch both.",
+        q: '什么是仿冒域名（typosquatting）？',
+        a: '仿冒域名是指注册一个与真实地址只差一点的地址，比如 paypa1.com 或 amaz0n.com，赌你不会察觉。有些伪造更进一步，换成其他字母表里看起来一模一样的字母。url.vet 会把每个地址与知名网站逐一比对，两种都能抓到。',
       },
       {
-        q: 'Are shortened links like bit.ly or tinyurl safe?',
-        a: "A shortener isn't dangerous by itself, but it hides where the link really goes, which is why scammers like them. Paste the short link into url.vet: it follows it, through any further short links, and checks the page you would actually land on. If it can't find where a short link leads, it says so and won't call it Safe.",
+        q: 'bit.ly 或 tinyurl 这类短链接安全吗？',
+        a: '短链接服务本身并不危险，但它会隐藏链接真正的去向，所以骗子喜欢用。把短链接粘贴到 url.vet：它会一路跟进，途中遇到的其他短链接也继续跟，然后检查你实际会落到的那一页。如果找不到短链接的去向，它会直说，并且不会判定为安全。',
       },
       {
-        q: 'Does the padlock or https mean a website is safe?',
-        a: 'No. The padlock only means the connection is private. It says nothing about who runs the site. Most phishing sites have a padlock too, so look at the address itself, not the icon.',
+        q: '有挂锁图标或者 https 就代表网站安全吗？',
+        a: '不代表。挂锁只表示连接是私密的，跟谁在运营这个网站没有关系。大多数钓鱼网站同样有挂锁，所以要看地址本身，而不是那个图标。',
       },
       {
-        q: 'Can I get a virus just by clicking a link?',
-        a: "On an up-to-date phone or browser, simply opening a page rarely infects you, but it can happen. The bigger risk is what comes next: typing your password or card details into a fake page, or downloading and opening a file. Keep your browser updated and check links you don't trust first.",
+        q: '只是点一下链接就会中病毒吗？',
+        a: '在保持更新的手机或浏览器上，单纯打开一个页面很少会中毒，但确实有可能。更大的风险在下一步：在假页面上输入密码或银行卡信息，或者下载并打开文件。请保持浏览器更新，对不放心的链接先检查再点。',
       },
       {
-        q: 'I already clicked a suspicious link. What should I do?',
-        a: "Don't enter anything on the page. If you already typed a password, change it on the real site and turn on two-step verification. If you entered card or bank details, call your bank right away. Then scan the link here to see what it was.",
+        q: '我已经点了一个可疑链接，该怎么办？',
+        a: '不要在页面上输入任何内容。如果已经输入了密码，请到真正的网站上修改，并开启两步验证。如果输入了银行卡或银行信息，立刻给银行打电话。然后在这里扫描这个链接，看看它到底是什么。',
       },
       {
-        q: 'What are some simple tips to stay safe from scam links?',
-        a: 'A few habits stop most scams:',
+        q: '有哪些简单的方法可以避开诈骗链接？',
+        a: '养成几个习惯，就能挡住大多数骗局：',
         points: [
-          "Check before you click. If you weren't expecting a link, paste it into url.vet first.",
-          'Read the address, not the page. Scam pages copy the look of real ones; the address gives them away.',
-          'Be wary of urgency. "Your account will be blocked today" is how scammers stop you thinking.',
-          "Never type a password, OTP or card number on a page you reached from a message. Open the app or type the site's address yourself.",
-          'Turn on two-step verification for your email, bank and social accounts.',
-          'Keep your phone and browser updated.',
-          'If an offer sounds too good to be true, it is.',
+          '先检查再点击。如果不是你预期的链接，先粘贴到 url.vet。',
+          '看地址，别看页面。诈骗页面会照抄真实页面的样子，但地址会露馅。',
+          '警惕「紧急」。骗子正是用「你的账户今天就会被封」这类话让你来不及思考。',
+          '不要在任何由消息跳转过去的页面上输入密码、一次性验证码或银行卡号。请打开 App，或者自己手动输入网站地址。',
+          '给你的邮箱、银行和社交账号开启两步验证。',
+          '保持手机和浏览器更新。',
+          '如果一个优惠好得不像真的，那它就不是真的。',
         ],
       },
     ],
   },
   {
-    title: 'About url.vet',
+    title: '关于 url.vet',
     items: [
       {
-        q: 'Is url.vet free? Do I need an account?',
-        a: "It's free, with no account, no signup and no ads.",
+        q: 'url.vet 免费吗？需要注册账号吗？',
+        a: '免费，不需要账号，不需要注册，也没有广告。',
       },
       {
-        q: 'Do you keep the links I check?',
-        a: "Results are cached for up to 24 hours so a repeat check loads instantly, then deleted. We don't log who checked what, and there are no accounts. The privacy page has the details.",
+        q: '你们会保存我检查过的链接吗？',
+        a: '结果最多缓存 24 小时，方便重复检查时立刻加载，之后就会删除。我们不记录谁检查了什么，也没有账号系统。详细信息见隐私页面。',
       },
       {
-        q: 'Is url.vet open source? Who runs it?',
-        a: 'Yes. All of the code, including the checks and the scoring, is public on GitHub under the AGPL-3.0 license, so anyone can read it or run their own copy. One developer builds and runs it. The About page has the story.',
+        q: 'url.vet 是开源的吗？谁在运营？',
+        a: '是。包括各项检查与评分在内的全部代码都以 AGPL-3.0 许可证公开在 GitHub 上，任何人都可以阅读，或者自己部署一份。它由一名开发者开发和运营。详情见关于页面。',
       },
       {
-        q: 'Is url.vet an alternative to VirusTotal or URLScan?',
-        a: "For checking links, yes. url.vet is free and open source, and it explains its verdict in plain words instead of listing raw data. It checks web addresses and pages only; it doesn't scan files or use antivirus engines.",
+        q: 'url.vet 能替代 VirusTotal 或 URLScan 吗？',
+        a: '就检查链接而言，可以。url.vet 免费且开源，会用平实的话解释判定结果，而不是罗列原始数据。它只检查网址和网页，不扫描文件，也不使用杀毒引擎。',
       },
       {
-        q: 'What is the paperclip in the corner?',
-        a: "That's Vetty, url.vet's helper, inspired by Clippy from old office software. Tap him and he will check a link for you, explain a result in simple words, or help you warn the person who sent it. He is not an AI chatbot, and he never collects your data, shows ads, or asks you to sign up. You can hide him from his menu. The About page has his story.",
+        q: '角落里的回形针是什么？',
+        a: '那是 Vetty，url.vet 的小助手，灵感来自老式办公软件里的 Clippy。点一下他，他就能帮你检查链接、用简单的话解释结果，或者帮你提醒发链接的人。他不是 AI 聊天机器人，也从不收集你的数据、展示广告或要求你注册。你可以从他的菜单里把他隐藏。详情见关于页面。',
       },
     ],
   },
@@ -141,7 +141,7 @@ export const FAQ_GROUPS: { title: string; items: Faq[] }[] = [
 export function faqId(q: string): string {
   return `faq-${q
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
     .replace(/^-|-$/g, '')}`;
 }
 

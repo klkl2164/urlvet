@@ -30,7 +30,7 @@
     <AccordionSection
       id="domain"
       learnMore="/how-it-works#check-domain"
-      title="Domain Info"
+      title="域名信息"
       icon={SECTION_ICONS.domain}
       status={statuses.domain}
       expanded={expanded.domain}
@@ -44,7 +44,7 @@
     <AccordionSection
       id="analysis"
       learnMore="/how-it-works#check-network"
-      title="Redirection"
+      title="重定向"
       icon={SECTION_ICONS.analysis}
       status={statuses.analysis}
       expanded={expanded.analysis}
@@ -62,7 +62,7 @@
     <AccordionSection
       id="threatintel"
       learnMore="/how-it-works#check-threats"
-      title="Threat Intel"
+      title="威胁情报"
       icon={SECTION_ICONS.threatintel}
       status={statuses.threatintel}
       expanded={expanded.threatintel}
@@ -81,7 +81,7 @@
     <AccordionSection
       id="security"
       learnMore="/how-it-works#check-tls"
-      title="Security & SSL"
+      title="安全与 SSL"
       icon={SECTION_ICONS.security}
       status={statuses.security}
       expanded={expanded.security}
@@ -95,7 +95,7 @@
     <AccordionSection
       id="content"
       learnMore="/how-it-works#check-content"
-      title="Page Content"
+      title="页面内容"
       icon={SECTION_ICONS.content}
       status={statuses.content}
       expanded={expanded.content}
@@ -109,7 +109,7 @@
     <AccordionSection
       id="features"
       learnMore="/how-it-works#check-url"
-      title="URL Signals"
+      title="URL 信号"
       icon={SECTION_ICONS.features}
       status={statuses.features}
       expanded={expanded.features}
@@ -127,7 +127,7 @@
     <AccordionSection
       id="infrastructure"
       learnMore="/how-it-works#check-dns"
-      title="Hosting & Server"
+      title="托管与服务器"
       icon={SECTION_ICONS.infrastructure}
       status={statuses.infrastructure}
       expanded={expanded.infrastructure}

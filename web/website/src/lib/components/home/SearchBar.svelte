@@ -14,10 +14,10 @@
 
   // The longest hint that fits the box in full; mentions whole messages when there's room.
   const HINTS = [
-    "Paste a link, or a whole message with links in it",
-    "Paste a link or a message",
-    "Paste link or message",
-    "Paste a link",
+    "粘贴链接，或者包含链接的整条消息",
+    "粘贴链接或整条消息",
+    "粘贴链接或消息",
+    "粘贴链接",
   ];
   let inputEl: HTMLInputElement;
   let placeholder = HINTS[HINTS.length - 1];
@@ -109,15 +109,15 @@
       class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-colors {justPasted
         ? 'text-emerald-700 dark:text-emerald-400'
         : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800'}"
-      aria-label="Paste from clipboard"
-      title="Paste from clipboard"
+      aria-label="从剪贴板粘贴"
+      title="从剪贴板粘贴"
     >
       {#if justPasted}
         <Icon path={ICON.check} strokeWidth={2.5} class="w-3.5 h-3.5" />
-        <span class="hidden sm:inline">Pasted</span>
+        <span class="hidden sm:inline">已粘贴</span>
       {:else}
         <Icon path={ICON.clipboard} class="w-3.5 h-3.5" />
-        <span class="hidden sm:inline">Paste</span>
+        <span class="hidden sm:inline">粘贴</span>
       {/if}
     </button>
     <button
@@ -126,7 +126,7 @@
       class="shrink-0 inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 rounded-full bg-gray-900 dark:bg-gray-100 text-gray-50 dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-white transition-colors disabled:opacity-60 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400 dark:focus-visible:ring-offset-gray-900"
       disabled={loading}
       aria-busy={loading}
-      aria-label={loading ? "Scanning URL, please wait" : "Scan"}
+      aria-label={loading ? "正在扫描 URL，请稍候" : "扫描"}
     >
       {#if loading}
         <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -135,9 +135,9 @@
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
           ></path>
         </svg>
-        Scanning
+        扫描中
       {:else}
-        Scan
+        扫描
         <Icon path={ICON.arrowRight} />
       {/if}
     </button>
@@ -157,7 +157,7 @@
         ? 'text-red-500'
         : 'text-gray-500'}"
     >
-      {2048 - input.length} chars remaining
+      还可输入 {2048 - input.length} 个字符
     </p>
   {/if}
 
@@ -165,11 +165,11 @@
     <div class="mt-2 px-1 text-xs space-y-1.5 text-center">
       <p class="text-gray-500">
         <span class="text-gray-600 dark:text-gray-400 font-medium"
-          >{trackers.removed.length} tracker{trackers.removed.length > 1 ? "s" : ""} found —</span
+          >发现 {trackers.removed.length} 个跟踪参数 ——</span
         >
         <span class="break-all"> {trackers.removed.join(", ")}</span>
       </p>
-      <p class="text-gray-500">Click to copy the clean link</p>
+      <p class="text-gray-500">点击复制清理后的链接</p>
       <button
         type="button"
         on:click={copyCleanUrl}
@@ -177,7 +177,7 @@
           ? 'text-emerald-600 dark:text-emerald-400'
           : 'text-gray-500 hover:text-gray-800 dark:hover:text-gray-300'}"
       >
-        {trackerCopied ? "Copied!" : trackers.cleaned}
+        {trackerCopied ? "已复制！" : trackers.cleaned}
       </button>
     </div>
   {/if}

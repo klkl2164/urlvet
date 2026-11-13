@@ -1,11 +1,18 @@
 // Display helpers shared by the admin tabs.
 
+import { verdictCopy } from '../verdict';
+
+/** Chinese display name for a verdict value coming from the API. */
+export function verdictLabel(v: string | undefined): string {
+  return verdictCopy(v).label;
+}
+
 export function formatTTL(sec: number): string {
-  if (sec === -1) return 'No expiry';
-  if (sec === -2) return 'Gone';
-  if (sec < 60) return `${sec}s`;
-  if (sec < 3600) return `${Math.floor(sec / 60)}m ${sec % 60}s`;
-  return `${Math.floor(sec / 3600)}h ${Math.floor((sec % 3600) / 60)}m`;
+  if (sec === -1) return '永不过期';
+  if (sec === -2) return '已失效';
+  if (sec < 60) return `${sec} 秒`;
+  if (sec < 3600) return `${Math.floor(sec / 60)} 分 ${sec % 60} 秒`;
+  return `${Math.floor(sec / 3600)} 小时 ${Math.floor((sec % 3600) / 60)} 分`;
 }
 
 export function ttlColor(sec: number): string {
@@ -38,12 +45,12 @@ export function verdictTextColor(v: string): string {
 export function relativeTime(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
   const s = Math.floor(diff / 1000);
-  if (s < 60) return `${s}s ago`;
+  if (s < 60) return `${s} 秒前`;
   const m = Math.floor(s / 60);
-  if (m < 60) return `${m}m ago`;
+  if (m < 60) return `${m} 分钟前`;
   const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h ago`;
-  return `${Math.floor(h / 24)}d ago`;
+  if (h < 24) return `${h} 小时前`;
+  return `${Math.floor(h / 24)} 天前`;
 }
 
 export function formatJSON(val: unknown): string {

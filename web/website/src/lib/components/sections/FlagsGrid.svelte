@@ -3,13 +3,13 @@
 
   $: groups = [
     {
-      label: "Red flags",
+      label: "风险标记",
       items: reasons?.bad_reasons ?? [],
       dot: "bg-red-500",
       title: "text-red-600 dark:text-red-400",
     },
     {
-      label: "Green flags",
+      label: "正面标记",
       items: reasons?.good_reasons ?? [],
       dot: "bg-emerald-500",
       title: "text-emerald-700 dark:text-emerald-400",
@@ -42,7 +42,7 @@
             {/each}
           </ul>
         {:else}
-          <p class="mt-4 text-[15px] text-gray-500 dark:text-gray-400">None found.</p>
+          <p class="mt-4 text-[15px] text-gray-500 dark:text-gray-400">未发现。</p>
         {/if}
       </div>
     {/each}

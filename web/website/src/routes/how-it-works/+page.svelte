@@ -20,18 +20,18 @@
   // Self-hosting comes first; the public API is only for a quick try.
   const DEV_LINKS = [
     {
-      label: "Run it on your own server",
-      note: "Docker setup, configuration and a reverse proxy, step by step",
+      label: "在自己的服务器上运行",
+      note: "Docker 部署、参数配置和反向代理，一步步来",
       href: `${REPO}/blob/main/docs/deployment.md`,
     },
     {
-      label: "API reference",
-      note: "The analyze endpoint, what it returns, and its errors",
+      label: "API 参考",
+      note: "analyze 接口、它返回什么，以及可能出现的错误",
       href: `${REPO}/blob/main/docs/api.md`,
     },
     {
-      label: "Try the API in Swagger UI",
-      note: "Send a few test requests to url.vet's server from your browser. Rate-limited, so not for production",
+      label: "在 Swagger UI 里试用 API",
+      note: "在浏览器里向 url.vet 的服务器发几个测试请求。有频率限制，不适合生产环境",
       href: `${API_ORIGIN}/swagger/index.html`,
     },
   ];
@@ -41,49 +41,49 @@
     domain: "paypa1-login.top",
     score: 7,
     red: [
-      "Typosquatting detected: domain closely resembles 'paypal.com' (1 character difference).",
-      "Registered 3 days ago. Phishing sites are usually brand new.",
-      "High-risk domain extension detected (often associated with spam).",
-      "Sensitive security keywords found in URL: login",
-      "Very low traffic volume.",
+      "检测到仿冒域名：该域名与「paypal.com」高度相似（相差 1 个字符）。",
+      "注册于 3 天前。钓鱼网站通常都是新注册的。",
+      "检测到高风险域名后缀（常与垃圾信息关联）。",
+      "URL 中发现敏感的安全关键词：login",
+      "访问量极低。",
     ],
-    green: ["Enforces strict HTTPS security (HSTS Enabled)."],
+    green: ["强制使用严格的 HTTPS 安全设置（已启用 HSTS）。"],
   };
 
   const STEPS = [
     {
-      title: "Paste the link",
-      desc: "A link or a whole message with links in it.",
+      title: "粘贴链接",
+      desc: "一个链接，或者一整条带链接的消息。",
     },
     {
-      title: "Our server visits it",
-      desc: "Nothing from the page reaches your device.",
+      title: "我们的服务器访问它",
+      desc: "页面上的任何内容都不会到达你的设备。",
     },
     {
-      title: "You get a verdict, and why",
-      desc: "Safe, Sus or Risky, with every reason listed.",
+      title: "你得到判定结果和理由",
+      desc: "安全、可疑或危险，每条理由都会列出来。",
     },
   ];
 
   const BANDS = [
-    { v: "Risky", from: 0, to: 29, dot: "bg-red-500" },
-    { v: "Suspicious", from: 30, to: 64, dot: "bg-yellow-500" },
-    { v: "Safe", from: 65, to: 100, dot: "bg-emerald-500" },
+    { v: "危险", from: 0, to: 29, dot: "bg-red-500" },
+    { v: "可疑", from: 30, to: 64, dot: "bg-yellow-500" },
+    { v: "安全", from: 65, to: 100, dot: "bg-emerald-500" },
   ];
 
   // What a result has besides the verdict and flags shown in the example.
   const PARTS = [
     {
-      title: "Page preview",
-      desc: "A screenshot of the page, taken by our server. If it looks like your bank but the address has nothing to do with your bank, that tells you a lot.",
+      title: "页面预览",
+      desc: "由我们的服务器拍摄的页面截图。如果它看起来像你的银行，地址却和你的银行毫无关系，这一点就能说明很多。",
     },
     {
-      title: "Details",
-      desc: "Grouped sections (domain, redirects, security certificate, page content, threat feeds) for anyone who wants the raw facts.",
+      title: "详细信息",
+      desc: "按类别分组的区块（域名、重定向、安全证书、页面内容、威胁情报源），给想看原始事实的人。",
     },
     {
-      title: "Share link",
-      desc: "Every result has a link you can send to whoever sent you the original. Its preview shows the verdict and score at a glance.",
+      title: "分享链接",
+      desc: "每个结果都有一个链接，你可以发给当初给你原文的人。它的预览里一眼就能看到判定结果和分数。",
     },
   ];
 
@@ -115,24 +115,24 @@
 <svelte:window on:hashchange={openFromHash} />
 
 <svelte:head>
-  <title>How url.vet checks a link</title>
+  <title>url.vet 如何检查一个链接</title>
   <meta
     name="description"
-    content="The checks url.vet runs on every link, how they add up to a verdict, and answers to common questions."
+    content="url.vet 对每个链接执行的检查、它们如何汇总成一个判定结果，以及常见问题的解答。"
   />
-  <meta property="og:title" content="How url.vet checks a link" />
+  <meta property="og:title" content="url.vet 如何检查一个链接" />
   <meta
     property="og:description"
-    content="The checks url.vet runs on every link, how they add up to a verdict, and answers to common questions."
+    content="url.vet 对每个链接执行的检查、它们如何汇总成一个判定结果，以及常见问题的解答。"
   />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://url.vet/how-it-works" />
   <meta property="og:image" content="https://url.vet/og" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How url.vet checks a link" />
+  <meta name="twitter:title" content="url.vet 如何检查一个链接" />
   <meta
     name="twitter:description"
-    content="The checks url.vet runs on every link, how they add up to a verdict, and answers to common questions."
+    content="url.vet 对每个链接执行的检查、它们如何汇总成一个判定结果，以及常见问题的解答。"
   />
   <meta name="twitter:image" content="https://url.vet/og" />
   <link rel="canonical" href="https://url.vet/how-it-works" />
@@ -140,13 +140,13 @@
 </svelte:head>
 
 <div class="max-w-3xl mx-auto px-6 pt-16 md:pt-24 pb-20 text-gray-900 dark:text-gray-100">
-  <p class="font-mono text-xs uppercase tracking-wider text-gray-500">How it works</p>
+  <p class="font-mono text-xs uppercase tracking-wider text-gray-500">工作原理</p>
   <h1 class="mt-4 font-serif text-5xl md:text-6xl leading-[1.02] tracking-[-0.015em]">
-    Paste a link. <span class="italic">See why.</span>
+    粘贴一个链接。<span class="italic">看清为什么。</span>
   </h1>
   <p class="mt-6 text-xl leading-relaxed text-gray-700 dark:text-gray-300">
-    A verdict you can't explain can't be trusted, so every one comes with its reasons. Here's what
-    happens when you scan, and how to read what comes back.
+    解释不了的判定结果就没法信任，所以每一个判定结果都带着理由。下面是你发起扫描后发生的事，
+    以及怎么看懂返回的内容。
   </p>
 
   <!-- The whole thing in three steps: a row on desktop, a short timeline on phones -->
@@ -176,15 +176,16 @@
 
   <!-- Example result -->
   <section class="mt-20 scroll-mt-20" id="result">
-    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">What you get back</h2>
+    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">你会得到什么</h2>
     <p class="mt-5 text-[17px] leading-relaxed text-gray-700 dark:text-gray-300">
-      url.vet checks the page itself, live, not just a list of known bad links. A few seconds after
-      you press Scan, you get something like this:
+      url.vet
+      检查的是页面本身，而且是实时检查，不只是比对一份已知的坏链接名单。你按下「扫描」几秒钟后，
+      就会看到类似这样的东西：
     </p>
 
     <figure
       class="mt-8 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 sm:p-6"
-      aria-label="Example result"
+      aria-label="示例结果"
     >
       <div class="flex flex-wrap items-center justify-between gap-3">
         <span
@@ -194,7 +195,7 @@
         <span class="flex items-baseline gap-3">
           <span
             class="inline-flex items-center gap-1.5 text-sm font-medium text-red-600 dark:text-red-400"
-            ><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Risky</span
+            ><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>危险</span
           >
           <span class="font-serif text-3xl leading-none"
             >{EXAMPLE.score}<span class="text-base text-gray-400">/100</span></span
@@ -202,7 +203,7 @@
         </span>
       </div>
 
-      {#each [{ label: "Red flags", items: EXAMPLE.red, dot: "bg-red-500" }, { label: "Green flags", items: EXAMPLE.green, dot: "bg-emerald-500" }] as group}
+      {#each [{ label: "风险标记", items: EXAMPLE.red, dot: "bg-red-500" }, { label: "正面标记", items: EXAMPLE.green, dot: "bg-emerald-500" }] as group}
         <p class="mt-6 font-mono text-[11px] uppercase tracking-wider text-gray-500">
           {group.label}
         </p>
@@ -216,7 +217,7 @@
         </ul>
       {/each}
       <figcaption class="mt-4 font-mono text-[11px] text-gray-400">
-        Example result, simplified. Not a real site.
+        示例结果，已简化。并非真实网站。
       </figcaption>
     </figure>
 
@@ -234,18 +235,17 @@
 
   <!-- Checks: what each group looks at, and which side of the score a finding counts towards -->
   <section class="mt-24 scroll-mt-20" id="checks">
-    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">The checks</h2>
+    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">检查项</h2>
     <p class="mt-5 text-[17px] leading-relaxed text-gray-700 dark:text-gray-300">
-      {TOTAL_CHECKS} checks start at the same moment you press Scan. Each one is independent, so a slow
-      or failed check never holds up the rest. Together they answer seven questions, and every finding
-      counts towards either the risk or the trust side of the score.
+      你按下「扫描」的同时，{TOTAL_CHECKS} 项检查会一起开始。每一项都是独立的，所以某一项变慢或者失败，
+      不会拖住其他检查。它们合起来回答七个问题，每个发现都会计入分数中的风险一侧或信任一侧。
     </p>
     <p class="mt-3 text-[15px] leading-relaxed text-gray-600 dark:text-gray-400">
-      A few name-based rules are relaxed for well-known sites and verified endings like .gov, so a
-      real bank's own login page isn't flagged. Curious what gets sent where during a scan? See the <a
-        href="/privacy"
-        class={LINK}>privacy page</a
-      >.
+      对于知名网站和 .gov
+      这类经过验证的域名后缀，少数基于名称的规则会放宽，这样真正的银行自己的登录页
+      就不会被误标。想知道扫描过程中哪些内容会被发到哪里？请看<a href="/privacy" class={LINK}
+        >隐私页面</a
+      >。
     </p>
 
     <div class="mt-8">
@@ -255,8 +255,7 @@
           class="scroll-mt-20 py-7 border-t border-gray-200 dark:border-gray-800"
         >
           <p class="font-mono text-[11px] uppercase tracking-wider text-gray-500">
-            {String(n + 1).padStart(2, "0")} · {group.label} · {group.checks}
-            {group.checks === 1 ? "check" : "checks"}
+            {String(n + 1).padStart(2, "0")} · {group.label} · {group.checks} 项检查
           </p>
           <h3 class="mt-2 font-serif text-[1.6rem] leading-tight">{group.title}</h3>
           <p class="mt-2 text-[16px] leading-relaxed text-gray-700 dark:text-gray-300">
@@ -269,7 +268,7 @@
             >
               <span
                 class="underline underline-offset-4 decoration-gray-300 dark:decoration-gray-700"
-                >See what it looks for ({group.signals.length})</span
+                >查看它检查的内容（{group.signals.length}）</span
               >
               <span class="transition-transform duration-200 group-open:rotate-180">
                 <Icon path={ICON.chevronDown} class="w-3.5 h-3.5" />
@@ -300,17 +299,17 @@
                         : 'text-gray-400 dark:text-gray-500'}"
                   >
                     {signal.kind === "risk"
-                      ? "adds risk"
+                      ? "计入风险"
                       : signal.kind === "trust"
-                        ? "adds trust"
-                        : "shown only"}
+                        ? "计入信任"
+                        : "仅作展示"}
                   </span>
                 </li>
               {/each}
             </ul>
 
             {#if group.against}
-              <p class="mt-3 text-[13px] text-gray-500">Compared against {group.against}</p>
+              <p class="mt-3 text-[13px] text-gray-500">对照 {group.against}</p>
             {/if}
           </details>
         </article>
@@ -320,17 +319,15 @@
 
   <!-- Scoring: the idea in words; no point values, since those get tuned -->
   <section class="mt-24 scroll-mt-20" id="score">
-    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">How the score works</h2>
+    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">分数是怎么算的</h2>
     <div class="mt-5 space-y-4 text-[17px] leading-relaxed text-gray-700 dark:text-gray-300">
       <p>
-        Every finding counts towards one of two sides: risk or trust. The score starts in the
-        middle, at 50. Risk pulls it down and trust pulls it up, and it always stays between 0 and
-        100.
+        每个发现都会计入两个方向之一：风险或信任。分数从中间开始，也就是 50 分。风险会把它往下拉，
+        信任会把它往上抬，分数始终保持在 0 到 100 之间。
       </p>
       <p>
-        Serious findings weigh more than small ones, so one confirmed phishing report outweighs a
-        handful of minor good signs. The number then falls into one of three bands. The example
-        above landed at {EXAMPLE.score}.
+        严重的发现比轻微的发现权重更大，所以一条确认的钓鱼举报，抵得过好几条轻微的良好迹象。
+        算出来的数字会落在三个区间之一。上面这个例子停在 {EXAMPLE.score} 分。
       </p>
     </div>
 
@@ -365,7 +362,7 @@
 
   <!-- FAQ: collapsed, one open at a time; every answer stays in the page for search engines -->
   <section class="mt-24 scroll-mt-20" id="faq">
-    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">Frequently asked questions</h2>
+    <h2 class="font-serif text-3xl md:text-4xl tracking-[-0.01em]">常见问题</h2>
     <div class="mt-8">
       {#each FAQ_GROUPS as group}
         <div class="border-t border-gray-200 dark:border-gray-800">
@@ -411,14 +408,11 @@
 
   <!-- For developers -->
   <section class="mt-24 scroll-mt-20" id="developers">
-    <p class="font-mono text-[11px] uppercase tracking-wider text-gray-500">For developers</p>
-    <h2 class="mt-2 font-serif text-3xl md:text-4xl tracking-[-0.01em]">
-      Self-hosting and API docs
-    </h2>
+    <p class="font-mono text-[11px] uppercase tracking-wider text-gray-500">面向开发者</p>
+    <h2 class="mt-2 font-serif text-3xl md:text-4xl tracking-[-0.01em]">自托管与 API 文档</h2>
     <p class="mt-4 text-[16px] leading-relaxed text-gray-600 dark:text-gray-400">
-      url.vet is <a href={REPO} class={LINK} target="_blank" rel="noopener noreferrer"
-        >open source</a
-      >. You can run the whole thing on your server, or use its API in your app.
+      url.vet 是<a href={REPO} class={LINK} target="_blank" rel="noopener noreferrer">开源的</a
+      >。你可以把整套东西跑在自己的服务器上，也可以在自己的应用里用它的 API。
     </p>
     <ul class="mt-6">
       {#each DEV_LINKS as link}

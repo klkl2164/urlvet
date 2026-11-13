@@ -16,7 +16,7 @@ getSettings().then(({ siteBase }) => {
 });
 
 // A link opened in a new tab has nowhere to go back to.
-if (history.length <= 1) $("back").textContent = "Close this tab";
+if (history.length <= 1) $("back").textContent = "关闭此标签页";
 $("back").addEventListener("click", async () => {
   if (history.length > 1) history.back();
   else chrome.tabs.remove((await chrome.tabs.getCurrent()).id);

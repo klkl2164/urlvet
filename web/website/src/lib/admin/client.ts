@@ -48,12 +48,12 @@ export async function login(password: string): Promise<{ token?: string; error?:
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
     });
-    if (res.status === 401) return { error: 'Incorrect password.' };
-    if (res.status === 503) return { error: 'Admin access is disabled on this server.' };
-    if (!res.ok) return { error: 'Login failed. Please try again.' };
+    if (res.status === 401) return { error: '密码不正确。' };
+    if (res.status === 503) return { error: '此服务器已关闭管理后台。' };
+    if (!res.ok) return { error: '登录失败，请重试。' };
     const data = await res.json();
     return { token: data.token };
   } catch {
-    return { error: 'Unable to reach the server.' };
+    return { error: '无法连接到服务器。' };
   }
 }

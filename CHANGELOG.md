@@ -4,6 +4,12 @@ All notable changes to this project are listed here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/). Versions follow [Semantic Versioning](https://semver.org/); url.vet is in beta (0.x), see [Versioning](.github/CONTRIBUTING.md#versioning).
 
+## [Unreleased]
+
+### Changed
+- The website and the Chrome extension now speak Chinese: every page, result section, admin screen, error message, share preview card and extension screen
+- Repository links, the Go module path and all package imports point at the klkl2164/urlvet fork
+
 ## [0.4.0] – 2026-11-05 – Beta
 
 ### Added
@@ -76,7 +82,7 @@ These came before the Go rewrite, are no longer maintained, and share no code wi
 - **SafeSurf Flask app** (tag `safesurf-flask`, 2024-09-01): a Python/Flask website that checked links with rules, domain data, SSL details and screenshots. No machine learning.
 - **SafeSurf ML** (tag `safesurf-ml`, 2021-11-24): the first version, which classified links with an XGBoost model trained on lists of phishing and legitimate URLs.
 
-[0.4.0]: https://github.com/urlvet/urlvet/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/urlvet/urlvet/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/urlvet/urlvet/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/urlvet/urlvet/releases/tag/v0.1.0
+[0.4.0]: https://github.com/klkl2164/urlvet/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/klkl2164/urlvet/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/klkl2164/urlvet/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/klkl2164/urlvet/releases/tag/v0.1.0

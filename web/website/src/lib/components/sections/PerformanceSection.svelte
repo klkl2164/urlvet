@@ -12,7 +12,7 @@
       <div
         class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
       >
-        <span class="text-gray-400">Total time:</span>
+        <span class="text-gray-400">总耗时：</span>
         <span class="font-medium text-gray-800 dark:text-white">{performance.total_time}</span>
       </div>
 

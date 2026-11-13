@@ -14,8 +14,8 @@
   $: unavailableReason = !screenshotFailed
     ? null
     : unreachable
-      ? "No web content detected. Preview unavailable."
-      : "Screenshot unavailable — the site may be blocking automated access or failed to respond.";
+      ? "未检测到网页内容，无法预览。"
+      : "截图不可用 —— 网站可能阻止了自动访问，或者没有响应。";
 </script>
 
 <div class="flex flex-col md:flex-row gap-4 items-stretch animate-fadeIn delay-100">
@@ -30,7 +30,7 @@
       <p
         class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest"
       >
-        Screenshot
+        截图
       </p>
       <ScreenshotViewer
         {screenshotUrl}

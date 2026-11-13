@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { VERDICT_COPY, verdictCopy } from "../../verdict";
+  import { VERDICT_COPY, verdictCopy, verdictName } from "../../verdict";
   import { onMount } from "svelte";
 
   export let verdict: string | undefined;
@@ -94,13 +94,13 @@
   <div class="flex-1 flex flex-col gap-1.5 min-w-0">
     <span
       class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest"
-      >Verdict</span
+      >判定结果</span
     >
     <!-- The verdict lands like a stamp: Risky hits hard, Suspicious wobbles, Safe settles. -->
     <div class="stamp stamp-{(verdict ?? '').toLowerCase()} flex items-center gap-3 flex-wrap">
       <span
         class="font-serif text-5xl sm:text-6xl font-normal text-gray-900 dark:text-gray-100 tracking-[-0.01em] leading-none"
-        >{verdict ?? "—"}</span
+        >{verdict ? verdictName(verdict) : "—"}</span
       >
       <span
         class={`px-2.5 py-0.5 rounded-full font-mono text-[10px] sm:text-[11px] uppercase tracking-wider whitespace-nowrap ${style.badge}`}
@@ -110,9 +110,7 @@
     </div>
     <p class="mt-1 text-[15px] sm:text-base text-gray-700 dark:text-gray-300">{quip}</p>
     {#if unreachable}
-      <p class="text-[10px] sm:text-[11px] text-red-400/80">
-        Site may be unreachable or returning no content.
-      </p>
+      <p class="text-[10px] sm:text-[11px] text-red-400/80">网站可能无法访问，或没有返回内容。</p>
     {/if}
   </div>
 
@@ -120,7 +118,7 @@
   <div class="flex flex-col items-center gap-1 shrink-0">
     <span
       class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1"
-      >Trust Score</span
+      >信任分</span
     >
     <div class="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24">
       <svg class="w-full h-full -rotate-90" viewBox="0 0 88 88">

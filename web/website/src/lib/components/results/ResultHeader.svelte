@@ -36,12 +36,12 @@
     class="font-serif text-4xl md:text-5xl font-normal tracking-[-0.01em] text-gray-900 dark:text-gray-100"
     id="analysis-summary"
   >
-    Analysis Summary
+    分析摘要
   </h2>
   <div class="mt-3 flex items-center justify-between gap-3">
     <div class="flex items-center gap-2 min-w-0">
       <span class="hidden sm:inline text-gray-600 dark:text-gray-400 text-sm whitespace-nowrap"
-        >Security profile for</span
+        >安全概况：</span
       >
       <span
         class="min-w-0 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-300 dark:border-gray-800 font-mono text-[13px] text-gray-800 dark:text-gray-200"
@@ -60,16 +60,16 @@
         aria-expanded={reportOpen}
         aria-controls="report-panel"
         data-guide="report"
-        aria-label="Report this result"
-        title="Think this verdict is wrong? Let us know."
+        aria-label="报告这个结果"
+        title="觉得这个判定不对？告诉我们。"
         on:click={() => (reportOpen = !reportOpen)}
       >
         <Icon path={ICON.flag} />
-        <span class="hidden sm:inline">Report</span>
+        <span class="hidden sm:inline">报告</span>
       </button>
       <button
         type="button"
-        aria-label="Share this result"
+        aria-label="分享这个结果"
         data-guide="share"
         class="{PILL_SOLID} p-2.5 sm:px-4 sm:py-2"
         on:click={shareLink}
@@ -77,10 +77,10 @@
       >
         {#if shareCopied}
           <Icon path={ICON.check} strokeWidth={2.5} />
-          <span class="hidden sm:inline">Copied!</span>
+          <span class="hidden sm:inline">已复制！</span>
         {:else}
           <Icon path={ICON.share} />
-          <span class="hidden sm:inline">Share</span>
+          <span class="hidden sm:inline">分享</span>
         {/if}
       </button>
     </div>

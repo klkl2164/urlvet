@@ -100,7 +100,7 @@ try {
   check(
     "well-known site isn't checked",
     (await tabTitle("www.wikipedia.org")).startsWith(
-      "url.vet: check this page",
+      "url.vet：检查此页面或一个链接",
     ),
   );
   await wiki.close();
@@ -118,7 +118,7 @@ try {
   );
   check(
     "toolbar shows the verdict",
-    (await tabTitle("testsafebrowsing.appspot.com")).includes("Risky"),
+    (await tabTitle("testsafebrowsing.appspot.com")).includes("高风险"),
   );
   await risky.screenshot({ path: `${SHOTS}/auto-warning.png` });
   await risky.close();
@@ -193,7 +193,7 @@ try {
   await pop.waitForSelector(".verdict", { timeout: 120000 });
   await sleep(2000);
   await pop.screenshot({ path: `${SHOTS}/popup-result.png`, fullPage: true });
-  await pop.click("text=Wrong result? Tell us");
+  await pop.click("text=结果不对？告诉我们");
   check("report form opens", await pop.isVisible(".report"));
   await sleep(500);
   await pop.screenshot({ path: `${SHOTS}/popup-report.png`, fullPage: true });

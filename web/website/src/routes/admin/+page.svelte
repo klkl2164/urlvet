@@ -55,8 +55,8 @@
     try {
       return await request;
     } catch (e) {
-      if (e instanceof UnauthorizedError) clearAuth("Invalid token. Please sign in again.");
-      else globalError = e instanceof Error ? e.message : "Request failed";
+      if (e instanceof UnauthorizedError) clearAuth("令牌无效。请重新登录。");
+      else globalError = e instanceof Error ? e.message : "请求失败";
       return undefined;
     }
   };
@@ -80,7 +80,7 @@
 </script>
 
 <svelte:head>
-  <title>Admin | url.vet</title>
+  <title>管理后台 | url.vet</title>
   <meta name="robots" content="noindex, nofollow, noarchive" />
 </svelte:head>
 
@@ -93,21 +93,21 @@
       class="max-w-5xl mx-auto px-4 min-[360px]:px-6 pt-8 md:pt-12 flex items-end justify-between gap-4"
     >
       <div>
-        <p class="font-mono text-xs uppercase tracking-wider text-gray-500">Admin</p>
+        <p class="font-mono text-xs uppercase tracking-wider text-gray-500">管理后台</p>
         <h1 class="mt-2 font-serif text-4xl md:text-5xl text-gray-900 dark:text-gray-100">
-          Dashboard
+          仪表板
         </h1>
       </div>
       <div class="flex items-center gap-1 pb-1">
         {#if updatedAt}
           <span class="hidden sm:inline mr-2 font-mono text-[11px] text-gray-400"
-            >Updated {updatedAt}</span
+            >更新于 {updatedAt}</span
           >
         {/if}
         <button
           on:click={refresh}
-          aria-label="Refresh"
-          title="Refresh"
+          aria-label="刷新"
+          title="刷新"
           class="p-2 rounded-full text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-200/60 dark:hover:bg-gray-800/60 transition-colors"
         >
           <svg
@@ -129,7 +129,7 @@
           on:click={logout}
           class="px-3 py-1.5 rounded-full text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-200/60 dark:hover:bg-gray-800/60 transition-colors"
         >
-          Sign out
+          退出登录
         </button>
       </div>
     </div>

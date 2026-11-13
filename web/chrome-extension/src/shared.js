@@ -1,7 +1,7 @@
 // Shared by the popup, the blocked page and the background worker.
 // Wording and link parsing come straight from the website's source, so the
 // extension and url.vet always say the same thing.
-export { VERDICT_COPY, verdictCopy } from "../../website/src/lib/verdict";
+export { VERDICT_COPY, verdictCopy, verdictName } from "../../website/src/lib/verdict";
 export { extractLinks, formatUrl } from "../../website/src/lib/utils";
 export {
   redirectNote,

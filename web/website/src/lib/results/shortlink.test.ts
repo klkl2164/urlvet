@@ -14,9 +14,7 @@ describe('shortLinkNote', () => {
         target: 'https://www.roblox.com.bn/users/1/profile',
         resolved: true,
       })
-    ).toBe(
-      'This is a short link on goo.su. It leads to www.roblox.com.bn, and this result is for that page.'
-    );
+    ).toBe('这是 goo.su 上的一个短链接。它指向 www.roblox.com.bn，这个结果是针对那一页的。');
   });
 
   it('names short links passed through on the way', () => {
@@ -28,7 +26,7 @@ describe('shortLinkNote', () => {
         resolved: true,
       })
     ).toBe(
-      'This is a short link on bit.ly. It leads to evil.example (through tinyurl.com), and this result is for that page.'
+      '这是 bit.ly 上的一个短链接。它指向 evil.example（途经 tinyurl.com），这个结果是针对那一页的。'
     );
   });
 
@@ -36,7 +34,7 @@ describe('shortLinkNote', () => {
     expect(
       shortLinkNote({ url: 'https://bom.so/abc', chain: ['https://bom.so/abc'], resolved: false })
     ).toBe(
-      "This is a short link on bom.so. We couldn't see where it leads, so this result is for the short link itself and can't be better than Suspicious."
+      '这是 bom.so 上的一个短链接。我们看不到它指向哪里，所以这个结果只针对短链接本身，最高也只能判定为可疑。'
     );
   });
 });
@@ -53,7 +51,7 @@ describe('redirectNote', () => {
         target: 'https://nus.nbt.mybluehost.me/x',
       })
     ).toBe(
-      'This link on sba.yandex.ru sends visitors on to nus.nbt.mybluehost.me. This result is for that page, plus anything wrong with the link itself.'
+      'sba.yandex.ru 上的这个链接会把访客转发到 nus.nbt.mybluehost.me。这个结果是针对那一页的，也包括链接本身存在的问题。'
     );
   });
 });

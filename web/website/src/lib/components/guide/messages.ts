@@ -5,46 +5,38 @@ import type { AnalyzeResult } from '../../types';
 export const NAME = 'Vetty';
 
 export const INTRO = [
-  `Hi, I'm ${NAME}. Why click around when you can just ask me?`,
-  'Everything you need is right here.',
+  `你好，我是 ${NAME}。既然能直接问我，何必自己到处点？`,
+  '你需要的东西都在这里。',
 ];
 
 /** Said when someone keeps tapping Vetty, one line per extra tap. */
-export const POKES = [
-  'Yes?',
-  "I'm right here.",
-  'Do you touch all your paperclips like this?',
-  'Okay, that tickles.',
-];
+export const POKES = ['嗯？', '我就在这儿。', '你对所有回形针都这么动手动脚吗？', '好吧，有点痒。'];
 
-export const NUDGE = "Hi, I'm Vetty. Not sure what all this means? I can help.";
+export const NUDGE = '你好，我是 Vetty。看不懂这些是什么意思？我可以帮忙。';
 /** The visitor's two replies to the nudge. */
-export const NUDGE_YES = 'What can you do?';
-export const NUDGE_NO = 'No thanks';
+export const NUDGE_YES = '你能做什么？';
+export const NUDGE_NO = '不用了，谢谢';
 
 /** Greeting when reopening Vetty, by page. */
 export const GREETINGS: Record<string, string[]> = {
   home: [
-    "It looks like you're checking a link. Would you like help?",
-    'Back again? Great.',
-    "Need a hand? I don't have many, but they're both yours.",
+    '看起来你正在检查一个链接。需要帮忙吗？',
+    '又回来了？很好。',
+    '需要帮忙吗？我手不多，但都归你用。',
   ],
-  result: [
-    'Want me to walk you through this one?',
-    'I read the fine print so you do not have to. Ask away.',
-  ],
-  scanning: ['Hold on, I am reading the fine print…'],
-  error: ["That one didn't go through. Happens to the best of us."],
-  'how-it-works': ['Reading the manual? I respect that.', 'Ah, a fellow fan of documentation.'],
-  about: ["Getting to know us? I'm the friendly one.", 'Yes, I also work here.'],
-  other: ['Lost? I know a good place to check links.'],
+  result: ['要我带你看看这个结果吗？', '细则我已经读完了，你不用读。有什么就问吧。'],
+  scanning: ['等等，我正在读细则……'],
+  error: ['这次没成功。谁都会遇到。'],
+  'how-it-works': ['在看说明文档？佩服。', '啊，又一个爱看文档的人。'],
+  about: ['来了解我们？我是比较友好的那个。', '没错，我也在这儿工作。'],
+  other: ['迷路了？我知道一个检查链接的好地方。'],
 };
 
 export const TIPS = [
-  'Tip: press / anywhere to jump to the search bar.',
-  'Tip: shortened links hide where they really go. Paste them here to see their journey.',
-  'Tip: a page can look exactly like your bank and still not be your bank. Even URLs.',
-  'Tip: every result has a share link, so you can send it to whoever sent you the link.',
+  '小提示：在任意位置按 / 就能跳到搜索框。',
+  '小提示：短链接会隐藏真正的目的地。粘贴到这里，就能看到它一路去哪儿。',
+  '小提示：一个页面可以长得和你的银行一模一样，但它并不是你的银行。URL 也一样。',
+  '小提示：每个结果都有分享链接，你可以把它发回给把链接发给你的人。',
 ];
 
 /** Score bands, matching the backend thresholds. */
@@ -55,7 +47,7 @@ export const SCORE_BANDS = [
     to: 29,
     dot: 'bg-red-500',
     text: 'text-red-600 dark:text-red-400',
-    meaning: 'Strong signs of phishing or a scam. Stay away.',
+    meaning: '有明显的钓鱼或诈骗迹象。离远一点。',
   },
   {
     verdict: 'Suspicious',
@@ -63,7 +55,7 @@ export const SCORE_BANDS = [
     to: 64,
     dot: 'bg-yellow-500',
     text: 'text-yellow-700 dark:text-yellow-400',
-    meaning: 'Mixed signals. Be careful with logins and payments.',
+    meaning: '信号有好有坏。登录和付款要小心。',
   },
   {
     verdict: 'Safe',
@@ -71,70 +63,67 @@ export const SCORE_BANDS = [
     to: 100,
     dot: 'bg-emerald-500',
     text: 'text-emerald-700 dark:text-emerald-400',
-    meaning: 'Nothing worrying turned up.',
+    meaning: '没有发现让人担心的地方。',
   },
 ];
 
-export const SCORES_FOOTNOTE =
-  'I can be wrong, so every result has a Report button. A human reads every report.';
+export const SCORES_FOOTNOTE = '我也可能出错，所以每个结果都有「报告」按钮。每一份报告都有真人看。';
 
 export const SCAN_FAILED = [
-  'Scans usually fail for one of three reasons:',
-  '• a typo in the address,',
-  '• the site is down,',
-  '• or it blocks automated visitors (some banks do).',
-  'Double-check the link and try again.',
+  '扫描失败通常有三个原因：',
+  '• 地址打错了，',
+  '• 网站挂了，',
+  '• 或者它拦截了自动访问（有些银行会这样）。',
+  '再检查一遍链接，然后重试。',
 ];
 
-export const HIDE_BYE = "Fine. I'll be down in the footer. I've been retired before.";
+export const HIDE_BYE = '好吧。我去页脚待着。反正我以前也被收起来过。';
 
 /** "Who is Vetty?": what he is, what he can do, and why he's here. */
 export const MEET = {
-  lead: `I'm ${NAME}, url.vet's helper.`,
-  why: "Checking a link shouldn't need a security degree. I'm here so anyone can use url.vet: I explain results in plain words and show you where everything is.",
-  canTitle: 'What I can do',
+  lead: `我是 ${NAME}，url.vet 的小助手。`,
+  why: '检查一个链接不该需要安全学位。我在这里，是为了让任何人都能用 url.vet：我用大白话解释结果，还会告诉你每个东西在哪儿。',
+  canTitle: '我能做什么',
   can: [
-    'Check a link for you, or a whole message with links in it',
-    'Explain a result in plain words',
-    'Tell you what the score means',
-    'Walk you through the page',
-    'Help you report a result that looks wrong',
+    '帮你检查一个链接，或者一整条带链接的消息',
+    '用大白话解释结果',
+    '告诉你分数是什么意思',
+    '带你逛一遍页面',
+    '帮你报告看起来不对的结果',
   ],
-  note: "I only know about links you check here, and I forget them when you leave. Hide me any time; I'll wait in the footer.",
+  note: '我只记得你在这里检查过的链接，你离开后我就忘了。随时可以把我收起来，我会在页脚等着。',
 };
 
 /** A message to send back to whoever shared the link, worded for the verdict. */
 export function warnMessage(verdict: string, domain: string, score: number, link: string): string {
   if (verdict === 'Risky')
-    return `I checked this link on url.vet and it looks like a scam (${domain}, ${score}/100). Please don't open it or enter any details there.\n\nWhy: ${link}`;
+    return `我在 url.vet 上检查了这个链接，看起来是诈骗（${domain}，${score}/100）。请不要打开它，也不要在那里填写任何信息。\n\n原因：${link}`;
   if (verdict === 'Suspicious')
-    return `I checked this link on url.vet. ${domain} looks suspicious (${score}/100), so better not to enter any details there.\n\nWhy: ${link}`;
-  return `I checked this link on url.vet and ${domain} looks safe (${score}/100).\n\nDetails: ${link}`;
+    return `我在 url.vet 上检查了这个链接。${domain} 看起来可疑（${score}/100），最好别在那里填写任何信息。\n\n原因：${link}`;
+  return `我在 url.vet 上检查了这个链接，${domain} 看起来是安全的（${score}/100）。\n\n详情：${link}`;
 }
 
 export const WARN_INTRO: Record<string, string> = {
-  Risky: "Let's warn whoever sent it. Edit the message if you like:",
-  Suspicious: 'Let them know before they open it. Edit the message if you like:',
-  Safe: 'Let them know it checked out. Edit the message if you like:',
+  Risky: '我们提醒一下发链接的人吧。想改的话可以编辑这条消息：',
+  Suspicious: '在他们打开之前先提醒一下。想改的话可以编辑这条消息：',
+  Safe: '告诉他们这个没问题。想改的话可以编辑这条消息：',
 };
 
 export const REAL_SITE = {
-  brand: (d: string) => `This page is pretending to be ${d}.`,
-  lookalike: (d: string) => `This address is made to look like ${d}.`,
+  brand: (d: string) => `这个页面在冒充 ${d}。`,
+  lookalike: (d: string) => `这个地址是故意做得像 ${d} 的。`,
   advice: (d: string) =>
-    `If you meant to visit ${d}, don't use the link you were sent. Go to the real site instead, or check it first.`,
+    `如果你本来想访问 ${d}，别用别人发给你的链接。直接去真正的网站，或者先检查一下。`,
 };
 
 export const CLEAN_LINK = {
-  lead: 'This link carries tracking tags. They tell the sender who clicked and where from.',
-  done: 'Same page, without the tags:',
+  lead: '这个链接带着跟踪参数。它们会告诉发送者谁点了、从哪里点的。',
+  done: '同一个页面，去掉这些参数：',
 };
 
-export const CHECK_FOR_ME =
-  "Paste the link, or the whole message it came in. I'll put it in the search bar and check it.";
+export const CHECK_FOR_ME = '把链接粘进来，或者把整条消息粘进来。我会把它放进搜索框并检查。';
 
-export const TRY_EXAMPLE =
-  'Pick one. The green ones are legit links and red ones are fakes spelled with Cyrillic letters.';
+export const TRY_EXAMPLE = '挑一个吧。绿色的是真实链接，红色的是用西里尔字母拼出来的假链接。';
 
 /** Plain-language explanation of a scan result. */
 export function explain(result: AnalyzeResult): {
@@ -150,31 +139,28 @@ export function explain(result: AnalyzeResult): {
 
   if (verdict === 'Safe') {
     return {
-      lead: `Good news: ${domain} looks legit (${score}/100).`,
+      lead: `好消息：${domain} 看起来是真的（${score}/100）。`,
       lists: [
-        { title: "Why I'm relaxed", items: good },
-        { title: 'Small things I noticed', items: bad },
+        { title: '我为什么放心', items: good },
+        { title: '我注意到的小问题', items: bad },
       ].filter((l) => l.items.length),
-      advice:
-        "Still, if this link came in an unexpected message, it's safer to type the website's address yourself than to click it.",
+      advice: '不过，如果这个链接来自一条你没预料到的消息，自己手动输入网址比直接点它更安全。',
     };
   }
   if (verdict === 'Risky') {
     return {
-      lead: `I'd stay away from ${domain} (${score}/100).`,
-      lists: [{ title: 'What worried me', items: bad }].filter((l) => l.items.length),
-      advice:
-        "Don't enter anything there. If you think I'm wrong, report it and a human will check.",
+      lead: `我建议离 ${domain} 远一点（${score}/100）。`,
+      lists: [{ title: '让我担心的地方', items: bad }].filter((l) => l.items.length),
+      advice: '别在那里填任何东西。如果你觉得我弄错了，报告一下，会有真人来核查。',
     };
   }
   return {
-    lead: `I'm on the fence about ${domain} (${score}/100).`,
+    lead: `对 ${domain} 我拿不准（${score}/100）。`,
     lists: [
-      { title: 'What worried me', items: bad },
-      { title: 'In its favour', items: good },
+      { title: '让我担心的地方', items: bad },
+      { title: '对它有利的地方', items: good },
     ].filter((l) => l.items.length),
-    advice:
-      "If this page asks you to log in or pay, don't do it here. Type the website's address into your browser yourself and log in from there.",
+    advice: '如果这个页面让你登录或付款，别在这里做。自己在浏览器里输入网址，再从那里登录。',
   };
 }
 

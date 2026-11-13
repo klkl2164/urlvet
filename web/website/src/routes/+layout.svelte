@@ -12,9 +12,9 @@
   const year = new Date().getFullYear();
 
   const FOOTER_LINKS = [
-    { label: "How it works", href: "/how-it-works" },
-    { label: "About", href: "/about" },
-    { label: "Privacy", href: "/privacy" },
+    { label: "工作原理", href: "/how-it-works" },
+    { label: "关于", href: "/about" },
+    { label: "隐私", href: "/privacy" },
     { label: "GitHub", href: REPO, external: true },
   ];
 
@@ -27,8 +27,7 @@
     name: "url.vet",
     alternateName: ["URLvet", "urlvet", "url vet"],
     url: "https://url.vet",
-    description:
-      "Free real-time URL scanner. Paste any link and get an instant phishing and safety verdict, no signup needed.",
+    description: "免费的实时 URL 扫描器。粘贴任意链接，立刻得到钓鱼与安全性判定，无需注册。",
     potentialAction: {
       "@type": "SearchAction",
       target: {
@@ -66,7 +65,7 @@
       href="/"
       on:click={() => (location.href = "/")}
       class:invisible={isHome}
-      aria-label="url.vet home"
+      aria-label="url.vet 首页"
       class="group font-serif text-[1.65rem] leading-none tracking-[-0.02em]"
     >
       <span
@@ -107,7 +106,7 @@
     >
       <!-- Left: site links, then GitHub, then (if hidden) Vetty -->
       <nav
-        aria-label="Footer"
+        aria-label="页脚"
         data-guide="learn-more"
         class="flex flex-wrap items-center justify-center md:justify-start gap-x-5 sm:gap-x-4 gap-y-2"
       >
@@ -137,7 +136,7 @@
             on:click={() => vettyMemory.set({ hidden: false })}
             class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
           >
-            Show Vetty 📎
+            显示 Vetty 📎
           </button>
         {/if}
       </nav>

@@ -2,70 +2,74 @@
 // special links. Order matters; the first match wins.
 
 import { TAGLINE_LINKS } from '../data/tagline';
+import { REPO } from '../site';
 
 type Egg = { test: (u: URL, host: string) => boolean; say: string };
 
 const RICKROLL = 'dQw4w9WgXcQ';
+const REPO_URL = new URL(REPO);
 
 const EGGS: Egg[] = [
   {
     test: (_, h) => h === 'url.vet',
-    say: "Checking me? Bold. I'd do the same.",
+    say: '检查我自己？挺大胆。换我也会这么做。',
   },
   {
-    test: (u, h) => h === 'github.com' && u.pathname.toLowerCase().startsWith('/urlvet/urlvet'),
-    say: "That's where I live. A star wouldn't hurt.",
+    test: (u, h) =>
+      h === REPO_URL.hostname &&
+      u.pathname.toLowerCase().startsWith(REPO_URL.pathname.toLowerCase()),
+    say: '那是我住的地方。点个星也不亏。',
   },
   {
     test: (_, h) => h === 'abhizaik.com',
-    say: "That's the person who built me. Seems trustworthy, but I'm biased.",
+    say: '那是把我做出来的人。看起来挺可靠，不过我有偏心。',
   },
   {
     test: (u, h) =>
       ((h === 'youtube.com' || h === 'm.youtube.com') && u.searchParams.get('v') === RICKROLL) ||
       (h === 'youtu.be' && u.pathname === `/${RICKROLL}`),
-    say: "Safe to click. Whether you'll want to is another matter. Never gonna give you up.",
+    say: '点开是安全的。你想不想点就是另一回事了。Never gonna give you up。',
   },
   {
     // Lookalikes spelled with Cyrillic letters, like the examples on the home page.
     test: (_, h) => /[Ѐ-ӿ]/.test(h) || h.startsWith('xn--'),
-    say: "Spot the difference? There isn't one you can see, and that's the whole trick.",
+    say: '看出差别了吗？肉眼根本看不出来，这正是它的把戏。',
   },
   {
     test: (_, h) => TAGLINE_LINKS.includes(h),
-    say: "That one's from our tagline. We made it up, but someone will register it eventually.",
+    say: '这个来自我们首页的标语。是我们编的，不过早晚会有人真的注册它。',
   },
   {
     test: (_, h) => h === 'paypal.com',
-    say: "The real one. The fakes swap in a Cyrillic «а»; this one doesn't.",
+    say: '这是真的那个。假的会把「а」换成西里尔字母；这个没有。',
   },
   {
     test: (_, h) => h === 'apple.com',
-    say: 'The real one. The fakes spell it аррӏе, every letter swapped for a Cyrillic twin.',
+    say: '这是真的那个。假的会拼成 аррӏе，每个字母都换成了西里尔字母的孪生兄弟。',
   },
   {
     test: (_, h) => h === 'google.com',
-    say: 'Ah yes, the website you use to search websites.',
+    say: '啊对，就是你用来搜索网站的那个网站。',
   },
   {
     test: (_, h) => ['example.com', 'example.org', 'example.net'].includes(h),
-    say: 'The most innocent website on the internet. It exists so other pages can point at it.',
+    say: '互联网上最无辜的网站。它的存在就是为了让别的页面可以指向它。',
   },
   {
     test: (_, h) => h === 'wikipedia.org' || h.endsWith('.wikipedia.org'),
-    say: 'Citation needed? Not for this one.',
+    say: '需要引用来源？这个不用。',
   },
   {
     test: (_, h) => h === 'neverssl.com',
-    say: 'A site that skips HTTPS on purpose, so Wi-Fi sign-in pages can load. The one time “not secure” is the point.',
+    say: '一个故意不用 HTTPS 的网站，好让 Wi-Fi 登录页能加载。这是「不安全」反而成了重点的少数情况。',
   },
   {
     test: (_, h) => ['1.1.1.1', '1.0.0.1', '8.8.8.8', '8.8.4.4', '9.9.9.9'].includes(h),
-    say: "That's a DNS resolver: the internet's phone book, not really a website.",
+    say: '那是一个 DNS 解析器：互联网的电话簿，其实不算网站。',
   },
   {
     test: (_, h) => h.endsWith('.zip') || h.endsWith('.mov'),
-    say: "A “.zip” that isn't a file. These are real web addresses now, and scammers noticed.",
+    say: '一个不是文件的「.zip」。现在的它们是真实的网址，骗子也注意到了。',
   },
 ];
 
@@ -98,7 +102,7 @@ export function localAddressMessage(raw: string): string | null {
     /^127\./.test(h) ||
     h === '0.0.0.0'
   ) {
-    return "That's your own computer. We can't see it from here, and neither can anyone else.";
+    return '那是你自己的电脑。我们从这里看不到它，别人也看不到。';
   }
   if (
     /^10\./.test(h) ||
@@ -106,7 +110,7 @@ export function localAddressMessage(raw: string): string | null {
     /^172\.(1[6-9]|2\d|3[01])\./.test(h) ||
     h.endsWith('.local')
   ) {
-    return "That's an address on a private network, like a home router. It isn't reachable from the internet, so there's nothing for us to check.";
+    return '那是私有网络里的地址，比如家用路由器。从互联网无法访问它，所以我们没什么可检查的。';
   }
   return null;
 }

@@ -3,6 +3,7 @@
   import { fly, slide } from "svelte/transition";
   import { api } from "../../api";
   import { PILL_SOLID } from "../../ui/buttons";
+  import { verdictCopy, verdictName } from "../../verdict";
   import { ICON } from "../../ui/icons";
   import Icon from "../Icon.svelte";
 
@@ -15,19 +16,22 @@
 
   type ReportVerdict = "Safe" | "Suspicious" | "Risky";
 
-  const OPTIONS: { value: ReportVerdict; active: string }[] = [
+  const OPTIONS: { value: ReportVerdict; label: string; active: string }[] = [
     {
       value: "Safe",
+      label: verdictName("Safe"),
       active:
         "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-500/30",
     },
     {
       value: "Suspicious",
+      label: verdictName("Suspicious"),
       active:
         "bg-yellow-100 dark:bg-yellow-500/20 text-yellow-700 dark:text-yellow-300 border-yellow-300 dark:border-yellow-500/30",
     },
     {
       value: "Risky",
+      label: verdictName("Risky"),
       active:
         "bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-300 border-red-300 dark:border-red-500/30",
     },
@@ -88,18 +92,19 @@
     <form class="p-4 sm:p-5 flex flex-col gap-4" on:submit|preventDefault={submit}>
       <div class="flex items-start justify-between gap-3">
         <div>
-          <p class="font-serif text-2xl text-gray-900 dark:text-gray-100">Report this result</p>
+          <p class="font-serif text-2xl text-gray-900 dark:text-gray-100">报告这个结果</p>
           <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-            We rated <span class="font-mono text-gray-700 dark:text-gray-300">{domain}</span>
-            as
-            <span class="font-semibold text-gray-700 dark:text-gray-300">{verdict}</span>. Tell us
-            what's off.
+            我们把 <span class="font-mono text-gray-700 dark:text-gray-300">{domain}</span>
+            判定为
+            <span class="font-semibold text-gray-700 dark:text-gray-300"
+              >{verdictCopy(verdict).label}</span
+            >。告诉我们哪里不对。
           </p>
         </div>
         <button
           type="button"
           class="p-1.5 -m-1.5 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-          aria-label="Close report"
+          aria-label="关闭报告"
           on:click={() => (open = false)}
         >
           <Icon path={ICON.close} />
@@ -109,9 +114,9 @@
       <div class="flex flex-col gap-2">
         <span
           class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest"
-          >Should be</span
+          >应该是</span
         >
-        <div class="flex flex-wrap gap-2" role="group" aria-label="Expected verdict">
+        <div class="flex flex-wrap gap-2" role="group" aria-label="期望的判定结果">
           {#each OPTIONS as opt}
             <button
               type="button"
@@ -122,7 +127,7 @@
                 ? opt.active
                 : 'bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-600 hover:text-gray-900 dark:hover:text-gray-200'}"
             >
-              {opt.value}
+              {opt.label}
             </button>
           {/each}
         </div>
@@ -132,14 +137,14 @@
         <label
           for="report-comment"
           class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest"
-          >Details</label
+          >详情</label
         >
         <textarea
           id="report-comment"
           bind:value={comment}
           maxlength="1000"
           rows="3"
-          placeholder="e.g. This is my bank's official site"
+          placeholder="例如：这是我银行的官方网站"
           class="w-full resize-none rounded-xl bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-hidden focus:border-gray-400 dark:focus:border-gray-600 transition-colors"
         ></textarea>
       </div>
@@ -147,7 +152,7 @@
       <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3">
         {#if status === "error"}
           <p class="text-xs text-red-600 dark:text-red-400">
-            Couldn't send report: {errorMessage}
+            报告发送失败：{errorMessage}
           </p>
         {:else}
           <span class="text-xs text-gray-400 dark:text-gray-500 tabular-nums"
@@ -172,9 +177,9 @@
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
               ></path>
             </svg>
-            Sending…
+            发送中…
           {:else}
-            Send report
+            发送报告
           {/if}
         </button>
       </div>
@@ -200,8 +205,8 @@
       />
     </span>
     <div>
-      <p class="text-sm font-medium text-gray-900 dark:text-gray-100">Report sent</p>
-      <p class="text-xs text-gray-500 dark:text-gray-400">Thanks for helping improve url.vet</p>
+      <p class="text-sm font-medium text-gray-900 dark:text-gray-100">报告已发送</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400">感谢你帮助改进 url.vet</p>
     </div>
   </div>
 {/if}

@@ -12,6 +12,6 @@ describe('FAQ', () => {
 
   it('includes list points in the answer text', () => {
     const tips = all.find((f) => f.points);
-    expect(tips && faqText(tips)).toContain('two-step verification');
+    expect(tips && faqText(tips)).toContain('两步验证');
   });
 });

@@ -2,6 +2,7 @@
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
   import { REPO } from "../../site";
+  import { verdictCopy } from "../../verdict";
   // <head> tags: per-scan share card when a domain is known, the site card otherwise.
   export let shareDomain: string;
   export let verdict: string | undefined;
@@ -28,9 +29,8 @@
     if (link && originalIcon) link.href = originalIcon;
   });
 
-  const SITE_TITLE = "url.vet (URLvet): Is this link safe?";
-  const SITE_DESC =
-    "Paste any link to see if it's safe, suspicious or risky, and why. Free, no signup.";
+  const SITE_TITLE = "url.vet (URLvet)：这个链接安全吗？";
+  const SITE_DESC = "粘贴任意链接，查看它是安全、可疑还是危险，以及原因。免费，无需注册。";
 
   const dotIcon = (color: string) =>
     `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="${color}"/></svg>`)}`;
@@ -42,11 +42,11 @@
     alternateName: ["URLvet", "urlvet", "url vet"],
     url: "https://url.vet",
     description:
-      "A free link checker that spots phishing, lookalike addresses and other risky links, and shows the reasons behind every verdict.",
+      "免费的链接检查工具，能识别钓鱼、仿冒地址和其他危险链接，并说明每个判定结果背后的原因。",
     applicationCategory: "SecurityApplication",
     applicationSubCategory: "URL Scanner",
     operatingSystem: "Web",
-    browserRequirements: "Requires JavaScript",
+    browserRequirements: "需要 JavaScript",
     offers: {
       "@type": "Offer",
       price: "0",
@@ -60,26 +60,26 @@
     license: `${REPO}/blob/main/LICENSE`,
     codeRepository: REPO,
     featureList: [
-      "Real-time URL scanning",
-      "Phishing detection",
-      "WHOIS and domain age analysis",
-      "Typosquatting and homoglyph detection",
-      "Redirect chain tracing",
-      "TLS certificate verification",
-      "IP and infrastructure analysis",
-      "No signup required",
-      "Free to use",
-      "Open source (AGPL-3.0)",
+      "实时扫描 URL",
+      "钓鱼检测",
+      "WHOIS 与域名年龄分析",
+      "仿冒域名与同形字符检测",
+      "重定向链追踪",
+      "TLS 证书验证",
+      "IP 与基础设施分析",
+      "无需注册",
+      "免费使用",
+      "开源（AGPL-3.0）",
     ],
   };
 </script>
 
 <svelte:head>
   {#if shareDomain}
-    {@const title = `Is ${shareDomain} safe? | url.vet`}
+    {@const title = `${shareDomain} 安全吗？ | url.vet`}
     {@const desc = verdict
-      ? `url.vet rated ${shareDomain} ${verdict}. See why, or check another link for free.`
-      : `See if ${shareDomain} is safe to open, and why. Free, no signup.`}
+      ? `url.vet 将 ${shareDomain} 评为${verdictCopy(verdict).label}。查看原因，或免费检查另一个链接。`
+      : `看看 ${shareDomain} 是否可以安全打开，以及原因。免费，无需注册。`}
     {@const ogImage = `https://url.vet/og?domain=${encodeURIComponent(shareDomain)}${verdict ? `&v=${encodeURIComponent(verdict)}` : ""}${score !== undefined ? `&s=${score}` : ""}`}
     <title>{liveTitle ?? title}</title>
     <meta name="description" content={desc} />

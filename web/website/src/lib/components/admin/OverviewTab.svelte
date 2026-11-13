@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { AdminClient } from "../../admin/client";
-  import { verdictTextColor } from "../../admin/format";
+  import { verdictLabel, verdictTextColor } from "../../admin/format";
   import type { Guard, Stats } from "../../admin/types";
 
   export let client: AdminClient;
@@ -30,7 +30,7 @@
     <div
       class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5"
     >
-      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">Scans Today</p>
+      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">今日扫描</p>
       <p class="font-serif text-5xl font-normal leading-none text-gray-900 dark:text-gray-100">
         {stats.total_scans_today}
       </p>
@@ -38,31 +38,29 @@
     <div
       class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5"
     >
-      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">Total Scans</p>
+      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">累计扫描</p>
       <p class="font-serif text-5xl font-normal leading-none text-gray-900 dark:text-gray-100">
         {stats.total_scans_all}
       </p>
-      <p class="text-xs text-gray-400 dark:text-gray-600 mt-1">in memory</p>
+      <p class="text-xs text-gray-400 dark:text-gray-600 mt-1">内存中</p>
     </div>
     <div
       class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5"
     >
-      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">
-        Cache Hit Rate
-      </p>
+      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">缓存命中率</p>
       <p class="font-serif text-5xl font-normal leading-none text-gray-900 dark:text-gray-100">
         {stats.cache_hit_rate.toFixed(1)}<span class="text-lg text-gray-400 dark:text-gray-500"
           >%</span
         >
       </p>
       <p class="text-xs text-gray-400 dark:text-gray-600 mt-1">
-        {stats.cache_hits} hits · {stats.cache_misses} misses
+        {stats.cache_hits} 次命中 · {stats.cache_misses} 次未命中
       </p>
     </div>
     <div
       class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5"
     >
-      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">Avg Duration</p>
+      <p class="font-mono text-[11px] text-gray-500 uppercase tracking-wider mb-2">平均耗时</p>
       <p class="font-serif text-5xl font-normal leading-none text-gray-900 dark:text-gray-100">
         {stats.avg_duration_ms.toFixed(0)}<span class="text-lg text-gray-400 dark:text-gray-500"
           >ms</span
@@ -76,9 +74,9 @@
     <div
       class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5"
     >
-      <h2 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Verdict Breakdown</h2>
+      <h2 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">判定结果分布</h2>
       {#if Object.keys(stats.verdict_counts).length === 0}
-        <p class="text-sm text-gray-400 dark:text-gray-600">No data yet</p>
+        <p class="text-sm text-gray-400 dark:text-gray-600">暂无数据</p>
       {:else}
         {@const total = Object.values(stats.verdict_counts).reduce((a, b) => a + b, 0)}
         <div class="space-y-3">
@@ -86,7 +84,9 @@
             {@const pct = total > 0 ? (count / total) * 100 : 0}
             <div>
               <div class="flex justify-between items-center mb-1">
-                <span class="text-sm font-medium {verdictTextColor(verdict)}">{verdict}</span>
+                <span class="text-sm font-medium {verdictTextColor(verdict)}"
+                  >{verdictLabel(verdict)}</span
+                >
                 <span class="text-xs text-gray-500"
                   >{count}
                   <span class="text-gray-400 dark:text-gray-600">({pct.toFixed(0)}%)</span></span
@@ -112,11 +112,9 @@
     <div
       class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5"
     >
-      <h2 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-        Top Scanned Domains
-      </h2>
+      <h2 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">扫描最多的域名</h2>
       {#if !stats.top_domains || stats.top_domains.length === 0}
-        <p class="text-sm text-gray-400 dark:text-gray-600">No data yet</p>
+        <p class="text-sm text-gray-400 dark:text-gray-600">暂无数据</p>
       {:else}
         {@const maxCount = stats.top_domains[0]?.count ?? 1}
         <div class="space-y-2.5">
@@ -147,6 +145,6 @@
   </div>
 {:else}
   <div class="text-center py-20 text-gray-400 dark:text-gray-600">
-    <p class="text-sm">No stats available — start scanning URLs.</p>
+    <p class="text-sm">暂无统计数据——先扫描几个 URL 吧。</p>
   </div>
 {/if}

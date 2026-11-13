@@ -83,7 +83,7 @@
   <!-- click-catcher: clicking the dimmed page ends the tour -->
   <button
     class="absolute inset-0 w-full h-full cursor-default"
-    aria-label="End tour"
+    aria-label="结束导览"
     on:click={onClose}
   ></button>
 
@@ -100,12 +100,12 @@
     bind:clientHeight={cardHeight}
     tabindex="-1"
     role="dialog"
-    aria-label="Tour step {index + 1} of {steps.length}"
+    aria-label="导览第 {index + 1} 步，共 {steps.length} 步"
     class="absolute rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-2xl shadow-black/20 dark:shadow-black/60 p-5 focus:outline-hidden"
     style="top:{card.top}px;left:{card.left}px;width:min({CARD_W}px, calc(100vw - 32px));transition:top .25s, left .25s"
   >
     <p class="font-mono text-[11px] uppercase tracking-wider text-gray-500">
-      Step {index + 1} of {steps.length}
+      第 {index + 1} 步 / 共 {steps.length} 步
     </p>
     <p class="mt-2 font-serif text-2xl leading-tight text-gray-900 dark:text-gray-100">
       {step?.title}
@@ -115,18 +115,18 @@
       <button
         type="button"
         class="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100"
-        on:click={onClose}>Skip</button
+        on:click={onClose}>跳过</button
       >
       <div class="flex gap-2">
         {#if index > 0}
           <button
             type="button"
             class="{PILL_OUTLINE} dark:!border-gray-600 px-4 py-2"
-            on:click={back}>Back</button
+            on:click={back}>上一步</button
           >
         {/if}
         <button type="button" class="{PILL_SOLID} px-4 py-2" on:click={next}>
-          {last ? "Done" : "Next"}
+          {last ? "完成" : "下一步"}
         </button>
       </div>
     </div>

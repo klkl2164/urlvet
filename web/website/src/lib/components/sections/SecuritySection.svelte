@@ -16,17 +16,17 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>SSL Support:</span>
-            <TooltipIcon text="Checks if the website supports secure HTTPS connections." />
+            <span>SSL 支持：</span>
+            <TooltipIcon text="检查网站是否支持安全的 HTTPS 连接。" />
           </div>
           {#if sslInfo.HasTLS}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> Enabled</span
+              ><StatusIcon kind="ok" /> 已启用</span
             >
           {:else}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Disabled</span
+              ><StatusIcon kind="bad" /> 未启用</span
             >
           {/if}
         </div>
@@ -36,19 +36,17 @@
             class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
           >
             <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-              <span>Certificate Chain:</span>
-              <TooltipIcon
-                text="Verifies if the SSL certificate is issued by a trusted authority and the full chain is valid."
-              />
+              <span>证书链：</span>
+              <TooltipIcon text="验证 SSL 证书是否由受信任的机构签发，以及完整证书链是否有效。" />
             </div>
             {#if sslInfo.ChainValid}
               <span
                 class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-                ><StatusIcon kind="ok" /> Valid</span
+                ><StatusIcon kind="ok" /> 有效</span
               >
             {:else}
               <span class="text-red-400 font-medium flex items-center gap-1.5"
-                ><StatusIcon kind="bad" /> Invalid / Self-signed</span
+                ><StatusIcon kind="bad" /> 无效 / 自签名</span
               >
             {/if}
           </div>
@@ -57,8 +55,8 @@
             class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
           >
             <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-              <span>Certificate Issuer:</span>
-              <TooltipIcon text="The organization that issued the SSL certificate." />
+              <span>证书颁发机构：</span>
+              <TooltipIcon text="签发这张 SSL 证书的机构。" />
             </div>
             <span class="font-medium text-gray-800 dark:text-white">{sslInfo.Issuer || "-"}</span>
           </div>
@@ -67,20 +65,18 @@
             class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
           >
             <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-              <span>Certificate Age:</span>
-              <TooltipIcon
-                text="How many days ago the certificate was issued. Recently issued certificates on new domains can be suspicious."
-              />
+              <span>证书年龄：</span>
+              <TooltipIcon text="证书是几天前签发的。新域名上刚签发的证书可能值得怀疑。" />
             </div>
-            <span class="font-medium text-gray-800 dark:text-white">{sslInfo.AgeDays} days</span>
+            <span class="font-medium text-gray-800 dark:text-white">{sslInfo.AgeDays} 天</span>
           </div>
 
           <div
             class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
           >
             <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-              <span>Valid From:</span>
-              <TooltipIcon text="The date this certificate first became active." />
+              <span>生效时间：</span>
+              <TooltipIcon text="这张证书开始生效的日期。" />
             </div>
             <span class="font-medium text-gray-800 dark:text-white">{sslInfo.NotBefore}</span>
           </div>
@@ -89,8 +85,8 @@
             class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
           >
             <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-              <span>Expiry Date:</span>
-              <TooltipIcon text="When the current SSL certificate will expire." />
+              <span>到期时间：</span>
+              <TooltipIcon text="当前 SSL 证书的到期时间。" />
             </div>
             <span class="font-medium text-gray-800 dark:text-white">{sslInfo.NotAfter}</span>
           </div>
@@ -99,17 +95,17 @@
             class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
           >
             <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-              <span>Certificate Risk Level:</span>
-              <TooltipIcon text="Overall assessment of the certificate's technical integrity." />
+              <span>证书风险等级：</span>
+              <TooltipIcon text="对证书技术完整性的总体评估。" />
             </div>
             {#if !sslInfo.IsSuspicious}
               <span
                 class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-                ><StatusIcon kind="ok" /> Low Risk</span
+                ><StatusIcon kind="ok" /> 低风险</span
               >
             {:else}
               <span class="text-amber-700 dark:text-amber-400 font-medium flex items-center gap-1.5"
-                ><StatusIcon kind="warn" /> Suspicious</span
+                ><StatusIcon kind="warn" /> 可疑</span
               >
             {/if}
           </div>
@@ -119,8 +115,8 @@
               class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] gap-2 md:gap-4 py-2"
             >
               <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                <span>Technical Warnings:</span>
-                <TooltipIcon text="Specific technical reasons why this certificate is flagged." />
+                <span>技术警告：</span>
+                <TooltipIcon text="这张证书被标记的具体技术原因。" />
               </div>
               <ul class="text-xs text-amber-700 dark:text-amber-400 list-disc list-inside">
                 {#each sslInfo.Reasons as reason}
@@ -134,10 +130,8 @@
             class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
           >
             <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-              <span>Certificate Fingerprint:</span>
-              <TooltipIcon
-                text="A unique identifier (SHA-256 hash) for this specific certificate."
-              />
+              <span>证书指纹：</span>
+              <TooltipIcon text="这张证书的唯一标识（SHA-256 哈希）。" />
             </div>
             <span class="font-mono text-[12px] text-gray-600 dark:text-gray-300 break-all"
               >{sslInfo.Fingerprint}</span
@@ -151,8 +145,8 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>TLS Issuer (Connection):</span>
-            <TooltipIcon text="The certificate issuer detected during the live connection." />
+            <span>TLS 颁发机构（连接）：</span>
+            <TooltipIcon text="在实时连接中检测到的证书颁发机构。" />
           </div>
           <span class="font-medium text-gray-800 dark:text-white">{tlsInfo.Issuer || "-"}</span>
         </div>
@@ -161,19 +155,17 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Hostname Match:</span>
-            <TooltipIcon
-              text="Ensures the certificate is actually issued for the domain you are visiting."
-            />
+            <span>主机名匹配：</span>
+            <TooltipIcon text="确保证书确实是为正在访问的域名签发的。" />
           </div>
           {#if !tlsInfo.HostnameMismatch}
             <span
               class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="ok" /> Match</span
+              ><StatusIcon kind="ok" /> 匹配</span
             >
           {:else}
             <span class="text-red-400 font-medium flex items-center gap-1.5"
-              ><StatusIcon kind="bad" /> Mismatch</span
+              ><StatusIcon kind="bad" /> 不匹配</span
             >
           {/if}
         </div>

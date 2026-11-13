@@ -86,7 +86,7 @@
           <a
             href={learnMore}
             class="font-mono text-[11px] text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >How this check works →</a
+            >这项检查如何运作 →</a
           >
         </p>
       {/if}

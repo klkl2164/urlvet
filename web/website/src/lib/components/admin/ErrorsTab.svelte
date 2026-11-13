@@ -42,7 +42,7 @@
         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
       />
     </svg>
-    <p class="text-sm">No errors recorded. All good!</p>
+    <p class="text-sm">没有记录到错误，一切正常！</p>
   </div>
 {:else}
   <div class="space-y-2">

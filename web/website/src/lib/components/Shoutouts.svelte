@@ -136,7 +136,7 @@
 
 <div class="pb-8 md:pb-0">
   <p class="font-mono text-xs text-gray-500 uppercase tracking-wider mb-6 text-center">
-    What people are saying
+    大家怎么说
   </p>
 
   {#if isMobile}
@@ -147,7 +147,7 @@
       on:touchstart={onTouchStart}
       on:touchend={onTouchEnd}
       role="region"
-      aria-label="Testimonials"
+      aria-label="用户评价"
     >
       <div class="grid overflow-hidden">
         {#key currentIndex}
@@ -170,7 +170,7 @@
               ? 'bg-gray-500 dark:bg-gray-400'
               : 'bg-gray-200 dark:bg-gray-700'}"
             on:click={() => goTo(i)}
-            aria-label="Go to slide {i + 1}"
+            aria-label="转到第 {i + 1} 张"
           ></button>
         {/each}
       </div>
@@ -189,7 +189,7 @@
       on:touchmove={onTouchMove}
       on:touchend={onTouchEnd}
       role="region"
-      aria-label="Testimonials"
+      aria-label="用户评价"
     >
       <div
         bind:this={track}

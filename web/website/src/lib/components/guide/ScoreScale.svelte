@@ -1,5 +1,6 @@
 <script lang="ts">
   import { SCORE_BANDS, SCORES_FOOTNOTE } from "./messages";
+  import { verdictName } from "../../verdict";
 
   // "What does my score mean?": the 0–100 scale with this result marked on it.
   export let score: number;
@@ -10,7 +11,7 @@
 </script>
 
 <p class="font-serif text-xl leading-snug text-gray-900 dark:text-gray-100">
-  This one scored <span class={current?.text}>{score}</span> out of 100.
+  这个得了 <span class={current?.text}>{score}</span> 分，满分 100。
 </p>
 
 <!-- scale -->
@@ -57,11 +58,11 @@
     >
       <p class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100">
         <span class="w-1.5 h-1.5 rounded-full {band.dot}"></span>
-        {band.verdict}
+        {verdictName(band.verdict)}
         <span class="font-mono text-[11px] font-normal text-gray-500">{band.from}–{band.to}</span>
         {#if band.verdict === verdict}
           <span class="ml-auto font-mono text-[10px] uppercase tracking-wider text-gray-500"
-            >this link</span
+            >这个链接</span
           >
         {/if}
       </p>

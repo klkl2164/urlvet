@@ -6,6 +6,7 @@ import {
   getSettings,
   isCheckable,
   reportUrl,
+  verdictName,
 } from "./shared.js";
 
 const $ = (id) => document.getElementById(id);
@@ -26,7 +27,7 @@ function renderPage() {
     box.replaceChildren(
       R.el("p", {
         class: "note",
-        text: "Browser pages can't be checked. Paste a link below instead.",
+        text: "浏览器页面无法检查。请在下方粘贴一个链接。",
       }),
     );
     return;
@@ -37,7 +38,7 @@ function renderPage() {
     R.el(
       "div",
       { class: "page-info" },
-      R.el("span", { class: "eyebrow", text: "This page" }),
+      R.el("span", { class: "eyebrow", text: "此页面" }),
       R.el(
         "p",
         { class: "page-url", title: tab.url },
@@ -49,7 +50,7 @@ function renderPage() {
       id: "checkPage",
       class: "pill pill-solid",
       type: "button",
-      text: "Check this page",
+      text: "检查此页面",
       onclick: () => check(tab.url, tab.id),
     }),
   );
@@ -71,19 +72,15 @@ async function check(url, tabId) {
     R.el(
       "div",
       { class: "checking" },
-      R.el("p", { class: "lead", text: `Checking ${R.host(url)}…` }),
-      R.el("p", { class: "hint", text: "This usually takes a few seconds." }),
+      R.el("p", { class: "lead", text: `正在检查 ${R.host(url)}…` }),
+      R.el("p", { class: "hint", text: "通常几秒钟就能完成。" }),
     ),
   );
   const result = await send({ type: "scan", url, tabId }).catch(() => null);
   busy(false);
   if (!result || result.error) {
     setMark("idle");
-    showError(
-      result?.message ?? "Something went wrong. Try again.",
-      url,
-      tabId,
-    );
+    showError(result?.message ?? "出了点问题。请重试。", url, tabId);
     return;
   }
   showResult(result);
@@ -94,7 +91,7 @@ function showResult(result) {
   $("result").replaceChildren(
     ...R.notes(result),
     R.verdictCard(result),
-    R.flags(result, 3),
+    ...R.flags(result, 3),
     R.el(
       "div",
       { class: "result-actions" },
@@ -103,7 +100,7 @@ function showResult(result) {
         href: result.report,
         target: "_blank",
         rel: "noopener noreferrer",
-        text: "See the full report",
+        text: "查看完整报告",
       }),
     ),
     R.el(
@@ -112,7 +109,7 @@ function showResult(result) {
       R.el("button", {
         class: "text-btn",
         type: "button",
-        text: "Wrong result? Tell us",
+        text: "结果不对？告诉我们",
         onclick: (e) => e.target.parentElement.replaceWith(reportForm(result)),
       }),
     ),
@@ -135,25 +132,25 @@ function reportForm(result) {
         value: v,
         checked: i === 0,
       }),
-      R.el("span", { text: v }),
+      R.el("span", { text: verdictName(v) }),
     );
   const comment = R.el("textarea", {
     maxlength: "1000",
-    placeholder: "What makes you think so? (optional)",
-    "aria-label": "Comment",
+    placeholder: "你为什么会这么认为？（可选）",
+    "aria-label": "评论",
   });
   const status = R.el("p", { class: "hint", role: "status" });
   const sendBtn = R.el("button", {
     class: "pill pill-solid",
     type: "button",
-    text: "Send report",
+    text: "发送报告",
   });
   const form = R.el(
     "div",
     { class: "report" },
     R.el("p", {
       class: "report-q",
-      text: `We said ${result.verdict}. What should it be?`,
+      text: `我们判定为 ${result.label}。应该是什么？`,
     }),
     R.el(
       "div",
@@ -169,7 +166,7 @@ function reportForm(result) {
       'input[name="expected"]:checked',
     )?.value;
     sendBtn.disabled = true;
-    status.textContent = "Sending…";
+    status.textContent = "发送中…";
     const ok = await send({
       type: "report",
       payload: {
@@ -184,12 +181,12 @@ function reportForm(result) {
       form.replaceChildren(
         R.el("p", {
           class: "note",
-          text: "Thanks. A person reads every report, and it helps make url.vet better.",
+          text: "谢谢。每一份报告都会由人工查看，它能帮助 url.vet 做得更好。",
         }),
       );
     } else {
       sendBtn.disabled = false;
-      status.textContent = "Couldn't send that. Try again in a moment.";
+      status.textContent = "发送失败。请稍后再试。";
     }
   });
   return form;
@@ -204,7 +201,7 @@ function showError(message, url, tabId) {
       R.el("button", {
         class: "pill pill-outline",
         type: "button",
-        text: "Try again",
+        text: "重试",
         onclick: () => check(url, tabId),
       }),
     ),
@@ -226,7 +223,7 @@ function chooseLink(links) {
       { class: "choose" },
       R.el("p", {
         class: "lead",
-        text: `Found ${links.length} links. Which one?`,
+        text: `找到 ${links.length} 个链接。检查哪一个？`,
       }),
       R.el(
         "ul",
@@ -255,8 +252,8 @@ $("form").addEventListener("submit", (e) => {
   $("formError").hidden = !!links.length;
   if (!links.length) {
     $("formError").textContent = raw
-      ? "There's no link in that."
-      : "Paste a link to check.";
+      ? "这里没有链接。"
+      : "请粘贴一个链接来检查。";
     return;
   }
   if (links.length === 1) checkLink(links[0]);
@@ -330,7 +327,7 @@ async function renderTrusted() {
   settings = await getSettings();
   const list = $("trustedList");
   if (!settings.trustedSites.length) {
-    list.replaceChildren(R.el("li", { class: "empty", text: "None yet" }));
+    list.replaceChildren(R.el("li", { class: "empty", text: "还没有" }));
     return;
   }
   list.replaceChildren(
@@ -341,7 +338,7 @@ async function renderTrusted() {
         h,
         R.el("button", {
           type: "button",
-          "aria-label": `Stop trusting ${h}`,
+          "aria-label": `不再信任 ${h}`,
           text: "×",
           onclick: async () => {
             await chrome.storage.sync.set({
@@ -369,8 +366,8 @@ $("trustForm").addEventListener("submit", async (e) => {
   $("trustError").hidden = !!host;
   if (!host) {
     $("trustError").textContent = raw
-      ? "That doesn't look like a site."
-      : "Type a site, like example.com.";
+      ? "这看起来不像一个站点。"
+      : "输入一个站点，例如 example.com。";
     return;
   }
   const { trustedSites } = await getSettings();
@@ -400,8 +397,7 @@ $("saveServer").addEventListener("click", async () => {
   status.classList.remove("bad");
   if (!apiBase || !siteBase) {
     status.classList.add("bad");
-    status.textContent =
-      "Both need to be full addresses, starting with http:// or https://.";
+    status.textContent = "两个都必须是完整地址，以 http:// 或 https:// 开头。";
     return;
   }
   // A server other than url.vet's needs permission to be reached.
@@ -413,7 +409,7 @@ $("saveServer").addEventListener("click", async () => {
       .catch(() => false);
     if (!granted) {
       status.classList.add("bad");
-      status.textContent = "url.vet needs permission to reach that server.";
+      status.textContent = "url.vet 需要获得访问该服务器的权限。";
       return;
     }
   }
@@ -421,7 +417,7 @@ $("saveServer").addEventListener("click", async () => {
   await chrome.storage.sync.set({ apiBase, siteBase });
   await chrome.storage.session.clear(); // results from the old server no longer apply
   $("privacy").href = `${siteBase}/privacy`;
-  status.textContent = "Saved.";
+  status.textContent = "已保存。";
 });
 
 // One click to a server: fills both addresses and saves them.
@@ -437,13 +433,13 @@ async function useServer(apiBase, siteBase, message) {
 }
 
 $("resetServer").addEventListener("click", () =>
-  useServer(DEFAULTS.apiBase, DEFAULTS.siteBase, "Using url.vet."),
+  useServer(DEFAULTS.apiBase, DEFAULTS.siteBase, "正在使用 url.vet。"),
 );
 $("localServer").addEventListener("click", () =>
   useServer(
     LOCAL.apiBase,
     LOCAL.siteBase,
-    "Using your local server (make dev-up).",
+    "正在使用你的本地服务器（make dev-up）。",
   ),
 );
 

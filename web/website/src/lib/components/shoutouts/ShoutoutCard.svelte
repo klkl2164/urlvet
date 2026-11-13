@@ -9,12 +9,12 @@
   export let variant: "ticker" | "slide" = "ticker";
 
   const SOURCE_LABEL: Record<Shoutout["type"], string> = {
-    tweet: "Posted on X",
-    linkedin: "Posted on LinkedIn",
-    paper: "Research paper",
-    package: "Published package",
-    newsletter: "Newsletter",
-    email: "Email",
+    tweet: "发布在 X",
+    linkedin: "发布在 LinkedIn",
+    paper: "研究论文",
+    package: "已发布的软件包",
+    newsletter: "通讯",
+    email: "邮件",
   };
 </script>
 

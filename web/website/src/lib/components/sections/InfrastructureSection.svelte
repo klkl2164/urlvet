@@ -15,11 +15,9 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>
-              Server IP Address{infrastructure.ip_addresses.length > 1 ? "es" : ""}:
-            </span>
+            <span>服务器 IP 地址：</span>
             <TooltipIcon
-              text="The actual network address where the website is hosted. Each IP points to a specific physical or cloud server."
+              text="网站所在的实际网络地址。每个 IP 指向一台具体的物理服务器或云服务器。"
             />
           </div>
           <div class="flex flex-wrap gap-2">
@@ -37,22 +35,22 @@
         class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
       >
         <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-          <span>DNS Configuration:</span>
+          <span>DNS 配置：</span>
           <TooltipIcon
-            text="Nameservers control where your domain points. They act like the internet's 'address book', linking your domain name to the right hosting provider."
+            text="名称服务器决定域名指向哪里，可以理解为互联网的「通讯录」，把域名和正确的托管服务商对应起来。"
           />
         </div>
         {#if infrastructure.nameservers_valid}
           <span class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-            ><StatusIcon kind="ok" /> Detected</span
+            ><StatusIcon kind="ok" /> 已检测到</span
           >
         {:else if isHostingPlatform}
           <span class="text-gray-500 dark:text-gray-400 font-medium flex items-center gap-1.5"
-            >Managed by hosting platform</span
+            >由托管平台管理</span
           >
         {:else}
           <span class="text-red-400 font-medium flex items-center gap-1.5"
-            ><StatusIcon kind="bad" /> Not Detected</span
+            ><StatusIcon kind="bad" /> 未检测到</span
           >
         {/if}
       </div>
@@ -62,10 +60,8 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>Nameserver Hosts:</span>
-            <TooltipIcon
-              text="The servers responsible for managing your domain's DNS settings. These typically belong to your registrar or hosting provider."
-            />
+            <span>名称服务器主机：</span>
+            <TooltipIcon text="负责管理域名 DNS 设置的服务器，通常属于你的注册商或托管服务商。" />
           </div>
           <div class="flex flex-wrap gap-2">
             {#each infrastructure.ns_hosts as ns_host}
@@ -82,22 +78,20 @@
         class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] md:items-center gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
       >
         <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-          <span>Email Server Records:</span>
-          <TooltipIcon
-            text="MX records define where emails for this domain are delivered, essential for sending and receiving mail securely."
-          />
+          <span>邮件服务器记录：</span>
+          <TooltipIcon text="MX 记录决定发往这个域名的邮件投递到哪里，是安全收发邮件的基础。" />
         </div>
         {#if infrastructure.mx_records_valid}
           <span class="text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-1.5"
-            ><StatusIcon kind="ok" /> Detected</span
+            ><StatusIcon kind="ok" /> 已检测到</span
           >
         {:else if isHostingPlatform}
           <span class="text-gray-500 dark:text-gray-400 font-medium flex items-center gap-1.5"
-            >Not applicable</span
+            >不适用</span
           >
         {:else}
           <span class="text-red-400 font-medium flex items-center gap-1.5"
-            ><StatusIcon kind="bad" /> Not Detected</span
+            ><StatusIcon kind="bad" /> 未检测到</span
           >
         {/if}
       </div>
@@ -107,10 +101,8 @@
           class="flex flex-col md:grid md:grid-cols-[minmax(0,280px),1fr] gap-2 md:gap-4 py-2 first:pt-0 last:pb-0"
         >
           <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-            <span>MX Hosts:</span>
-            <TooltipIcon
-              text="The mail servers responsible for handling your domain's email traffic."
-            />
+            <span>MX 主机：</span>
+            <TooltipIcon text="负责处理这个域名邮件往来的邮件服务器。" />
           </div>
           <div class="flex flex-wrap gap-2">
             {#each infrastructure.mx_hosts as mx_host}

@@ -9,13 +9,13 @@
   export let googleSource = "Google Web Risk";
 
   const THREAT_NAMES: Record<string, string> = {
-    SOCIAL_ENGINEERING: "phishing",
-    MALWARE: "malware",
-    UNWANTED_SOFTWARE: "unwanted software",
-    POTENTIALLY_HARMFUL_APPLICATION: "a harmful app",
+    SOCIAL_ENGINEERING: "钓鱼",
+    MALWARE: "恶意软件",
+    UNWANTED_SOFTWARE: "不需要的软件",
+    POTENTIALLY_HARMFUL_APPLICATION: "有害应用",
   };
-  $: listedBy = feeds?.sources?.join(" and ") ?? "";
-  $: googleThreats = (webRisk?.threat_types ?? []).map((t) => THREAT_NAMES[t] ?? t).join(" and ");
+  $: listedBy = feeds?.sources?.join("和") ?? "";
+  $: googleThreats = (webRisk?.threat_types ?? []).map((t) => THREAT_NAMES[t] ?? t).join("和");
 </script>
 
 {#if phishing || feeds || webRisk}
@@ -27,9 +27,9 @@
           : 'border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/30'} rounded-lg border p-4"
       >
         <div class="flex items-center gap-2 mb-3">
-          <span class="text-sm font-semibold text-gray-900 dark:text-white">Threat lists</span>
+          <span class="text-sm font-semibold text-gray-900 dark:text-white">威胁情报列表</span>
           <TooltipIcon
-            text="Lists of reported phishing and malware links, kept up to date on our server and checked on every scan."
+            text="已上报的钓鱼和恶意软件链接列表，在我们的服务器上保持更新，每次扫描都会比对。"
           />
         </div>
         {#if feeds}
@@ -39,16 +39,16 @@
             >
               <StatusIcon kind="ok" />
               {feeds.checked?.length
-                ? `Not listed by ${feeds.checked.join(" or ")}.`
-                : "Not on any phishing or malware list we hold."}
+                ? `未被 ${feeds.checked.join(" 或 ")} 收录。`
+                : "不在我们持有的任何钓鱼或恶意软件列表中。"}
             </p>
           {:else if feeds.match === "url"}
             <p class="text-sm font-semibold text-red-400 flex items-center gap-2">
-              <StatusIcon kind="bad" /> This link is listed by {listedBy}.
+              <StatusIcon kind="bad" /> 此链接已被 {listedBy} 收录。
             </p>
           {:else}
             <p class="text-sm font-semibold text-red-400 flex items-center gap-2">
-              <StatusIcon kind="bad" /> Other pages on this site are listed by {listedBy}.
+              <StatusIcon kind="bad" /> 此站点的其他页面已被 {listedBy} 收录。
             </p>
           {/if}
         {/if}
@@ -59,9 +59,9 @@
               : 'text-emerald-700 dark:text-emerald-400'}"
           >
             {#if webRisk.listed}
-              <StatusIcon kind="bad" /> Google lists this link as {googleThreats || "dangerous"}.
+              <StatusIcon kind="bad" /> Google 将此链接标记为 {googleThreats || "危险"}。
             {:else}
-              <StatusIcon kind="ok" /> Not listed by {googleSource}.
+              <StatusIcon kind="ok" /> 未被 {googleSource} 收录。
             {/if}
           </p>
           {#if webRisk.listed}
@@ -71,11 +71,9 @@
                 href="https://developers.google.com/safe-browsing/v4/advisory"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="underline underline-offset-2">Advisory provided by Google</a
-              >. Google works to provide the most accurate and up-to-date information about unsafe
-              web resources. However, Google cannot guarantee that its information is comprehensive
-              and error-free: some risky sites may not be identified, and some safe sites may be
-              identified in error.
+                class="underline underline-offset-2">安全提示由 Google 提供</a
+              >。Google 致力于提供关于不安全网络资源最准确、最新的信息。但 Google
+              无法保证这些信息全面无误：有些危险网站可能没有被识别出来，也有些安全网站可能被误报。
             </p>
           {/if}
         {/if}
@@ -91,8 +89,8 @@
         <!-- Block header -->
         <div class="flex items-center gap-2 mb-3">
           <img src="https://phishtank.com/favicon.ico" alt="" class="w-4 h-4" />
-          <span class="text-sm font-semibold text-gray-900 dark:text-white">PhishTank Lookup</span>
-          <TooltipIcon text="Community-verified phishing database check. Runs on every scan." />
+          <span class="text-sm font-semibold text-gray-900 dark:text-white">PhishTank 查询</span>
+          <TooltipIcon text="比对由社区核实的钓鱼数据库，每次扫描都会运行。" />
         </div>
 
         {#if !phishing.in_database}
@@ -100,18 +98,18 @@
           <p
             class="text-sm text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-2"
           >
-            <StatusIcon kind="ok" /> Not found in PhishTank database.
+            <StatusIcon kind="ok" /> 未在 PhishTank 数据库中找到。
           </p>
         {:else if phishing.verified && !phishing.valid}
           <!-- In database, reviewed, and confirmed NOT phishing -->
           <p
             class="text-sm text-emerald-700 dark:text-emerald-400 font-medium flex items-center gap-2"
           >
-            <StatusIcon kind="ok" /> Reviewed by PhishTank community, confirmed not phishing.
+            <StatusIcon kind="ok" /> 已由 PhishTank 社区审核，确认不是钓鱼。
           </p>
           {#if phishing.phish_id}
             <p class="text-xs text-gray-500 mt-1">
-              Report
+              报告
               {#if phishing.phish_detail_page}
                 <a
                   href={phishing.phish_detail_page}
@@ -135,10 +133,10 @@
               class="flex flex-col md:grid md:grid-cols-[220px,1fr] md:items-center gap-1 md:gap-4 py-2 first:pt-0"
             >
               <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                <span>In Database:</span>
-                <TooltipIcon text="This URL has been submitted to or reported in PhishTank." />
+                <span>在数据库中：</span>
+                <TooltipIcon text="这个 URL 已被提交或举报到 PhishTank。" />
               </div>
-              <span class="text-amber-700 dark:text-amber-400 font-medium">Yes, on record</span>
+              <span class="text-amber-700 dark:text-amber-400 font-medium">是，已有记录</span>
             </div>
 
             <!-- valid — the actual phishing signal -->
@@ -146,15 +144,15 @@
               class="flex flex-col md:grid md:grid-cols-[220px,1fr] md:items-center gap-1 md:gap-4 py-2"
             >
               <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                <span>Is Phishing:</span>
+                <span>是否为钓鱼：</span>
                 <TooltipIcon
-                  text="Whether this URL is confirmed as a phishing site. true = phishing, false = not phishing."
+                  text="这个 URL 是否被确认为钓鱼网站。true = 是钓鱼，false = 不是钓鱼。"
                 />
               </div>
               {#if phishing.valid}
-                <span class="font-semibold text-red-400">Yes, phishing confirmed</span>
+                <span class="font-semibold text-red-400">是，已确认钓鱼</span>
               {:else}
-                <span class="font-semibold text-gray-400">No</span>
+                <span class="font-semibold text-gray-400">否</span>
               {/if}
             </div>
 
@@ -163,17 +161,15 @@
               class="flex flex-col md:grid md:grid-cols-[220px,1fr] md:items-center gap-1 md:gap-4 py-2"
             >
               <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                <span>Community Reviewed:</span>
+                <span>社区已审核：</span>
                 <TooltipIcon
-                  text="Whether the PhishTank community has reviewed this report (true = reviewed, false = still pending)."
+                  text="PhishTank 社区是否已审核这份报告（true = 已审核，false = 仍待审核）。"
                 />
               </div>
               {#if phishing.verified}
-                <span class="text-gray-900 dark:text-white font-medium">Yes</span>
+                <span class="text-gray-900 dark:text-white font-medium">是</span>
               {:else}
-                <span class="text-amber-700 dark:text-amber-400 font-medium"
-                  >No, awaiting review</span
-                >
+                <span class="text-amber-700 dark:text-amber-400 font-medium">否，等待审核</span>
               {/if}
             </div>
 
@@ -183,8 +179,8 @@
                 class="flex flex-col md:grid md:grid-cols-[220px,1fr] md:items-center gap-1 md:gap-4 py-2"
               >
                 <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                  <span>Reviewed At:</span>
-                  <TooltipIcon text="When the PhishTank community reviewed this report." />
+                  <span>审核时间：</span>
+                  <TooltipIcon text="PhishTank 社区审核这份报告的时间。" />
                 </div>
                 <span class="font-medium text-gray-800 dark:text-white">{phishing.verified_at}</span
                 >
@@ -197,8 +193,8 @@
                 class="flex flex-col md:grid md:grid-cols-[220px,1fr] md:items-center gap-1 md:gap-4 py-2"
               >
                 <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                  <span>Impersonation Target:</span>
-                  <TooltipIcon text="The brand or service this phishing URL is impersonating." />
+                  <span>冒充目标：</span>
+                  <TooltipIcon text="这个钓鱼 URL 冒充的品牌或服务。" />
                 </div>
                 <span class="font-medium text-gray-800 dark:text-white">{phishing.target}</span>
               </div>
@@ -210,8 +206,8 @@
                 class="flex flex-col md:grid md:grid-cols-[220px,1fr] md:items-center gap-1 md:gap-4 py-2 last:pb-0"
               >
                 <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                  <span>PhishTank Report:</span>
-                  <TooltipIcon text="Unique PhishTank ID. Click to view the full report page." />
+                  <span>PhishTank 报告：</span>
+                  <TooltipIcon text="唯一的 PhishTank ID。点击可查看完整报告页面。" />
                 </div>
                 {#if phishing.phish_detail_page}
                   <a

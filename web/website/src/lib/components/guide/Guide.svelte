@@ -315,14 +315,14 @@
   // is one tap away under "More", so the first list never gets overwhelming.
   type Menu = { main: Item[]; more: Item[] };
   $: menu = ((): Menu => {
-    const hideItem: Item = { label: `Hide ${NAME}`, run: hide };
-    const meetItem: Item = { label: `Who is ${NAME}?`, run: () => (view = "meet") };
-    const example: Item = { label: "Try it with a sample link", run: () => (view = "examples") };
+    const hideItem: Item = { label: `收起 ${NAME}`, run: hide };
+    const meetItem: Item = { label: `${NAME} 是谁？`, run: () => (view = "meet") };
+    const example: Item = { label: "用示例链接试一下", run: () => (view = "examples") };
     const howItWorks: Item = {
-      label: "How does url.vet check a link?",
+      label: "url.vet 怎么检查链接？",
       run: () => go("/how-it-works"),
     };
-    const whoMade: Item = { label: "Who made this website?", run: () => go("/about") };
+    const whoMade: Item = { label: "这个网站是谁做的？", run: () => go("/about") };
     const cleanItem = (label: string): Item[] =>
       clean ? [{ label, run: () => (view = "clean") }] : [];
     switch (context) {
@@ -331,10 +331,10 @@
           // In the order a visitor goes: find their way round, try it, then
           // check their own link (cleaning it first, when it has trackers).
           main: [
-            { label: "Show me around", run: startTour },
+            { label: "带我逛一圈", run: startTour },
             example,
-            ...cleanItem("Remove trackers from my link"),
-            { label: "Check a link for me", run: () => (view = "check") },
+            ...cleanItem("去掉我链接里的跟踪参数"),
+            { label: "帮我检查一个链接", run: () => (view = "check") },
           ],
           more: [howItWorks, whoMade, meetItem, hideItem],
         };
@@ -345,17 +345,15 @@
           // In the order a visitor goes: find their way round the result,
           // understand it, act on it, or say it's wrong. The rest is under More.
           main: [
-            { label: "Show me around", run: startTour },
-            { label: "Explain this result simply", run: () => (view = "explain") },
-            ...(real
-              ? [{ label: `Take me to the real ${real.domain}`, run: () => (view = "real") }]
-              : []),
-            { label: "Let the sender know", run: openWarn },
-            { label: "I think this result is wrong", run: () => clickTarget("report") },
+            { label: "带我逛一圈", run: startTour },
+            { label: "用简单的话解释这个结果", run: () => (view = "explain") },
+            ...(real ? [{ label: `带我去真正的 ${real.domain}`, run: () => (view = "real") }] : []),
+            { label: "通知发送者", run: openWarn },
+            { label: "我觉得这个结果不对", run: () => clickTarget("report") },
           ],
           more: [
-            { label: "Check a different link", run: () => clickTarget("scan-another") },
-            ...cleanItem("Copy the link without trackers"),
+            { label: "检查另一个链接", run: () => clickTarget("scan-another") },
+            ...cleanItem("复制去掉跟踪参数的链接"),
             howItWorks,
             whoMade,
             meetItem,
@@ -364,7 +362,7 @@
         };
       case "error":
         return {
-          main: [{ label: "Why didn't the check work?", run: () => (view = "failed") }, example],
+          main: [{ label: "为什么检查没成功？", run: () => (view = "failed") }, example],
           more: [meetItem, hideItem],
         };
       default: {
@@ -372,7 +370,7 @@
         if (context !== "how-it-works") nav.push(howItWorks);
         if (context !== "about") nav.push(whoMade);
         return {
-          main: [{ label: "I want to check a link", run: () => go("/") }, example],
+          main: [{ label: "我想检查一个链接", run: () => go("/") }, example],
           more: [...nav, meetItem, hideItem],
         };
       }
@@ -422,7 +420,7 @@
     quipFor = result.url;
     const line = easterEgg(result.url);
     // The fake example chips are demos, not real threats: they get their joke.
-    const demo = EXAMPLES.some((e) => e.hint === "Fake" && e.url === result.domain);
+    const demo = EXAMPLES.some((e) => e.hint === "伪造" && e.url === result.domain);
     if (line && (result.result?.verdict !== "Risky" || demo)) {
       later(() => {
         if (open || tourSteps || $vettyMemory.hidden) return;
@@ -491,7 +489,7 @@
       <div
         bind:this={bubbleEl}
         role="dialog"
-        aria-label="{NAME}, the url.vet helper"
+        aria-label="{NAME}，url.vet 的小助手"
         transition:fly={{ y: 12, duration: 200 }}
         class="bubble pointer-events-auto relative w-[min(330px,calc(100vw-32px))] max-h-[calc(100vh-140px)] overflow-y-auto {BUBBLE} shadow-2xl shadow-black/15 text-left"
       >
@@ -500,7 +498,7 @@
           <button
             type="button"
             class="-mr-2 -mt-1 p-1.5 rounded-md text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
-            aria-label="Close {NAME}"
+            aria-label="关闭 {NAME}"
             on:click={close}
           >
             <Icon path={ICON.close} class="w-3.5 h-3.5" />
@@ -532,7 +530,7 @@
                       aria-expanded="true"
                       on:click={() => (showMore = false)}
                     >
-                      Less
+                      收起
                       <Icon path={ICON.chevronDown} class="w-3.5 h-3.5 text-gray-400 rotate-180" />
                     </button>
                   </li>
@@ -560,7 +558,7 @@
                     aria-expanded="false"
                     on:click={expandMore}
                   >
-                    More
+                    更多
                     <Icon path={ICON.chevronDown} class="w-3.5 h-3.5 text-gray-400" />
                   </button>
                 </li>
@@ -589,7 +587,7 @@
             <button
               type="button"
               class="mt-3 block text-sm text-gray-900 dark:text-gray-100 underline underline-offset-4 decoration-gray-300 dark:decoration-gray-700 hover:decoration-current"
-              on:click={() => (view = "scores")}>What does the score mean?</button
+              on:click={() => (view = "scores")}>分数是什么意思？</button
             >
           {:else if view === "meet"}
             <p class={LEAD}>
@@ -623,7 +621,7 @@
                 disabled={!checkInput.trim()}
                 class="mt-2 {PILL_SOLID} px-3.5 py-2"
               >
-                Check it
+                检查
                 <Icon path={ICON.arrowRight} class="w-3.5 h-3.5" />
               </button>
             </form>
@@ -637,12 +635,12 @@
                 href="https://{real.domain}"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="{PILL_SOLID} px-3.5 py-2">Open {real.domain} ↗</a
+                class="{PILL_SOLID} px-3.5 py-2">打开 {real.domain} ↗</a
               >
               <button
                 type="button"
                 class="{PILL_OUTLINE} px-3.5 py-2"
-                on:click={() => real && putInSearchBar(real.domain)}>Check it first</button
+                on:click={() => real && putInSearchBar(real.domain)}>先检查一下</button
               >
             </div>
           {:else if view === "warn"}
@@ -658,24 +656,24 @@
                 href="https://wa.me/?text={encodeURIComponent(warnText)}"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="{PILL_SOLID} px-3.5 py-2">Send on WhatsApp</a
+                class="{PILL_SOLID} px-3.5 py-2">发到 WhatsApp</a
               >
               <button
                 type="button"
                 class="{PILL_OUTLINE} px-3.5 py-2"
                 on:click={() => copy(warnText, "warn")}
-                >{copied === "warn" ? "Copied" : "Copy"}</button
+                >{copied === "warn" ? "已复制" : "复制"}</button
               >
               {#if canShare}
                 <button type="button" class="{PILL_OUTLINE} px-3.5 py-2" on:click={shareNative}
-                  >Other apps…</button
+                  >其他应用……</button
                 >
               {/if}
             </div>
           {:else if view === "clean" && clean}
             <p>{CLEAN_LINK.lead}</p>
             <p class="mt-3 text-xs text-gray-500">
-              Removed: <span class="font-mono">{clean.removed.join(", ")}</span>
+              已移除：<span class="font-mono">{clean.removed.join(", ")}</span>
             </p>
             <p class="mt-3">{CLEAN_LINK.done}</p>
             <p
@@ -688,7 +686,7 @@
                 type="button"
                 class="mt-3 {PILL_SOLID} px-3.5 py-2"
                 on:click={() => clean && copy(clean.cleaned, "clean")}
-                >{copied === "clean" ? "Copied" : "Copy clean link"}</button
+                >{copied === "clean" ? "已复制" : "复制干净的链接"}</button
               >
             </div>
           {:else if view === "examples"}
@@ -704,7 +702,7 @@
                     on:click={() => tryExample(ex.url)}
                   >
                     <span
-                      class="w-1.5 h-1.5 rounded-full {ex.hint === 'Legit'
+                      class="w-1.5 h-1.5 rounded-full {ex.hint === '真实'
                         ? 'bg-emerald-500'
                         : 'bg-red-500'}"
                     ></span>
@@ -728,7 +726,7 @@
               class="mt-4 inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100"
               on:click={() => (view = "menu")}
             >
-              ← Back
+              ← 返回
             </button>
           {/if}
         </div>
@@ -739,7 +737,7 @@
         <button
           type="button"
           class="bubble relative max-w-[280px] {BUBBLE} shadow-xl shadow-black/10 px-4 py-3 text-left text-sm text-gray-700 dark:text-gray-300"
-          title="Dismiss"
+          title="关闭"
           on:click={() => (quip = null)}
         >
           {quip}
@@ -772,9 +770,9 @@
       type="button"
       data-guide="vetty"
       class="vetty pointer-events-auto rounded-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-gray-400"
-      aria-label={open ? `Close ${NAME}` : `Open ${NAME}, the url.vet helper`}
+      aria-label={open ? `关闭 ${NAME}` : `打开 ${NAME}，url.vet 的小助手`}
       aria-expanded={open}
-      title="{NAME} (press ?)"
+      title="{NAME}（按 ?）"
       bind:this={vettyEl}
       on:click={onVettyClick}
       in:scale={{ duration: 300, start: 0.6 }}

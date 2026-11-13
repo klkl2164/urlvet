@@ -6,6 +6,7 @@
     relativeTime,
     verdictColor,
     verdictDot,
+    verdictLabel,
     verdictTextColor,
   } from "../../admin/format";
   import type { Guard, ScanRecord } from "../../admin/types";
@@ -57,7 +58,7 @@
         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
       />
     </svg>
-    <p class="text-sm">No scans recorded yet.</p>
+    <p class="text-sm">还没有扫描记录。</p>
   </div>
 {:else}
   <div class="space-y-2">
@@ -80,7 +81,7 @@
               scan.verdict
             )}"
           >
-            {scan.verdict}
+            {verdictLabel(scan.verdict)}
           </span>
 
           <!-- Score -->
@@ -92,8 +93,8 @@
           <button
             on:click={() => copyScanLink(scan)}
             class="shrink-0 p-1.5 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            aria-label="Copy URL"
-            title="Copy URL"
+            aria-label="复制 URL"
+            title="复制 URL"
           >
             {#if copiedUrl === scan.url}
               <svg
@@ -128,8 +129,8 @@
             target="_blank"
             rel="noopener noreferrer"
             class="shrink-0 p-1.5 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            aria-label="Open scan in new tab"
-            title="Open scan in new tab"
+            aria-label="在新标签页中打开扫描结果"
+            title="在新标签页中打开扫描结果"
           >
             <svg
               class="w-4 h-4"
@@ -157,7 +158,7 @@
           {#if scan.cached}
             <span
               class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 font-mono"
-              >cached</span
+              >已缓存</span
             >
           {/if}
 

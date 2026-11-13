@@ -109,7 +109,7 @@
         data-state={dot}>.</span
       ><span class="text-gray-900 dark:text-gray-100">vet</span>
     </a>
-    <span class="sr-only">&nbsp;(also known as URLvet)</span>
+    <span class="sr-only">&nbsp;（又名 URLvet）</span>
   </h1>
 
   <p
@@ -117,14 +117,14 @@
       ? 'mt-5 text-lg md:text-xl'
       : 'mt-3 text-base md:text-lg'}"
   >
-    <span class="sr-only">sketchy link? just url.vet it</span>
+    <span class="sr-only">可疑链接？交给 url.vet 就够了</span>
     <span
       aria-hidden="true"
       class="relative inline-flex flex-wrap items-baseline justify-center gap-x-[0.3em]"
     >
       {#if isLanding}
         <span class="absolute invisible whitespace-nowrap pointer-events-none">
-          <span bind:offsetWidth={restingWidth}>sketchy link?</span>
+          <span bind:offsetWidth={restingWidth}>可疑链接？</span>
           {#each EXAMPLES as example, i}
             <span bind:offsetWidth={exampleWidths[i]}
               ><span class="font-mono font-normal text-[0.88em] tracking-tight">{example}</span
@@ -139,7 +139,7 @@
         style={slotWidth ? `width: ${slotWidth}px` : undefined}
       >
         {#if typed === null || !isLanding}
-          sketchy link?
+          可疑链接？
         {:else}
           <span
             class="font-mono font-normal tracking-tight text-gray-900 dark:text-gray-100"
@@ -148,7 +148,7 @@
         {/if}
       </span>
       <span class="whitespace-nowrap" bind:offsetWidth={tailWidth}>
-        just
+        交给
         <span class="relative inline-block"
           >url.vet<svg
             class:draw={isLanding}
@@ -166,7 +166,7 @@
             /></svg
           ></span
         >
-        it
+        就够了
       </span>
     </span>
   </p>
@@ -174,7 +174,7 @@
     <p
       class="mt-2 font-sans text-gray-500 dark:text-gray-400 text-sm md:text-[15px] [text-wrap:balance]"
     >
-      Vet any URL for phishing, scams & suspicious redirects
+      检查任意 URL 的钓鱼、诈骗和可疑重定向
     </p>
   {/if}
 </header>

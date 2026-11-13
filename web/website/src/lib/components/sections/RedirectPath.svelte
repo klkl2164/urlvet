@@ -74,7 +74,7 @@
   }
 </script>
 
-<ol class="relative" aria-label="Redirect path">
+<ol class="relative" aria-label="重定向路径">
   {#each hops as hop, i}
     {@const last = i === hops.length - 1}
     <li
@@ -106,16 +106,16 @@
       <div class="min-w-0 flex-1">
         <p class="font-mono text-[11px] uppercase tracking-wider text-gray-500">
           {#if i === 0}
-            You click
+            你点击
           {:else if last}
-            You land here
+            你最终到达这里
           {:else}
-            Then
+            然后
           {/if}
           {#if hop.jump}
             <span
               class="ml-1.5 normal-case tracking-normal font-sans text-yellow-700 dark:text-yellow-400"
-              >· jumps to another site</span
+              >· 跳到另一个站点</span
             >
           {/if}
         </p>
@@ -130,7 +130,7 @@
             type="button"
             class="mt-1 text-xs text-gray-500 underline underline-offset-4 decoration-gray-300 dark:decoration-gray-700 hover:text-gray-900 dark:hover:text-gray-100 hover:decoration-current"
             on:click={() => scanInNewTab(hop.url)}
-            aria-label={`Check ${hop.url} in a new tab`}>Check this one ↗</button
+            aria-label={`在新标签页中查看 ${hop.url}`}>检查这个 ↗</button
           >
         {/if}
       </div>

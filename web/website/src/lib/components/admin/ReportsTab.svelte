@@ -6,6 +6,7 @@
     hostOf,
     relativeTime,
     verdictDot,
+    verdictLabel,
     verdictTextColor,
   } from "../../admin/format";
   import type { Guard, ReportRecord } from "../../admin/types";
@@ -32,11 +33,11 @@
   });
 
   const SUGGESTIONS = [
-    { value: "", label: "All" },
-    { value: "Safe", label: "Should be Safe" },
-    { value: "Suspicious", label: "Should be Suspicious" },
-    { value: "Risky", label: "Should be Risky" },
-    { value: "none", label: "No suggestion" },
+    { value: "", label: "全部" },
+    { value: "Safe", label: "应为安全" },
+    { value: "Suspicious", label: "应为可疑" },
+    { value: "Risky", label: "应为危险" },
+    { value: "none", label: "无建议" },
   ];
 
   const matches = (r: ReportRecord, value: string) =>
@@ -86,8 +87,8 @@
   </div>
 {:else if reports.length === 0}
   <div class="text-center py-24">
-    <p class="font-serif text-3xl text-gray-900 dark:text-gray-100">All clear.</p>
-    <p class="mt-2 text-sm text-gray-500">No reports waiting. Resolved reports are deleted.</p>
+    <p class="font-serif text-3xl text-gray-900 dark:text-gray-100">全部处理完毕。</p>
+    <p class="mt-2 text-sm text-gray-500">没有待处理的报告。已处理的报告会被删除。</p>
   </div>
 {:else}
   <!-- Toolbar: search, sort, then suggestion filters -->
@@ -95,16 +96,16 @@
     <input
       bind:value={filterText}
       type="search"
-      placeholder="Search URL or comment…"
+      placeholder="搜索 URL 或评论…"
       class="flex-1 min-w-0 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full px-4 py-2 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-hidden focus:border-gray-400 dark:focus:border-gray-600"
     />
     <button
       type="button"
       on:click={() => (newestFirst = !newestFirst)}
       class="{ACTION_OUTLINE} shrink-0 justify-center px-4 py-2 text-sm"
-      aria-label="Toggle sort order"
+      aria-label="切换排序顺序"
     >
-      {newestFirst ? "Newest" : "Oldest"}<span class="hidden sm:inline -ml-1">&nbsp;first</span>
+      {newestFirst ? "最新" : "最早"}<span class="hidden sm:inline -ml-1">在前</span>
       <svg
         class="w-3.5 h-3.5"
         fill="none"
@@ -138,11 +139,11 @@
         <span class="font-mono text-[10px] text-gray-400">{n}</span>
       </button>
     {/each}
-    <span class="ml-auto font-mono text-[11px] text-gray-400">{withComment} with comments</span>
+    <span class="ml-auto font-mono text-[11px] text-gray-400">{withComment} 条有评论</span>
   </div>
 
   {#if filtered.length === 0}
-    <p class="text-center py-16 text-sm text-gray-500">No reports match these filters.</p>
+    <p class="text-center py-16 text-sm text-gray-500">没有报告符合这些筛选条件。</p>
   {:else}
     <div class="mt-5 space-y-3">
       {#each filtered as r (r.id)}
@@ -166,20 +167,22 @@
           </header>
 
           <p class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-gray-500">
-            <span>We said</span>
+            <span>我们的判定</span>
             {#if r.verdict}
               <span
                 class="inline-flex items-center gap-1.5 font-medium {verdictTextColor(r.verdict)}"
               >
-                <span class="w-1.5 h-1.5 rounded-full {verdictDot(r.verdict)}"></span>{r.verdict}
+                <span class="w-1.5 h-1.5 rounded-full {verdictDot(r.verdict)}"></span>{verdictLabel(
+                  r.verdict
+                )}
               </span>
               <span class="font-mono text-[11px]">{r.score}</span>
             {:else}
-              <span>unknown</span>
+              <span>未知</span>
             {/if}
             {#if r.expected_verdict}
               <span class="text-gray-300 dark:text-gray-700" aria-hidden="true">·</span>
-              <span>user suggests {r.expected_verdict}</span>
+              <span>用户建议：{verdictLabel(r.expected_verdict)}</span>
             {/if}
           </p>
 
@@ -198,7 +201,7 @@
               rel="noopener noreferrer"
               class={ACTION_OUTLINE}
             >
-              Re-scan
+              重新扫描
               <svg
                 class="w-3.5 h-3.5"
                 fill="none"
@@ -215,31 +218,31 @@
               </svg>
             </a>
             <button type="button" on:click={() => copyUrl(r.url)} class={ACTION_OUTLINE}>
-              {copiedUrl === r.url ? "Copied" : "Copy URL"}
+              {copiedUrl === r.url ? "已复制" : "复制 URL"}
             </button>
 
             <span class="ml-auto flex items-center gap-2">
               {#if confirmId === r.id}
-                <span class="text-xs text-gray-500">Delete this report?</span>
+                <span class="text-xs text-gray-500">删除这条报告？</span>
                 <button
                   type="button"
                   on:click={() => (confirmId = null)}
                   class="{ACTION} text-gray-500 hover:text-gray-900 dark:hover:text-gray-100"
-                  >Cancel</button
+                  >取消</button
                 >
                 <button
                   type="button"
                   on:click={() => resolve(r.id)}
                   disabled={deletingId === r.id}
                   class="{ACTION} bg-gray-900 dark:bg-gray-100 text-gray-50 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-white"
-                  >Delete report</button
+                  >删除报告</button
                 >
               {:else}
                 <button
                   type="button"
                   on:click={() => (confirmId = r.id)}
                   class={ACTION_OUTLINE}
-                  title="Mark as fixed. The report is deleted, as the privacy page promises."
+                  title="标记为已修复。报告会被删除，与隐私页面的承诺一致。"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -255,7 +258,7 @@
                       d="M4.5 12.75l6 6 9-13.5"
                     />
                   </svg>
-                  Resolve
+                  标记已修复
                 </button>
               {/if}
             </span>

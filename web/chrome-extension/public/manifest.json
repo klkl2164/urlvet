@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "url.vet: check links before you click",
+  "name": "url.vet：点击前先检查链接",
   "short_name": "url.vet",
   "version": "2.0.0",
-  "description": "Sketchy link? Check any link or page in seconds, with every reason explained. Free, open source, no account.",
+  "description": "链接看着可疑？几秒钟就能检查任何链接或页面，每条判断理由都写清楚。免费、开源、无需账号。",
   "homepage_url": "https://url.vet",
   "icons": {
     "16": "icons/dot-brand-16.png",
@@ -12,7 +12,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "url.vet: check this page or a link",
+    "default_title": "url.vet：检查此页面或一个链接",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/dot-brand-16.png",

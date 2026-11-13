@@ -1,5 +1,5 @@
 // Social preview cards (1200x630), drawn with satori in the site's editorial style.
-import { verdictCopy } from '../../verdict';
+import { verdictCopy, verdictName } from '../../verdict';
 import { el, h, type Node } from './h';
 import { OG, VERDICT_TONE } from './theme';
 
@@ -66,8 +66,8 @@ function footer(): Node {
     },
     h(
       'div',
-      { fontFamily: OG.serif, fontStyle: 'italic', fontSize: 32, color: OG.muted },
-      'sketchy link? just url.vet it'
+      { fontFamily: OG.sansZh, fontSize: 30, color: OG.muted },
+      '可疑链接？交给 url.vet 就好'
     ),
     h('div', { fontFamily: OG.mono, fontSize: 20, color: OG.faint, letterSpacing: 1 }, 'url.vet')
   );
@@ -123,8 +123,8 @@ function scoreRing(score: number, color: string): Node {
       ),
       h(
         'div',
-        { fontFamily: OG.mono, fontSize: 18, color: OG.faint, marginTop: 8, letterSpacing: 2 },
-        'TRUST SCORE'
+        { fontFamily: OG.sansZh, fontSize: 18, color: OG.faint, marginTop: 8, letterSpacing: 2 },
+        '信任分'
       )
     )
   );
@@ -156,8 +156,8 @@ export function resultCard(domain: string, verdict: string, score: number | null
       brand(),
       h(
         'div',
-        { fontFamily: OG.mono, fontSize: 20, color: OG.faint, letterSpacing: 3 },
-        'SCAN RESULT'
+        { fontFamily: OG.sansZh, fontSize: 20, color: OG.faint, letterSpacing: 3 },
+        '扫描结果'
       )
     ),
     h(
@@ -185,18 +185,19 @@ export function resultCard(domain: string, verdict: string, score: number | null
           h(
             'div',
             {
-              fontFamily: OG.serif,
-              fontSize: verdict.length > 6 ? 136 : 168,
+              fontFamily: OG.sansZh,
+              fontSize: 150,
+              fontWeight: 500,
               color: OG.text,
               lineHeight: 1.05,
-              letterSpacing: -2,
+              letterSpacing: 4,
             },
-            verdict
+            verdictName(verdict)
           ),
           h(
             'div',
             {
-              fontFamily: OG.mono,
+              fontFamily: OG.sansZh,
               fontSize: 20,
               letterSpacing: 2,
               color: tone.color,
@@ -207,10 +208,10 @@ export function resultCard(domain: string, verdict: string, score: number | null
               flexShrink: 0,
               marginTop: 24,
             },
-            copy.label.toUpperCase()
+            copy.label
           )
         ),
-        h('div', { fontFamily: OG.sans, fontSize: 32, color: OG.muted, marginTop: 4 }, quip)
+        h('div', { fontFamily: OG.sansZh, fontSize: 32, color: OG.muted, marginTop: 4 }, quip)
       ),
       score === null ? null : scoreRing(score, tone.color)
     ),
@@ -248,34 +249,33 @@ export function siteCard(): Node {
     h(
       'div',
       {
-        fontFamily: OG.serif,
-        fontStyle: 'italic',
+        fontFamily: OG.sansZh,
         fontSize: 52,
         color: OG.text,
         marginTop: 28,
         alignItems: 'baseline',
         gap: 14,
       },
-      h('div', {}, 'sketchy link? just'),
+      h('div', {}, '可疑链接？交给'),
       h('div', { position: 'relative' }, 'url.vet', swash(124)),
-      h('div', {}, 'it')
+      h('div', {}, '就好')
     ),
     h(
       'div',
-      { fontFamily: OG.sans, fontSize: 28, color: OG.muted, marginTop: 30 },
-      'Vet any URL for phishing, scams & suspicious redirects'
+      { fontFamily: OG.sansZh, fontSize: 28, color: OG.muted, marginTop: 30 },
+      '检查任意 URL 的钓鱼、诈骗和可疑重定向'
     ),
     h(
       'div',
       {
         gap: 36,
         marginTop: 56,
-        fontFamily: OG.mono,
+        fontFamily: OG.sansZh,
         fontSize: 20,
         color: OG.faint,
         letterSpacing: 1,
       },
-      ...['OPEN SOURCE', 'NO SIGNUP', 'EXPLAINS EVERY VERDICT'].map((t) =>
+      ...['开源', '无需注册', '每条判定都有解释'].map((t) =>
         h(
           'div',
           { alignItems: 'center', gap: 12 },

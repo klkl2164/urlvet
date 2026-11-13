@@ -12,6 +12,17 @@ export type SectionId =
 
 export type Status = { tone: Tone; label: string };
 
+/** Chinese relative age, from the API's day count. */
+export function ageLabel(days: number): string {
+  if (days <= 0) return '今天';
+  if (days < 30) return `${days} 天`;
+  if (days < 60) return '1 个月';
+  if (days < 365) return `${Math.floor(days / 30)} 个月`;
+  const years = Math.floor(days / 365);
+  const months = Math.floor((days % 365) / 30);
+  return months > 0 ? `${years} 年 ${months} 个月` : `${years} 年`;
+}
+
 // Sections open by default only when they hold a real problem.
 export function computeExpanded(d: AnalyzeResult | null): Record<string, boolean> {
   if (!d)
@@ -81,75 +92,75 @@ export function sectionStatuses(d: AnalyzeResult): Record<SectionId, Status> {
   return {
     domain:
       days === undefined
-        ? { tone: 'neutral', label: 'Age unknown' }
+        ? { tone: 'neutral', label: '年龄未知' }
         : days <= 30
-          ? { tone: 'bad', label: `New · ${d.domain_info.age_human}` }
+          ? { tone: 'bad', label: `新建 · ${ageLabel(days)}` }
           : days < 365
-            ? { tone: 'warn', label: `Young · ${d.domain_info.age_human}` }
-            : { tone: 'good', label: d.domain_info.age_human },
+            ? { tone: 'warn', label: `较新 · ${ageLabel(days)}` }
+            : { tone: 'good', label: ageLabel(days) },
     analysis: redir?.has_domain_jump
-      ? { tone: 'bad', label: 'Leaves domain' }
+      ? { tone: 'bad', label: '离开原域名' }
       : (redir?.chain_length ?? 0) > 3
-        ? { tone: 'warn', label: `${redir.chain_length} hops` }
+        ? { tone: 'warn', label: `${redir.chain_length} 次跳转` }
         : redir?.is_redirected
-          ? { tone: 'neutral', label: 'Same-site redirect' }
-          : { tone: 'good', label: 'No redirects' },
+          ? { tone: 'neutral', label: '站内重定向' }
+          : { tone: 'good', label: '无重定向' },
     threatintel:
       d.web_risk?.listed || d.safe_browsing?.listed
-        ? { tone: 'bad', label: 'Listed by Google' }
+        ? { tone: 'bad', label: 'Google 已标记' }
         : d.threat_feeds?.listed
           ? d.threat_feeds.match === 'url'
-            ? { tone: 'bad', label: 'Listed as a threat' }
-            : { tone: 'bad', label: 'Site has listed pages' }
+            ? { tone: 'bad', label: '已列为威胁' }
+            : { tone: 'bad', label: '站内有页面被列入' }
           : d.phishing?.valid
             ? d.phishing.verified
-              ? { tone: 'bad', label: 'Confirmed phishing' }
-              : { tone: 'bad', label: 'Reported phishing' }
-            : { tone: 'good', label: 'Not listed' },
+              ? { tone: 'bad', label: '已确认钓鱼' }
+              : { tone: 'bad', label: '被举报为钓鱼' }
+            : { tone: 'good', label: '未列入' },
     security:
       ssl && !ssl.HasTLS
-        ? { tone: 'bad', label: 'No HTTPS' }
+        ? { tone: 'bad', label: '无 HTTPS' }
         : ssl?.KnownBadChain || ssl?.IsSuspicious
-          ? { tone: 'bad', label: 'Suspicious cert' }
+          ? { tone: 'bad', label: '证书可疑' }
           : (ssl?.HasTLS && !ssl.ChainValid) || d.tls_info?.HostnameMismatch
-            ? { tone: 'bad', label: 'Invalid cert' }
-            : { tone: 'good', label: 'Valid certificate' },
+            ? { tone: 'bad', label: '证书无效' }
+            : { tone: 'good', label: '证书有效' },
     content: !c
-      ? { tone: 'neutral', label: 'Not fetched' }
+      ? { tone: 'neutral', label: '未抓取' }
       : c.brand_check?.is_mismatch
-        ? { tone: 'bad', label: 'Brand mismatch' }
+        ? { tone: 'bad', label: '品牌不匹配' }
         : c.forms?.some((f) => f.is_external)
-          ? { tone: 'bad', label: 'External form' }
+          ? { tone: 'bad', label: '外部表单' }
           : c.has_hidden_iframe
-            ? { tone: 'bad', label: 'Hidden iframe' }
+            ? { tone: 'bad', label: '隐藏 iframe' }
             : c.has_payment_form
-              ? { tone: 'warn', label: 'Payment form' }
+              ? { tone: 'warn', label: '支付表单' }
               : c.has_login_form
-                ? { tone: 'neutral', label: 'Login form' }
-                : { tone: 'good', label: 'Nothing unusual' },
+                ? { tone: 'neutral', label: '登录表单' }
+                : { tone: 'good', label: '无异常' },
     features: url?.has_homoglyph
-      ? { tone: 'bad', label: 'Homoglyph' }
+      ? { tone: 'bad', label: '同形字符' }
       : url?.contains_punycode
         ? { tone: 'bad', label: 'Punycode' }
         : url?.uses_ip
-          ? { tone: 'bad', label: 'Raw IP' }
+          ? { tone: 'bad', label: '裸 IP' }
           : d.typosquat_result?.is_suspicious
-            ? { tone: 'bad', label: 'Lookalike domain' }
+            ? { tone: 'bad', label: '仿冒域名' }
             : url?.url_shortener
-              ? { tone: 'bad', label: 'URL shortener' }
+              ? { tone: 'bad', label: '短链接服务' }
               : (d.domain_randomness?.entropy ?? 0) > 3.8
-                ? { tone: 'bad', label: 'Random-looking' }
+                ? { tone: 'bad', label: '看起来随机' }
                 : tld?.is_risky_tld
-                  ? { tone: 'warn', label: 'Risky TLD' }
+                  ? { tone: 'warn', label: '高风险 TLD' }
                   : tld && !tld.is_icann && !tld.is_hosting_platform
-                    ? { tone: 'warn', label: 'Unregulated TLD' }
-                    : { tone: 'good', label: 'Clean' },
+                    ? { tone: 'warn', label: '未受监管的 TLD' }
+                    : { tone: 'good', label: '干净' },
     infrastructure:
       d.infrastructure && !d.infrastructure.nameservers_valid && !tld?.is_hosting_platform
-        ? { tone: 'bad', label: 'DNS issue' }
+        ? { tone: 'bad', label: 'DNS 问题' }
         : ips.length
-          ? { tone: 'good', label: `${ips.length} IP${ips.length === 1 ? '' : 's'}` }
-          : { tone: 'neutral', label: 'DNS OK' },
+          ? { tone: 'good', label: `${ips.length} 个 IP` }
+          : { tone: 'neutral', label: 'DNS 正常' },
   };
 }
 

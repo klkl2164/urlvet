@@ -18,6 +18,27 @@ import type {
 
 const PUBLIC_BASE_URL = env.PUBLIC_BASE_URL || 'http://localhost:8080/api/v1';
 
+/** The backend answers in English; the UI shows Chinese. */
+function errorMessage(status: number, serverMessage?: string): string {
+  if (serverMessage?.includes('maximum allowed length')) return '链接太长了，请缩短后再试。';
+  switch (serverMessage) {
+    case 'too many requests':
+      return '请求太频繁了，请稍后再试。';
+    case 'invalid url':
+    case 'url query param is required':
+      return '这个地址看起来不对，检查一下再试。';
+    case 'could not analyze this URL':
+      return '无法分析这个链接，请过一会儿再试。';
+    case 'invalid report':
+      return '报告内容不完整，检查一下再提交。';
+    case 'could not save report':
+      return '报告没保存成功，请稍后再试。';
+  }
+  if (status === 429) return '请求太频繁了，请稍后再试。';
+  if (status >= 500) return '服务器出错了，请稍后再试。';
+  return `请求失败（HTTP ${status}），请稍后再试。`;
+}
+
 async function makeRequest<T>(endpoint: string, url: string): Promise<ApiResponse<T>> {
   try {
     // Ensure the URL is properly formatted before encoding
@@ -28,16 +49,16 @@ async function makeRequest<T>(endpoint: string, url: string): Promise<ApiRespons
     const response = await fetch(fullUrl);
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: `HTTP ${response.status}` }));
+      const errorData = await response.json().catch(() => ({ error: '' }));
       console.error(`API Error:`, errorData);
-      return { error: errorData.error || `HTTP ${response.status}` };
+      return { error: errorMessage(response.status, errorData.error) };
     }
 
     const data = await response.json();
     return { data };
   } catch (error) {
     console.error(`API Error for ${endpoint}:`, error);
-    return { error: error instanceof Error ? error.message : 'Network error' };
+    return { error: '网络错误，请检查网络连接后重试。' };
   }
 }
 
@@ -67,7 +88,7 @@ async function makeScreenshotRequest(url: string): Promise<ApiResponse<string | 
     return { data: null };
   } catch (error) {
     console.error(`Screenshot API Error:`, error);
-    return { error: error instanceof Error ? error.message : 'Network error' };
+    return { error: '网络错误，请检查网络连接后重试。' };
   }
 }
 
@@ -88,11 +109,11 @@ async function submitReport(payload: ReportPayload): Promise<ApiResponse<{ statu
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      return { error: data.error || `HTTP ${response.status}` };
+      return { error: errorMessage(response.status, data.error) };
     }
     return { data };
-  } catch (error) {
-    return { error: error instanceof Error ? error.message : 'Network error' };
+  } catch {
+    return { error: '网络错误，请检查网络连接后重试。' };
   }
 }
 

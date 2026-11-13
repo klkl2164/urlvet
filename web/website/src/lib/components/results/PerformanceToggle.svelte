@@ -21,7 +21,7 @@
       fill="currentColor"
       aria-hidden="true"><path fill-rule="evenodd" d={CHEVRON_DOWN} clip-rule="evenodd" /></svg
     >
-    Performance timings
+    性能耗时
   </button>
   {#if open}
     <div class="w-full perf-body">

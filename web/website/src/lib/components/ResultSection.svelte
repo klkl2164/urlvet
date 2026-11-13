@@ -32,7 +32,7 @@
   $: shortNote = shortLinkNote(data?.short_link) ?? redirectNote(data?.redirected_from);
   // Vetty says this himself when he's around; otherwise it's a quiet line here.
   // No joke on a Risky result, except the fake demo examples.
-  $: demo = !!data && EXAMPLES.some((e) => e.hint === "Fake" && e.url === data.domain);
+  $: demo = !!data && EXAMPLES.some((e) => e.hint === "伪造" && e.url === data.domain);
   $: egg =
     data && $vettyMemory.hidden && (data.result?.verdict !== "Risky" || demo)
       ? easterEgg(data.url)
@@ -125,7 +125,7 @@
           path={ICON.arrowUp}
           class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform duration-200"
         />
-        Scan another link
+        扫描另一个链接
       </button>
     </div>
 

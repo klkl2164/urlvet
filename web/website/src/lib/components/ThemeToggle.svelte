@@ -5,8 +5,8 @@
 <button
   class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-gray-300 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:border-gray-400 dark:hover:border-gray-600 transition-colors"
   on:click={theme.toggle}
-  aria-label={$theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-  title={$theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+  aria-label={$theme === "dark" ? "切换到浅色模式" : "切换到深色模式"}
+  title={$theme === "dark" ? "切换到浅色模式" : "切换到深色模式"}
 >
   {#if $theme === "dark"}
     <svg

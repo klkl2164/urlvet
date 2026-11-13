@@ -12,6 +12,7 @@ export const OG = {
   accent: '#8eb0ff',
   serif: 'Instrument Serif',
   sans: 'Geist',
+  sansZh: 'Noto Sans SC',
   mono: 'Geist Mono',
 };
 
