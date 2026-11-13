@@ -24,7 +24,9 @@ services:
       - urlvet-net
 
   chrome:
-    image: chromedp/headless-shell:latest
+    build:
+      context: ..
+      dockerfile: chrome.Dockerfile
     container_name: urlvet-chrome
     restart: unless-stopped
     networks:

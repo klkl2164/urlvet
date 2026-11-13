@@ -1,0 +1,3 @@
+# Keep local secrets out of the shared build context.
+prod/.env
+dev/.env
