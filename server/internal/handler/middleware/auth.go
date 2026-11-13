@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/admintoken"
+	"github.com/klkl2164/urlvet/internal/admintoken"
 )
 
 // BearerAuth validates the Authorization: Bearer <token> header.

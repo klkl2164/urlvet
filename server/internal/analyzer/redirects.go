@@ -5,8 +5,8 @@ import (
 	"net"
 	"strings"
 
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
 )
 
 // When a link leads to another site, the scan judges the page it lands on:

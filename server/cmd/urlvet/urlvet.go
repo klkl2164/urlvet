@@ -28,14 +28,14 @@ import (
 	"syscall"
 
 	"github.com/joho/godotenv"
-	"github.com/urlvet/urlvet/internal/admintoken"
-	_ "github.com/urlvet/urlvet/internal/docs" // swagger docs registration
-	"github.com/urlvet/urlvet/internal/handler"
-	"github.com/urlvet/urlvet/internal/logger"
-	"github.com/urlvet/urlvet/internal/service/rank"
-	"github.com/urlvet/urlvet/internal/service/screenshot"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
-	"github.com/urlvet/urlvet/internal/service/typosquat"
+	"github.com/klkl2164/urlvet/internal/admintoken"
+	_ "github.com/klkl2164/urlvet/internal/docs" // swagger docs registration
+	"github.com/klkl2164/urlvet/internal/handler"
+	"github.com/klkl2164/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/service/rank"
+	"github.com/klkl2164/urlvet/internal/service/screenshot"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/service/typosquat"
 )
 
 func main() {

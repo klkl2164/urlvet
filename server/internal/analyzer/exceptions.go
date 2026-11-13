@@ -5,11 +5,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/urlvet/urlvet/internal/constants"
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/rank"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
-	"github.com/urlvet/urlvet/internal/service/typosquat"
+	"github.com/klkl2164/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/rank"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/service/typosquat"
 )
 
 // lookupRank is rank.DomainRankLookup, swappable in tests.

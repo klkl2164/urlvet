@@ -5,13 +5,13 @@ import (
 	neturl "net/url"
 	"strings"
 
+	"github.com/klkl2164/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/domaininfo"
+	"github.com/klkl2164/urlvet/internal/service/rank"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/service/typosquat"
 	"github.com/redis/go-redis/v9"
-	"github.com/urlvet/urlvet/internal/constants"
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/domaininfo"
-	"github.com/urlvet/urlvet/internal/service/rank"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
-	"github.com/urlvet/urlvet/internal/service/typosquat"
 	"golang.org/x/net/publicsuffix"
 )
 

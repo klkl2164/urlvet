@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/urlvet/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/constants"
 )
 
 func CheckURLKeywords(url string) (bool, []string, map[string][]string) {

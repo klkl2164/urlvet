@@ -12,7 +12,7 @@
 ## 1. Clone and configure
 
 ```bash
-git clone https://github.com/urlvet/urlvet.git
+git clone https://github.com/klkl2164/urlvet.git
 cd urlvet
 ```
 

@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/domaininfo"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/domaininfo"
 )
 
 // DomainInfoHandler returns WHOIS / RDAP registration data for the URL's domain.

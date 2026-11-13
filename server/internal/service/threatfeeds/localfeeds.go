@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/logger"
 )
 
 // Local threat feeds: lists of known phishing and malware URLs downloaded on

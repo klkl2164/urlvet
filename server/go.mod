@@ -1,4 +1,4 @@
-module github.com/urlvet/urlvet
+module github.com/klkl2164/urlvet
 
 go 1.25.0
 

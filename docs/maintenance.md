@@ -170,9 +170,12 @@ docker compose -f docker/prod/docker-compose.prod.yml up -d --build backend
 Update the headless Chrome image:
 
 ```bash
-docker pull chromedp/headless-shell:latest
+docker compose -f docker/prod/docker-compose.prod.yml build --pull chrome
 docker compose -f docker/prod/docker-compose.prod.yml up -d chrome
 ```
+
+Both stacks build the image from `docker/chrome.Dockerfile`, which adds Noto CJK
+fonts to the upstream `chromedp/headless-shell` image.
 
 ---
 

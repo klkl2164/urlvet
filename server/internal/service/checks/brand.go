@@ -6,7 +6,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/urlvet/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/constants"
 	"golang.org/x/text/unicode/norm"
 )
 

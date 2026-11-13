@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/domaininfo"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/domaininfo"
 )
 
 // safeBase returns a minimal Response that should produce verdict "Safe".

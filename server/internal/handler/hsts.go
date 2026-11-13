@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/checks"
 )
 
 // CheckHSTSHandler checks whether the URL's host enforces HSTS.

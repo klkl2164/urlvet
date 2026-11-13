@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/checks"
 )
 
 func TestApiHandler(c *gin.Context) {

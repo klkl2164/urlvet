@@ -3,7 +3,7 @@ package domaininfo
 import (
 	"context"
 
-	"github.com/urlvet/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/checks"
 )
 
 // Lookup tries RDAP first, falls back to WHOIS if RDAP fails.

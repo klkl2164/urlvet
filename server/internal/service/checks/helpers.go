@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/constants"
 	"golang.org/x/net/publicsuffix"
 )
 

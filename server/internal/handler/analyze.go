@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/analyzer"
-	"github.com/urlvet/urlvet/internal/logger"
-	"github.com/urlvet/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/analyzer"
+	"github.com/klkl2164/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/service/checks"
 )
 
 // AnalyzeURLHandler runs a full safety analysis on the given URL.

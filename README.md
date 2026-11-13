@@ -17,8 +17,8 @@ Open-source phishing detection engine for URLs and domains — paste any link an
 [![Go](https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 [![Svelte](https://img.shields.io/badge/Svelte-5-orange?logo=svelte)](https://svelte.dev)
 [![License](https://img.shields.io/badge/License-AGPL--3-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/urlvet/urlvet?style=social)](https://github.com/urlvet/urlvet)
-[![Last Commit](https://img.shields.io/github/last-commit/urlvet/urlvet)](https://github.com/urlvet/urlvet/commits/main)
+[![GitHub stars](https://img.shields.io/github/stars/klkl2164/urlvet?style=social)](https://github.com/klkl2164/urlvet)
+[![Last Commit](https://img.shields.io/github/last-commit/klkl2164/urlvet)](https://github.com/klkl2164/urlvet/commits/main)
 
 [English](./README.md) | [中文](./README.zh.md)
 
@@ -42,7 +42,7 @@ Try it at [url.vet](https://url.vet), free and with no signup.
 ## Quick Start
 
 ```bash
-git clone https://github.com/urlvet/urlvet.git
+git clone https://github.com/klkl2164/urlvet.git
 cd urlvet
 make start
 ```
@@ -275,8 +275,8 @@ url.vet is dual-licensed:
 
 ## Contributing
 
-- Found a bug? → [Open an issue](https://github.com/urlvet/urlvet/issues)
-- Have a question or idea? → [Start a discussion](https://github.com/urlvet/urlvet/discussions)
+- Found a bug? → [Open an issue](https://github.com/klkl2164/urlvet/issues)
+- Have a question or idea? → [Start a discussion](https://github.com/klkl2164/urlvet/discussions)
 - Want to contribute code? → [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 
 If you found this project helpful, consider giving it a star.
@@ -285,11 +285,11 @@ If you found this project helpful, consider giving it a star.
 
 
 <!-- <div align="center">
-  <a href="https://star-history.com/#urlvet/urlvet&Date">
+  <a href="https://star-history.com/#klkl2164/urlvet&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=urlvet/urlvet&type=Date&theme=dark" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=urlvet/urlvet&type=Date" />
-      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=urlvet/urlvet&type=Date" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=klkl2164/urlvet&type=Date&theme=dark" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=klkl2164/urlvet&type=Date" />
+      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=klkl2164/urlvet&type=Date" />
     </picture>
   </a>
 </div> -->

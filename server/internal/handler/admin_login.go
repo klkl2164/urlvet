@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/admintoken"
+	"github.com/klkl2164/urlvet/internal/admintoken"
 	"golang.org/x/crypto/argon2"
 )
 

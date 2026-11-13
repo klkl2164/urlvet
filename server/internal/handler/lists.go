@@ -9,9 +9,9 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/constants"
-	"github.com/urlvet/urlvet/internal/service/rank"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/service/rank"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
 )
 
 // Lists for clients (the browser extension) to keep locally: known-bad links

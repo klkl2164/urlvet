@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/logger"
-	"github.com/urlvet/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/service/checks"
 )
 
 // CheckIfUsesIPHandler checks whether the URL uses a raw IP address instead of a domain.

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/store"
+	"github.com/klkl2164/urlvet/internal/store"
 )
 
 // AdminStatsHandler returns live scan metrics derived from the in-memory ring buffer.

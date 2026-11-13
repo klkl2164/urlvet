@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/urlvet/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/constants"
 )
 
 var domainRankMap map[string]int

@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
 )
 
 type fastTask struct{}

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/logger"
 	"golang.org/x/net/html"
 	"golang.org/x/net/publicsuffix"
 )

@@ -11,9 +11,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/urlvet/urlvet/internal/constants"
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/rank"
+	"github.com/klkl2164/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/rank"
 	"golang.org/x/net/publicsuffix"
 )
 

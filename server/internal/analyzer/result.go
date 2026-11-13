@@ -10,9 +10,9 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/urlvet/urlvet/internal/constants"
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
 )
 
 func GenerateResult(resp Response) Result {

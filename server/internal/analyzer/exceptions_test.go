@@ -3,8 +3,8 @@ package analyzer
 import (
 	"testing"
 
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/typosquat"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/typosquat"
 )
 
 func TestApplyExceptions_TopRankedDomain(t *testing.T) {

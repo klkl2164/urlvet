@@ -5,10 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/domaininfo"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
-	"github.com/urlvet/urlvet/internal/service/typosquat"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/domaininfo"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/service/typosquat"
 )
 
 // Cases from scanning 300 OpenPhish URLs.

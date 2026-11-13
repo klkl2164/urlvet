@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/metrics"
-	"github.com/urlvet/urlvet/internal/store"
+	"github.com/klkl2164/urlvet/internal/metrics"
+	"github.com/klkl2164/urlvet/internal/store"
 )
 
 // TaskError is a task that failed.

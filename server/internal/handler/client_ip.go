@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/logger"
 )
 
 // Client IP resolution

@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/domaininfo"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/domaininfo"
 )
 
 // Cases from user reports, built from what the scans actually returned.

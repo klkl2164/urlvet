@@ -14,8 +14,8 @@ import (
 	"time"
 
 	"github.com/chromedp/chromedp"
-	"github.com/urlvet/urlvet/internal/constants"
-	"github.com/urlvet/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/logger"
 )
 
 // Service manages screenshot operations with a shared browser allocator

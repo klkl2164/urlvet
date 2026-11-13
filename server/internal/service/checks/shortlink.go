@@ -2,7 +2,7 @@ package checks
 
 import (
 	"errors"
-	"github.com/urlvet/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/constants"
 	"io"
 	"net/http"
 	"net/url"

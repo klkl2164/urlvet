@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/urlvet/urlvet/internal/logger"
-	"github.com/urlvet/urlvet/internal/service/cache"
+	"github.com/klkl2164/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/service/cache"
 )
 
 // saltRotation is how often the secret behind hashed IPs is replaced.

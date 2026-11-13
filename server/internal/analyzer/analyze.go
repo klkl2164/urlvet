@@ -7,13 +7,13 @@ import (
 	"slices"
 	"time"
 
-	"github.com/urlvet/urlvet/internal/constants"
-	"github.com/urlvet/urlvet/internal/logger"
-	"github.com/urlvet/urlvet/internal/metrics"
-	"github.com/urlvet/urlvet/internal/service/cache"
-	"github.com/urlvet/urlvet/internal/service/checks"
-	"github.com/urlvet/urlvet/internal/service/threatfeeds"
-	"github.com/urlvet/urlvet/internal/store"
+	"github.com/klkl2164/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/logger"
+	"github.com/klkl2164/urlvet/internal/metrics"
+	"github.com/klkl2164/urlvet/internal/service/cache"
+	"github.com/klkl2164/urlvet/internal/service/checks"
+	"github.com/klkl2164/urlvet/internal/service/threatfeeds"
+	"github.com/klkl2164/urlvet/internal/store"
 )
 
 // buildPhishingResult converts the internal PhishTankResult into the public PhishingResult.

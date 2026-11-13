@@ -189,13 +189,13 @@ docs/                       API reference, setup guide, architecture, security
 
 ## Deployment
 
-Two fully separated Docker Compose stacks share the same image definitions but differ in configuration:
+Two fully separated Docker Compose stacks share the same source tree and some image definitions but differ in configuration:
 
 | | Dev | Prod |
 |---|---|---|
 | Backend | Air hot-reload, source mounted as volume | Compiled binary in distroless image |
 | Frontend | Vite dev server `:5173` | Static build served by Nginx `:3000` |
-| Chrome | Same `chromedp/headless-shell` image | Same |
+| Chrome | Built from `docker/chrome.Dockerfile` (upstream plus Noto CJK fonts) | Same |
 | Valkey | Port exposed (`:6379`) for local inspection | Port not exposed; internal only |
 | ENV | `ENV=DEV` — colored logs, debug endpoints | `ENV=PROD` — JSON logs, info level only |
 

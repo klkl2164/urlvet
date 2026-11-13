@@ -4,7 +4,7 @@
 
 Please report security issues privately. **Don't open a public issue or PR.**
 
-- **Preferred:** [Report a vulnerability](https://github.com/urlvet/urlvet/security/advisories/new) on GitHub. Only maintainers can see it.
+- **Preferred:** [Report a vulnerability](https://github.com/klkl2164/urlvet/security/advisories/new) on GitHub. Only maintainers can see it.
 - **Or email** [hi@url.vet](mailto:hi@url.vet) with "Security" in the subject. If you don't hear back within 3 days, check your spam folder and email again, or use the GitHub form.
 
 Include:
@@ -18,7 +18,7 @@ Include:
 1. We reply within 3 days to say we've got it.
 2. We check the report and tell you whether we can reproduce it.
 3. We fix it and keep you updated. We aim to release a fix within 30 days of confirming the issue.
-4. For confirmed issues, we publish a [GitHub Security Advisory](https://github.com/urlvet/urlvet/security/advisories) and request a CVE when it's warranted. We credit you unless you'd rather not be named.
+4. For confirmed issues, we publish a [GitHub Security Advisory](https://github.com/klkl2164/urlvet/security/advisories) and request a CVE when it's warranted. We credit you unless you'd rather not be named.
 
 Please keep the details private until the advisory is published. After that, you're welcome to publish your own write-up.
 

@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/urlvet/urlvet/internal/constants"
+	"github.com/klkl2164/urlvet/internal/constants"
 )
 
 // dashedIP finds an IPv4 address written with dots or dashes inside a name
