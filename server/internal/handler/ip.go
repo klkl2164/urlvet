@@ -20,20 +20,20 @@ import (
 func CheckIfUsesIPHandler(c *gin.Context) {
 	url := c.Query("url")
 	if url == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "url query param is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "缺少链接参数"})
 		return
 	}
 
 	_, isValid, err := checks.IsValidURL(url)
 	if err != nil || !isValid {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "链接格式不正确"})
 		return
 	}
 
 	isIP, err := checks.UsesIPInsteadOfDomain(url)
 	if err != nil {
 		logger.Error("IP check failed", "err", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "无法解析这个链接"})
 		return
 	}
 
@@ -55,27 +55,27 @@ func CheckIfUsesIPHandler(c *gin.Context) {
 func ResolveIPHandler(c *gin.Context) {
 	url := c.Query("url")
 	if url == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "url query param is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "缺少链接参数"})
 		return
 	}
 
 	_, isValid, err := checks.IsValidURL(url)
 	if err != nil || !isValid {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "链接格式不正确"})
 		return
 	}
 
 	domain, err := checks.GetDomain(url)
 	if err != nil {
 		logger.Error("domain extraction failed", "err", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "链接格式不正确"})
 		return
 	}
 
 	ips, err := checks.GetIPAddress(domain)
 	if err != nil {
 		logger.Error("IP resolution failed", "domain", domain, "err", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "解析域名失败（" + err.Error() + "）"})
 		return
 	}
 

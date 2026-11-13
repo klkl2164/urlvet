@@ -47,9 +47,9 @@ curl "http://localhost:8080/api/v1/analyze?url=https://example.com"
 | Status | When | Body |
 |---|---|---|
 | `200` | The scan ran | The report below |
-| `400` | `url` is missing, or isn't a valid URL | `{"error": "url query param is required"}` or `{"status": "ERROR", "error": "invalid url"}` |
-| `422` | The URL is valid but has nothing to scan (no usable domain) | `{"status": "ERROR", "error": "could not analyze this URL"}` |
-| `429` | Rate limit reached | `{"error": "too many requests", ...}` |
+| `400` | `url` is missing, or isn't a valid URL | `{"error": "缺少链接参数"}` or `{"status": "ERROR", "error": "链接格式不正确"}` |
+| `422` | The URL is valid but has nothing to scan (no usable domain) | `{"status": "ERROR", "error": "无法分析这个链接"}` |
+| `429` | Rate limit reached | `{"error": "请求太频繁", ...}` |
 
 A scan takes 1 to 15 seconds. Checks still running at 15 seconds are dropped, and the report says which ones (see `incomplete` below).
 
@@ -94,7 +94,7 @@ Some checks depend on other services (DNS, WHOIS/RDAP, the site itself, Google) 
 |---|---|
 | `incomplete` | `true` when a missing check could change the verdict. Treat the verdict with care and scan again later |
 | `incomplete_checks` | Names of the checks that didn't finish, e.g. `["whois_lookup"]`. Omitted when everything ran. Can be non-empty while `incomplete` is `false`: a rate limit from PhishTank or Google is listed but doesn't make the result incomplete |
-| `errors` | The underlying error messages, for debugging. `null` when there were none |
+| `errors` | The underlying task errors, for debugging. They keep the wording of the failing library, so they are usually still in English. `null` when there were none |
 
 ### Caching
 
@@ -391,5 +391,7 @@ Exceeding the limit returns `429 Too Many Requests`.
 All 4xx/5xx responses return JSON:
 
 ```json
-{ "error": "description of the problem" }
+{ "error": "问题的中文说明" }
 ```
+
+The `error` field is in Chinese on every endpoint. When a 500 wraps a library error, the library's own text follows in parentheses, for example `{"error": "检查重定向失败（dial tcp: lookup example.com: no such host）"}`. The domain-info endpoint puts that raw text in a separate `detail` field instead.

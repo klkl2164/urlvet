@@ -19,13 +19,13 @@ import (
 func CheckUrlLengthHandler(c *gin.Context) {
 	rawURL := c.Query("url")
 	if rawURL == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "url query param is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "缺少链接参数"})
 		return
 	}
 
 	_, isValid, err := checks.IsValidURL(rawURL)
 	if err != nil || !isValid {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "链接格式不正确"})
 		return
 	}
 
@@ -48,13 +48,13 @@ func CheckUrlLengthHandler(c *gin.Context) {
 func CheckUrlDepthHandler(c *gin.Context) {
 	rawURL := c.Query("url")
 	if rawURL == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "url query param is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "缺少链接参数"})
 		return
 	}
 
 	_, isValid, err := checks.IsValidURL(rawURL)
 	if err != nil || !isValid {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "链接格式不正确"})
 		return
 	}
 

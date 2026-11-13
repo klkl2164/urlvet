@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/). Versions
 
 ### Changed
 - The website and the Chrome extension now speak Chinese: every page, result section, admin screen, error message, share preview card and extension screen
+- Every 4xx and 5xx response now writes its `error` field in Chinese, including the rate-limit, URL-length and unknown-path replies; the extension gives the 422 case its own message and tells an over-long link apart from an unusable one
 - The backend now writes every reason sentence in Chinese: the good, neutral and bad reasons, the short-link and redirect notes, the certificate notes in `ssl_info.reasons`, and the findings carried over from the submitted link and its hops
 - Repository links, the Go module path and all package imports point at the klkl2164/urlvet fork
 

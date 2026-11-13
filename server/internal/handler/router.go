@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -112,6 +113,12 @@ func SetupRouter() *gin.Engine {
 		v1.GET("/screenshot", ScreenshotHandler)
 
 	}
+
+	// Unknown paths answer in JSON like every other endpoint, instead of
+	// Gin's plain-text "404 page not found".
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, gin.H{"error": "没有找到这个接口"})
+	})
 
 	return r
 }

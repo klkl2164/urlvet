@@ -15,7 +15,7 @@ func BearerAuth() gin.HandlerFunc {
 		header := c.GetHeader("Authorization")
 		parts := strings.SplitN(header, " ", 2)
 		if len(parts) != 2 || !strings.EqualFold(parts[0], "Bearer") || !admintoken.Validate(parts[1]) {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "登录令牌缺失或已失效"})
 			return
 		}
 		c.Next()

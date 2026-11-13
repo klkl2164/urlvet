@@ -15,7 +15,7 @@ export function createAdminClient(token: string) {
       headers: { ...init.headers, Authorization: `Bearer ${token}` },
     });
     if (res.status === 401) throw new UnauthorizedError();
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`请求失败（HTTP ${res.status}）`);
     return res;
   }
 
@@ -49,7 +49,7 @@ export async function login(password: string): Promise<{ token?: string; error?:
       body: JSON.stringify({ password }),
     });
     if (res.status === 401) return { error: '密码不正确。' };
-    if (res.status === 503) return { error: '此服务器已关闭管理后台。' };
+    if (res.status === 503) return { error: '这台服务器没有启用管理后台。' };
     if (!res.ok) return { error: '登录失败，请重试。' };
     const data = await res.json();
     return { token: data.token };

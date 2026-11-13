@@ -26,7 +26,7 @@ type cacheEntry struct {
 func ListCacheHandler(c *gin.Context) {
 	cacheInstance, err := cache.New()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to connect to cache"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法连接到缓存服务"})
 		return
 	}
 	defer cacheInstance.Close()
@@ -35,7 +35,7 @@ func ListCacheHandler(c *gin.Context) {
 
 	keys, err := cacheInstance.Scan(ctx, "*")
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to list keys"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法列出缓存键"})
 		return
 	}
 	sort.Strings(keys)
@@ -90,7 +90,7 @@ func ListCacheHandler(c *gin.Context) {
 func DeleteCacheKeyHandler(c *gin.Context) {
 	key := c.Param("key")
 	if key == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "key is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "缺少缓存键"})
 		return
 	}
 	// Gin includes the leading slash when using wildcard params; strip it.
@@ -100,13 +100,13 @@ func DeleteCacheKeyHandler(c *gin.Context) {
 
 	cacheInstance, err := cache.New()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to connect to cache"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法连接到缓存服务"})
 		return
 	}
 	defer cacheInstance.Close()
 
 	if err := cacheInstance.Delete(c.Request.Context(), key); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to delete key"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法删除缓存键"})
 		return
 	}
 
@@ -123,7 +123,7 @@ func FlushCacheHandler(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "ERROR",
-			"error":  "failed to connect to cache service",
+			"error":  "无法连接到缓存服务",
 		})
 		return
 	}
@@ -132,13 +132,13 @@ func FlushCacheHandler(c *gin.Context) {
 	if err := cacheInstance.FlushAll(c.Request.Context()); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "ERROR",
-			"error":  "failed to flush cache",
+			"error":  "无法清空缓存",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  "SUCCESS",
-		"message": "all cache has been flushed successfully",
+		"message": "缓存已清空",
 	})
 }

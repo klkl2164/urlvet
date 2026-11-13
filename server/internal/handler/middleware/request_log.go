@@ -42,7 +42,11 @@ func Recovery() gin.HandlerFunc {
 		defer func() {
 			if rec := recover(); rec != nil {
 				logger.Error("panic", "path", c.Request.URL.Path, "err", fmt.Sprint(rec))
-				c.AbortWithStatus(http.StatusInternalServerError)
+				if c.Writer.Written() {
+					c.Abort()
+					return
+				}
+				c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "服务器内部错误"})
 			}
 		}()
 		c.Next()

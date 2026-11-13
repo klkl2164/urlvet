@@ -31,13 +31,13 @@ import (
 func AnalyzeURLHandler(c *gin.Context) {
 	url := strings.TrimSpace(c.Query("url"))
 	if url == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "url query param is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "缺少链接参数"})
 		return
 	}
 
 	_, isValid, err := checks.IsValidURL(url)
 	if err != nil || !isValid {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "ERROR", "error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"status": "ERROR", "error": "链接格式不正确"})
 		return
 	}
 
@@ -57,7 +57,7 @@ func AnalyzeURLHandler(c *gin.Context) {
 	// No verdict means the analysis never ran (e.g. the URL has no usable
 	// domain). Say so, rather than send an empty result as a success.
 	if resp.Result.Verdict == "" {
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"status": "ERROR", "error": "could not analyze this URL"})
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"status": "ERROR", "error": "无法分析这个链接"})
 		return
 	}
 	c.JSON(http.StatusOK, resp)

@@ -24,24 +24,24 @@ type adminLoginRequest struct {
 func AdminLoginHandler(c *gin.Context) {
 	hash := os.Getenv("ADMIN_PASSWORD_HASH")
 	if hash == "" {
-		c.JSON(http.StatusServiceUnavailable, gin.H{"error": "admin access not configured"})
+		c.JSON(http.StatusServiceUnavailable, gin.H{"error": "管理后台没有启用"})
 		return
 	}
 
 	var req adminLoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "password required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "请输入密码"})
 		return
 	}
 
 	if err := verifyArgon2id(req.Password, hash); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid password"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "密码不正确"})
 		return
 	}
 
 	token, err := admintoken.Issue(24 * time.Hour)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to issue token"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法生成登录令牌"})
 		return
 	}
 

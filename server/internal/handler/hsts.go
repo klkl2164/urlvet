@@ -20,19 +20,19 @@ import (
 func CheckHSTSHandler(c *gin.Context) {
 	rawURL := c.Query("url")
 	if rawURL == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "url query param is required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "缺少链接参数"})
 		return
 	}
 
 	_, isValid, err := checks.IsValidURL(rawURL)
 	if err != nil || !isValid {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid url"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "链接格式不正确"})
 		return
 	}
 
 	supportsHSTS, err := checks.SupportsHSTS(rawURL)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "检查 HSTS 失败（" + err.Error() + "）"})
 		return
 	}
 

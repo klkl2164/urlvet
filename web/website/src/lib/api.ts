@@ -18,21 +18,33 @@ import type {
 
 const PUBLIC_BASE_URL = env.PUBLIC_BASE_URL || 'http://localhost:8080/api/v1';
 
-/** API errors are still in English; the UI maps them to Chinese. */
+/** The backend writes errors in Chinese; the English cases keep older self-hosted backends working. */
 function errorMessage(status: number, serverMessage?: string): string {
-  if (serverMessage?.includes('maximum allowed length')) return '链接太长了，请缩短后再试。';
+  if (serverMessage?.includes('链接太长') || serverMessage?.includes('maximum allowed length'))
+    return '链接太长了，请缩短后再试。';
   switch (serverMessage) {
+    case '请求太频繁':
     case 'too many requests':
       return '请求太频繁了，请稍后再试。';
+    case '链接格式不正确':
+    case '缺少链接参数':
     case 'invalid url':
+    case 'invalid URL':
     case 'url query param is required':
+    case 'url query parameter is required':
       return '这个地址看起来不对，检查一下再试。';
+    case '无法分析这个链接':
     case 'could not analyze this URL':
       return '无法分析这个链接，请过一会儿再试。';
+    case '报告内容不完整或格式不对':
     case 'invalid report':
-      return '报告内容不完整，检查一下再提交。';
+      return '报告内容不完整或格式不对，检查一下再提交。';
+    case '无法保存报告':
     case 'could not save report':
       return '报告没保存成功，请稍后再试。';
+    case '截图失败':
+    case 'failed to capture screenshot':
+      return '截图没成功，请稍后再试。';
   }
   if (status === 429) return '请求太频繁了，请稍后再试。';
   if (status >= 500) return '服务器出错了，请稍后再试。';
@@ -72,7 +84,8 @@ async function makeScreenshotRequest(url: string): Promise<ApiResponse<string | 
 
     if (!response.ok) {
       console.error(`Screenshot API Error: HTTP ${response.status}`);
-      return { error: `HTTP ${response.status}` };
+      const errorData = await response.json().catch(() => ({ error: '' }));
+      return { error: errorMessage(response.status, errorData.error) };
     }
 
     // Check if response is an image

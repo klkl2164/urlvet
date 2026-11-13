@@ -75,7 +75,7 @@ func reportsFilePath() string {
 func ReportResultHandler(c *gin.Context) {
 	var req ReportRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid report"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "报告内容不完整或格式不对"})
 		return
 	}
 	req.URL = strings.TrimSpace(req.URL)
@@ -83,13 +83,13 @@ func ReportResultHandler(c *gin.Context) {
 
 	line, err := json.Marshal(ReportRecord{ReportRequest: req, Time: time.Now().In(ist).Format(reportTimeLayout)})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not save report"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法保存报告"})
 		return
 	}
 
 	if err := appendReport(line); err != nil {
 		logger.Error("failed to save report", "err", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not save report"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法保存报告"})
 		return
 	}
 
@@ -102,11 +102,11 @@ func AdminDeleteReportHandler(c *gin.Context) {
 	found, err := deleteReport(c.Param("id"))
 	if err != nil {
 		logger.Error("failed to delete report", "err", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not delete report"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法删除报告"})
 		return
 	}
 	if !found {
-		c.JSON(http.StatusNotFound, gin.H{"error": "report not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "没有找到这条报告"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"status": "deleted"})
@@ -117,7 +117,7 @@ func AdminReportsHandler(c *gin.Context) {
 	reports, err := readReports()
 	if err != nil {
 		logger.Error("failed to read reports", "err", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not read reports"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "无法读取报告"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"reports": reports})

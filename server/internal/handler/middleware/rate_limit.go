@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"sync"
 	"time"
+	"unicode/utf8"
 
 	"github.com/gin-gonic/gin"
 	"github.com/klkl2164/urlvet/internal/logger"
@@ -93,7 +94,7 @@ func rateLimiter(prefix string, limit int64, window time.Duration) gin.HandlerFu
 
 		if count > limit {
 			ctx.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{
-				"error":       "too many requests",
+				"error":       "请求太频繁",
 				"retry_after": window.Seconds(),
 			})
 			return
@@ -107,9 +108,9 @@ func rateLimiter(prefix string, limit int64, window time.Duration) gin.HandlerFu
 // "url" query parameter exceeds maxLen bytes, preventing DoS via oversized inputs.
 func URLLengthValidator(maxLen int) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if u := c.Query("url"); len(u) > maxLen {
+		if u := c.Query("url"); utf8.RuneCountInString(u) > maxLen {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": fmt.Sprintf("url exceeds maximum allowed length of %d characters", maxLen),
+				"error": fmt.Sprintf("链接太长，最多 %d 个字符", maxLen),
 			})
 			return
 		}

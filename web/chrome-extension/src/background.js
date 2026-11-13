@@ -71,9 +71,19 @@ async function scan(url) {
     };
   }
   if (res.status === 400) {
+    // A 400 is either an unusable link or one over the length limit.
+    const body = await res.json().catch(() => ({}));
     return {
       error: "invalid",
-      message: "这看起来不像是 url.vet 能检查的链接。",
+      message: body.error?.includes("链接太长")
+        ? "这个链接太长了，url.vet 检查不了。"
+        : "这看起来不像是 url.vet 能检查的链接。",
+    };
+  }
+  if (res.status === 422) {
+    return {
+      error: "invalid",
+      message: "无法分析这个链接，请过一会儿再试。",
     };
   }
   if (!res.ok) {
