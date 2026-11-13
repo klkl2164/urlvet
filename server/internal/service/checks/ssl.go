@@ -43,7 +43,7 @@ func AnalyzeSSLCert(domain string) SSLCertResult {
 	})
 	if err != nil {
 		res.HasTLS = false
-		res.Reasons = append(res.Reasons, fmt.Sprintf("TLS connection failed: %v", err))
+		res.Reasons = append(res.Reasons, fmt.Sprintf("TLS 连接失败：%v", err))
 		return res
 	}
 	defer conn.Close()
@@ -52,7 +52,7 @@ func AnalyzeSSLCert(domain string) SSLCertResult {
 	// grab peer certs
 	state := conn.ConnectionState()
 	if len(state.PeerCertificates) == 0 {
-		res.Reasons = append(res.Reasons, "no peer certificates")
+		res.Reasons = append(res.Reasons, "服务器没有提供证书")
 		return res
 	}
 
@@ -77,7 +77,7 @@ func AnalyzeSSLCert(domain string) SSLCertResult {
 	}
 	if _, err := cert.Verify(opts); err != nil {
 		res.ChainValid = false
-		res.Reasons = append(res.Reasons, fmt.Sprintf("cert chain invalid: %v", err))
+		res.Reasons = append(res.Reasons, fmt.Sprintf("证书链无效：%v", err))
 	} else {
 		res.ChainValid = true
 	}
@@ -86,22 +86,22 @@ func AnalyzeSSLCert(domain string) SSLCertResult {
 	if _, bad := knownBadFingerprints[res.Fingerprint]; bad {
 		res.IsSuspicious = true
 		res.KnownBadChain = true
-		res.Reasons = append(res.Reasons, "certificate fingerprint is blacklisted")
+		res.Reasons = append(res.Reasons, "证书指纹在黑名单中")
 	}
 
 	// expiry checks
 	if time.Now().After(cert.NotAfter) {
 		res.IsSuspicious = true
-		res.Reasons = append(res.Reasons, "certificate expired")
+		res.Reasons = append(res.Reasons, "证书已过期")
 	}
 	if time.Now().Before(cert.NotBefore) {
 		res.IsSuspicious = true
-		res.Reasons = append(res.Reasons, "certificate not yet valid")
+		res.Reasons = append(res.Reasons, "证书尚未生效")
 	}
 
 	// weak validity period (e.g., > 398 days is discouraged by CABF)
 	if cert.NotAfter.Sub(cert.NotBefore).Hours()/24 > 398 {
-		res.Reasons = append(res.Reasons, "unusually long validity period")
+		res.Reasons = append(res.Reasons, "证书有效期异常长")
 	}
 
 	// Check for embedded Certificate Transparency (CT) SCTs
@@ -117,7 +117,7 @@ func AnalyzeSSLCert(domain string) SSLCertResult {
 
 	if !res.CTLogged {
 		res.IsSuspicious = true
-		res.Reasons = append(res.Reasons, "certificate does not contain embedded CT logs (SCTs)")
+		res.Reasons = append(res.Reasons, "证书中没有内嵌的证书透明度日志（SCT）")
 	}
 
 	return res

@@ -42,7 +42,7 @@ func CheckTLSCombined(domain string) (CombinedTLSResult, error) {
 	})
 	if err != nil {
 		result.SSLInfo.HasTLS = false
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, fmt.Sprintf("TLS connection failed: %v", err))
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, fmt.Sprintf("TLS 连接失败：%v", err))
 		return result, fmt.Errorf("TLS connection failed: %v", err)
 	}
 	defer conn.Close()
@@ -52,7 +52,7 @@ func CheckTLSCombined(domain string) (CombinedTLSResult, error) {
 	certs := state.PeerCertificates
 
 	if len(certs) == 0 {
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "no peer certificates")
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "服务器没有提供证书")
 		return result, nil
 	}
 
@@ -102,7 +102,7 @@ func CheckTLSCombined(domain string) (CombinedTLSResult, error) {
 	}
 	if _, err := cert.Verify(opts); err != nil {
 		result.SSLInfo.ChainValid = false
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, fmt.Sprintf("cert chain invalid: %v", err))
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, fmt.Sprintf("证书链无效：%v", err))
 	} else {
 		result.SSLInfo.ChainValid = true
 	}
@@ -111,22 +111,22 @@ func CheckTLSCombined(domain string) (CombinedTLSResult, error) {
 	if _, bad := knownBadFingerprints[result.SSLInfo.Fingerprint]; bad {
 		result.SSLInfo.IsSuspicious = true
 		result.SSLInfo.KnownBadChain = true
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "certificate fingerprint is blacklisted")
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "证书指纹在黑名单中")
 	}
 
 	// Expiry checks
 	if time.Now().After(cert.NotAfter) {
 		result.SSLInfo.IsSuspicious = true
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "certificate expired")
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "证书已过期")
 	}
 	if time.Now().Before(cert.NotBefore) {
 		result.SSLInfo.IsSuspicious = true
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "certificate not yet valid")
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "证书尚未生效")
 	}
 
 	// Weak validity period (e.g., > 398 days is discouraged by CABF)
 	if cert.NotAfter.Sub(cert.NotBefore).Hours()/24 > 398 {
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "unusually long validity period")
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "证书有效期异常长")
 	}
 
 	// Check for embedded Certificate Transparency (CT) SCTs
@@ -141,7 +141,7 @@ func CheckTLSCombined(domain string) (CombinedTLSResult, error) {
 
 	if !result.SSLInfo.CTLogged {
 		result.SSLInfo.IsSuspicious = true
-		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "certificate does not contain embedded CT logs (SCTs)")
+		result.SSLInfo.Reasons = append(result.SSLInfo.Reasons, "证书中没有内嵌的证书透明度日志（SCT）")
 	}
 
 	return result, nil

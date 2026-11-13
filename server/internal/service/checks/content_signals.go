@@ -156,7 +156,7 @@ func detectProviderBlock(resp *http.Response, title string) *ProviderBlock {
 	}
 	// 451 is what Vercel and others serve for a deployment taken down for abuse.
 	if resp.StatusCode == http.StatusUnavailableForLegalReasons {
-		provider := "The hosting provider"
+		provider := "该托管服务商"
 		if strings.Contains(strings.ToLower(resp.Header.Get("Server")), "vercel") {
 			provider = "Vercel"
 		}

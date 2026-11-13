@@ -18,7 +18,7 @@ import type {
 
 const PUBLIC_BASE_URL = env.PUBLIC_BASE_URL || 'http://localhost:8080/api/v1';
 
-/** The backend answers in English; the UI shows Chinese. */
+/** API errors are still in English; the UI maps them to Chinese. */
 function errorMessage(status: number, serverMessage?: string): string {
   if (serverMessage?.includes('maximum allowed length')) return '链接太长了，请缩短后再试。';
   switch (serverMessage) {

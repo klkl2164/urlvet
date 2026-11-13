@@ -140,7 +140,7 @@ func GenerateResult(resp Response) Result {
 
 	// Keywords
 	if resp.Features.URL.Keywords.HasKeywords {
-		badReasons = append(badReasons, fmt.Sprintf("URL 中含有敏感的安全关键词：%s", strings.Join(resp.Features.URL.Keywords.Found, ", ")))
+		badReasons = append(badReasons, fmt.Sprintf("URL 中含有敏感的安全关键词：%s", strings.Join(resp.Features.URL.Keywords.Found, "、")))
 		riskScore += 10
 	}
 
@@ -203,12 +203,13 @@ func GenerateResult(resp Response) Result {
 			// Fake Adobe viewers are dropped on hacked sites the same way
 			// (luredout.com, nearly 10 years old).
 			neutralReasons = append(neutralReasons, fmt.Sprintf("域名已注册 %s，但这个页面看起来是被人植入的，所以不计域名年龄。", agePhrase(age)))
-		case age <= threeYearsDays:
-			goodReasons = append(goodReasons, fmt.Sprintf("已稳定运行 %s。", agePhrase(age)))
-			trustScore += 10
 		case age <= fiveYearsDays:
 			goodReasons = append(goodReasons, fmt.Sprintf("已稳定运行 %s。", agePhrase(age)))
-			trustScore += 15
+			if age > threeYearsDays {
+				trustScore += 15
+			} else {
+				trustScore += 10
+			}
 		default:
 			goodReasons = append(goodReasons, fmt.Sprintf("域名历史悠久（已注册 %s）。", agePhrase(age)))
 			trustScore += 25
@@ -468,7 +469,7 @@ func GenerateResult(resp Response) Result {
 			badReasons = append(badReasons, fmt.Sprintf("品牌不符：页面提到「%s」，却托管在非官方域名上。", resp.ContentData.BrandCheck.BrandFound))
 			riskScore += 100
 		} else if len(resp.ContentData.BrandCheck.DetectedNames) > 0 {
-			goodReasons = append(goodReasons, fmt.Sprintf("已核实的品牌匹配：%s", strings.Join(resp.ContentData.BrandCheck.DetectedNames, ", ")))
+			goodReasons = append(goodReasons, fmt.Sprintf("已核实的品牌匹配：%s", strings.Join(resp.ContentData.BrandCheck.DetectedNames, "、")))
 			trustScore += 20
 		}
 
@@ -631,15 +632,14 @@ func agePhrase(days int) string {
 	case days < 30:
 		return fmt.Sprintf("%d 天", days)
 	}
-	months := days / 30
-	if months < 12 {
-		return fmt.Sprintf("%d 个月", months)
+	if days < 365 {
+		return fmt.Sprintf("%d 个月", days/30)
 	}
-	years := months / 12
-	if months%12 == 0 {
-		return fmt.Sprintf("%d 年", years)
+	years := days / 365
+	if months := (days % 365) / 30; months > 0 {
+		return fmt.Sprintf("%d 年 %d 个月", years, months)
 	}
-	return fmt.Sprintf("%d 年 %d 个月", years, months%12)
+	return fmt.Sprintf("%d 年", years)
 }
 
 // downloadedProgram returns the executable extension of the file the link

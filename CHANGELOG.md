@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/). Versions
 
 ### Changed
 - The website and the Chrome extension now speak Chinese: every page, result section, admin screen, error message, share preview card and extension screen
-- The backend now writes every reason sentence in Chinese: the good, neutral and bad reasons, the short-link and redirect notes, and the findings carried over from the submitted link and its hops
+- The backend now writes every reason sentence in Chinese: the good, neutral and bad reasons, the short-link and redirect notes, the certificate notes in `ssl_info.reasons`, and the findings carried over from the submitted link and its hops
 - Repository links, the Go module path and all package imports point at the klkl2164/urlvet fork
 
 ## [0.4.0] – 2026-11-05 – Beta
