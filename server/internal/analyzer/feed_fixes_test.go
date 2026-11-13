@@ -23,7 +23,7 @@ func hostingBase(url, suffix string) Response {
 func TestFeed_CloudflareInterstitialIsRisky(t *testing.T) {
 	resp := hostingBase("http://ledgr--live.pages.dev/", "pages.dev")
 	resp.ContentData = &checks.PageFormResult{ProviderBlock: &checks.ProviderBlock{Provider: "Cloudflare", Reason: "phishing"}}
-	if got := GenerateResult(resp); got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "Cloudflare has flagged") {
+	if got := GenerateResult(resp); got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "Cloudflare 已将本页标记为疑似") {
 		t.Errorf("verdict %s, bad %v", got.Verdict, got.Reasons.BadReasons)
 	}
 }
@@ -32,7 +32,7 @@ func TestFeed_TakenDownDeploymentAddsRisk(t *testing.T) {
 	resp := hostingBase("https://posfihom.vercel.app/", "vercel.app")
 	base := GenerateResult(resp).RiskScore
 	resp.ContentData = &checks.PageFormResult{ProviderBlock: &checks.ProviderBlock{Provider: "Vercel", Reason: "blocked"}}
-	if got := GenerateResult(resp); got.RiskScore-base != 40 || !hasReason(got.Reasons.BadReasons, "Vercel has taken this site down") {
+	if got := GenerateResult(resp); got.RiskScore-base != 40 || !hasReason(got.Reasons.BadReasons, "Vercel 已将该网站下线") {
 		t.Errorf("risk +%d, bad %v", got.RiskScore-base, got.Reasons.BadReasons)
 	}
 }
@@ -41,12 +41,12 @@ func TestFeed_CertificateMismatch(t *testing.T) {
 	resp := safeBase()
 	resp.URL = "https://www.emmanuelbarrault.com/x"
 	resp.TLSInfo = checks.TLSResult{Present: true, HostnameMismatch: true}
-	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "certificate doesn't belong") || got.RiskScore < 40 {
+	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "安全证书不属于") || got.RiskScore < 40 {
 		t.Errorf("risk %d, bad %v", got.RiskScore, got.Reasons.BadReasons)
 	}
 	// Over plain HTTP nobody sees the certificate.
 	resp.URL = "http://www.emmanuelbarrault.com/x"
-	if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "certificate") {
+	if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "安全证书") {
 		t.Errorf("certificate flagged for an http:// link: %v", got.Reasons.BadReasons)
 	}
 }
@@ -137,7 +137,7 @@ func TestFeed_BrandContext(t *testing.T) {
 func TestFeed_LocalFeedListing(t *testing.T) {
 	resp := hostingBase("https://candymesa.pages.dev/", "pages.dev")
 	resp.ThreatFeeds = &threatfeeds.FeedMatch{Listed: true, Match: "url", Sources: []string{"PhishTank"}}
-	if got := GenerateResult(resp); got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "listed as phishing or malware by PhishTank") {
+	if got := GenerateResult(resp); got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "被 PhishTank 列为钓鱼或恶意软件") {
 		t.Errorf("verdict %s, bad %v", got.Verdict, got.Reasons.BadReasons)
 	}
 
@@ -182,7 +182,7 @@ func TestFeed_LocalFeedListing(t *testing.T) {
 func TestFeed_WebRisk(t *testing.T) {
 	resp := safeBase()
 	resp.WebRisk = &threatfeeds.GoogleThreatResult{Listed: true, ThreatTypes: []string{"SOCIAL_ENGINEERING"}}
-	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "Google lists this link as phishing") {
+	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "Google 将这个链接列为钓鱼") {
 		t.Errorf("bad %v", got.Reasons.BadReasons)
 	}
 }
@@ -191,7 +191,7 @@ func TestFeed_SafeBrowsing(t *testing.T) {
 	resp := safeBase()
 	resp.SafeBrowsing = &threatfeeds.GoogleThreatResult{Listed: true, ThreatTypes: []string{"MALWARE"}}
 	got := GenerateResult(resp)
-	if !hasReason(got.Reasons.BadReasons, "Google lists this link as malware") {
+	if !hasReason(got.Reasons.BadReasons, "Google 将这个链接列为恶意软件") {
 		t.Errorf("bad %v", got.Reasons.BadReasons)
 	}
 	// Listed by both Google sources: one reason, not two.
@@ -213,10 +213,10 @@ func TestRun2_BrandsInURLParts(t *testing.T) {
 		risk int
 		want string
 	}{
-		{"embedded domain", typosquat.TyposquatResult{EmbeddedDomain: "google.com", SubdomainBrand: "google", SubdomainBrandExact: true}, 60, "starts like google.com"},
-		{"brand in a subdomain", typosquat.TyposquatResult{SubdomainBrand: "paypal"}, 40, "uses the brand name 'paypal'"},
-		{"subdomain that is just the name", typosquat.TyposquatResult{SubdomainBrand: "github", SubdomainBrandExact: true}, 20, "is named 'github'"},
-		{"brand in the path", typosquat.TyposquatResult{PathBrand: "paypal"}, 20, "path names 'paypal'"},
+		{"embedded domain", typosquat.TyposquatResult{EmbeddedDomain: "google.com", SubdomainBrand: "google", SubdomainBrandExact: true}, 60, "开头看起来像 google.com"},
+		{"brand in a subdomain", typosquat.TyposquatResult{SubdomainBrand: "paypal"}, 40, "使用了品牌名「paypal」"},
+		{"subdomain that is just the name", typosquat.TyposquatResult{SubdomainBrand: "github", SubdomainBrandExact: true}, 20, "以「github」命名"},
+		{"brand in the path", typosquat.TyposquatResult{PathBrand: "paypal"}, 20, "路径中包含「paypal」"},
 	}
 	for _, tt := range tests {
 		plain := GenerateResult(base())
@@ -232,7 +232,7 @@ func TestRun2_BrandsInURLParts(t *testing.T) {
 	resp := base()
 	resp.TyposquatResult = typosquat.TyposquatResult{PathBrand: "correos"}
 	resp.ContentData = &checks.PageFormResult{HasLoginForm: true}
-	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "asks you to log in") {
+	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "页面要求你登录") {
 		t.Errorf("path brand with a login form: %v", got.Reasons.BadReasons)
 	}
 
@@ -289,19 +289,19 @@ func TestNewsletterToMarketingPlatform(t *testing.T) {
 	newsletter := checks.FormInfo{ExternalAction: true, Action: "https://s88570519.t.eloqua.com/e/f2", ContainsUserLike: true, ContainsPersonal: true}
 	resp := safeBase()
 	resp.ContentData = &checks.PageFormResult{HasForms: true, Forms: []checks.FormInfo{newsletter}}
-	if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "different domain") {
+	if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "另一个域名") {
 		t.Errorf("newsletter to Eloqua flagged: %v", got.Reasons.BadReasons)
 	}
 	// A password going to the same platform is still out of place.
 	newsletter.ContainsPassword = true
 	resp.ContentData = &checks.PageFormResult{HasForms: true, Forms: []checks.FormInfo{newsletter}}
-	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "CRITICAL") {
+	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "严重：") {
 		t.Errorf("password to a marketing platform not flagged: %v", got.Reasons.BadReasons)
 	}
 	// A phishing kit's form backend stays flagged.
 	kit := checks.FormInfo{ExternalAction: true, Action: "https://formspree.io/f/abc", ContainsPersonal: true}
 	resp.ContentData = &checks.PageFormResult{HasForms: true, Forms: []checks.FormInfo{kit}}
-	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "CRITICAL") {
+	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "严重：") {
 		t.Errorf("personal details to formspree not flagged: %v", got.Reasons.BadReasons)
 	}
 }
@@ -315,9 +315,9 @@ func TestRun3_BrandOnBarePage(t *testing.T) {
 		resp.ContentData = &checks.PageFormResult{Title: "SantanderCitas — book an appointment"}
 		base := GenerateResult(resp).RiskScore
 		for why, page := range map[string]*checks.PageFormResult{
-			"is blank":                  {},
-			"is a bare file listing":    {Title: "Index of /"},
-			"asks you to log in or pay": {Title: "Sign in", HasForms: true, HasLoginForm: true},
+			"是空白页面":    {},
+			"只是一个文件列表": {Title: "Index of /"},
+			"要求你登录或付款": {Title: "Sign in", HasForms: true, HasLoginForm: true},
 		} {
 			resp.ContentData = page
 			// A login form adds its own few points on an unranked site.
@@ -327,12 +327,12 @@ func TestRun3_BrandOnBarePage(t *testing.T) {
 		}
 		// A page that didn't load says nothing: brands park spare domains.
 		resp.ContentData = nil
-		if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "little-known") {
+		if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "不知名网站") {
 			t.Errorf("%s: unloaded page counted as bare: %v", resp.URL, got.Reasons.BadReasons)
 		}
 		// A ranked site has a page of its own to judge.
 		resp.ContentData, resp.Features.Rank = &checks.PageFormResult{}, 400000
-		if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "little-known") {
+		if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "不知名网站") {
 			t.Errorf("%s: ranked site counted as bare: %v", resp.URL, got.Reasons.BadReasons)
 		}
 	}
@@ -347,13 +347,13 @@ func TestCloudStorageRedirectHop(t *testing.T) {
 	resp := hostingBase("https://plh1288990.blob.core.windows.net/jud1288990/jtbluIh8.html", "blob.core.windows.net")
 	resp.ContentData = &checks.PageFormResult{ScriptRedirect: &checks.ScriptRedirect{Target: "https://vmi3614668.contaboserver.net/gateway.php", CrossDomain: true}}
 	got := GenerateResult(resp)
-	if got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "anyone could upload") || !hasReason(got.Reasons.NeutralReasons, "Stored on blob.core.windows.net") || hasReason(got.Reasons.BadReasons, "Unregulated") {
+	if got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "任何人都能上传") || !hasReason(got.Reasons.NeutralReasons, "存放在 blob.core.windows.net") || hasReason(got.Reasons.BadReasons, "不受监管") {
 		t.Errorf("verdict %s, bad %v, neutral %v", got.Verdict, got.Reasons.BadReasons, got.Reasons.NeutralReasons)
 	}
 	// A project page moving to its own domain is an ordinary redirect.
 	resp = hostingBase("https://octocat.github.io/", "github.io")
 	resp.ContentData = &checks.PageFormResult{ScriptRedirect: &checks.ScriptRedirect{Target: "https://octocat.dev/", CrossDomain: true}}
-	if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "anyone could upload") || got.RiskScore != 30 {
+	if got := GenerateResult(resp); hasReason(got.Reasons.BadReasons, "任何人都能上传") || got.RiskScore != 30 {
 		t.Errorf("github.io redirect: risk %d, bad %v", got.RiskScore, got.Reasons.BadReasons)
 	}
 }
@@ -407,7 +407,7 @@ func TestRun4_ConfirmedLinkIsAlwaysRisky(t *testing.T) {
 func TestRun5_IPHostnameIsLikeRawIP(t *testing.T) {
 	resp := safeBase()
 	resp.URL = "https://webmail.50-6-22-93.nip.io/desktop/"
-	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "bare server (50.6.22.93)") || got.Verdict == "Safe" {
+	if got := GenerateResult(resp); !hasReason(got.Reasons.BadReasons, "裸服务器，也就是 50.6.22.93") || got.Verdict == "Safe" {
 		t.Errorf("verdict %s, bad %v", got.Verdict, got.Reasons.BadReasons)
 	}
 }
@@ -419,11 +419,11 @@ func TestRun5_MailLoginOnFreeHosting(t *testing.T) {
 		return resp
 	}
 	for _, title := range []string{"Mail Authentication", "PORTAL - Mail Authentication", "Sign into Webmail", "Password Protection", "Verify your email"} {
-		if got := GenerateResult(login(title)); !hasReason(got.Reasons.BadReasons, "email sign-in page") {
+		if got := GenerateResult(login(title)); !hasReason(got.Reasons.BadReasons, "邮箱登录页") {
 			t.Errorf("%q not flagged: %v", title, got.Reasons.BadReasons)
 		}
 	}
-	if got := GenerateResult(login("Dashboard login")); hasReason(got.Reasons.BadReasons, "email sign-in page") {
+	if got := GenerateResult(login("Dashboard login")); hasReason(got.Reasons.BadReasons, "邮箱登录页") {
 		t.Errorf("ordinary app login flagged")
 	}
 }
@@ -455,7 +455,7 @@ func TestMined_HostingAgeIsTheProviders(t *testing.T) {
 	resp := hostingBase("https://kg5.04d.mytemp.website/", "mytemp.website")
 	days := 1006
 	resp.DomainInfo = &domaininfo.RegistrationData{AgeDays: &days, AgeKnown: true, CreatedDate: time.Now().AddDate(0, 0, -days)}
-	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "Operational") || !hasReason(got.Reasons.NeutralReasons, "mytemp.website's, not this site's") {
+	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "已稳定运行") || !hasReason(got.Reasons.NeutralReasons, "注册时间属于 mytemp.website") {
 		t.Errorf("good %v, neutral %v", got.Reasons.GoodReasons, got.Reasons.NeutralReasons)
 	}
 }
@@ -574,11 +574,11 @@ func TestRun6_HackedGovLoginKit(t *testing.T) {
 		resp.TyposquatResult = out.TyposquatResult
 		return GenerateResult(resp)
 	}
-	if got := scan("https://prisa.ins.gob.pe/secure/netflix/login"); got.Verdict == "Safe" || !hasReason(got.Reasons.BadReasons, "government or university") {
+	if got := scan("https://prisa.ins.gob.pe/secure/netflix/login"); got.Verdict == "Safe" || !hasReason(got.Reasons.BadReasons, "政府或大学") {
 		t.Errorf("hacked .gob.pe kit: %s %d %v", got.Verdict, got.FinalScore, got.Reasons.BadReasons)
 	}
 	// A university page about Netflix isn't a login kit.
-	if got := scan("https://cs.example.edu/research/netflix-prize"); hasReason(got.Reasons.BadReasons, "government or university") {
+	if got := scan("https://cs.example.edu/research/netflix-prize"); hasReason(got.Reasons.BadReasons, "政府或大学") {
 		t.Errorf("ordinary .edu page flagged: %v", got.Reasons.BadReasons)
 	}
 }
@@ -611,14 +611,14 @@ func TestRun6_BlogspotToGoogleIsSafe(t *testing.T) {
 	saved := rankLookupForVouch
 	rankLookupForVouch = func(string) int { return 4000 }
 	defer func() { rankLookupForVouch = saved }()
-	if got := GenerateResult(resp); got.Verdict != "Safe" || !hasReason(got.Reasons.GoodReasons, "run by the same company") {
+	if got := GenerateResult(resp); got.Verdict != "Safe" || !hasReason(got.Reasons.GoodReasons, "属于同一家公司") {
 		t.Errorf("%s %d %v", got.Verdict, got.FinalScore, got.Reasons.GoodReasons)
 	}
 	// Another host's page forwarding to Google isn't vouched for by Google.
 	resp = hostingBase("https://someone.vercel.app/", "vercel.app")
 	resp.Analysis.RedirectionResult.FinalURL = "https://research.google/blog/"
 	resp.Analysis.RedirectionResult.FinalURLHost = "research.google"
-	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "run by the same company") {
+	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "属于同一家公司") {
 		t.Error("vercel.app vouched for by Google")
 	}
 }
@@ -657,7 +657,7 @@ func TestRun6_KitLoginPath(t *testing.T) {
 	resp.Features.Rank = 0
 	days := 4000
 	resp.DomainInfo = &domaininfo.RegistrationData{AgeDays: &days, AgeKnown: true, CreatedDate: time.Now().AddDate(0, 0, -days)}
-	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "Long-standing") {
+	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "历史悠久") {
 		t.Errorf("age counted for a planted sign-in page: %v", got.Reasons.GoodReasons)
 	}
 }
@@ -674,9 +674,9 @@ func TestRun11_AdobeBait(t *testing.T) {
 		resp Response
 		want string
 	}{
-		{page("https://docsewallet.com/Adobe_Installer.html", "PDF Viewer", false), "titled as a PDF viewer"},
-		{page("https://danielnegru.com/adobekr.html", "미리보기 이미지", false), "named after Adobe"},
-		{page("https://example.org/share/view", "PDF Viewer", true), "with a form"},
+		{page("https://docsewallet.com/Adobe_Installer.html", "PDF Viewer", false), "标题是 PDF 阅读器"},
+		{page("https://danielnegru.com/adobekr.html", "미리보기 이미지", false), "以 Adobe 命名"},
+		{page("https://example.org/share/view", "PDF Viewer", true), "带表单"},
 		{page("https://example.org/share/view", "PDF Viewer", false), ""},                   // a viewer page without a form
 		{page("https://helpx.adobe.com/acrobat/adobe-reader.html", "PDF Viewer", true), ""}, // Adobe's own
 		{page("https://blog.example/2024/how-we-use-adobe-tools", "Our design stack", false), ""},
@@ -780,10 +780,10 @@ func TestRun13_YoungAIPlatformOnly(t *testing.T) {
 		resp.ContentData = &checks.PageFormResult{Title: "Crescera — AI platform for automated trading"}
 		return GenerateResult(resp)
 	}
-	if !hasReason(page(10).Reasons.BadReasons, "AI platform") {
+	if !hasReason(page(10).Reasons.BadReasons, "AI 平台") {
 		t.Error("10-day-old AI platform scam not flagged")
 	}
-	if hasReason(page(800).Reasons.BadReasons, "AI platform") {
+	if hasReason(page(800).Reasons.BadReasons, "AI 平台") {
 		t.Error("an established AI startup flagged")
 	}
 }
@@ -793,7 +793,7 @@ func TestRun13_VictimLoginLosesAge(t *testing.T) {
 	days := 3400
 	resp.DomainInfo = &domaininfo.RegistrationData{AgeDays: &days, AgeKnown: true, CreatedDate: time.Now().AddDate(0, 0, -days)}
 	resp.ContentData = &checks.PageFormResult{Title: "Quarantine Portal", HasForms: true, HasLoginForm: true}
-	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "Long-standing") {
+	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "历史悠久") {
 		t.Errorf("age counted for a login that greets its target: %v", got.Reasons.GoodReasons)
 	}
 }
@@ -801,7 +801,7 @@ func TestRun13_VictimLoginLosesAge(t *testing.T) {
 func TestRun13_CloudflareMisleading(t *testing.T) {
 	resp := hostingBase("https://sp15ct-zavqor-biz-kelun-mavix.pages.dev/", "pages.dev")
 	resp.ContentData = &checks.PageFormResult{ProviderBlock: &checks.ProviderBlock{Provider: "Cloudflare", Reason: "misleading"}}
-	if got := GenerateResult(resp); got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "suspected a misleading site") {
+	if got := GenerateResult(resp); got.Verdict != "Risky" || !hasReason(got.Reasons.BadReasons, "标记为疑似误导性网站") {
 		t.Errorf("%s %v", got.Verdict, got.Reasons.BadReasons)
 	}
 }
@@ -843,7 +843,7 @@ func TestNov5_FakeOWAPath(t *testing.T) {
 	resp.DomainInfo = &domaininfo.RegistrationData{AgeDays: &days, AgeKnown: true, CreatedDate: time.Now().AddDate(0, 0, -days)}
 	resp.ContentData = &checks.PageFormResult{Title: "Sign in", HasLoginForm: true, HasForms: true}
 	got := GenerateResult(resp)
-	if !hasReason(got.Reasons.BadReasons, "Outlook") || hasReason(got.Reasons.GoodReasons, "Long-standing") {
+	if !hasReason(got.Reasons.BadReasons, "Outlook") || hasReason(got.Reasons.GoodReasons, "历史悠久") {
 		t.Errorf("fake OWA page on an old domain: bad %v, good %v", got.Reasons.BadReasons, got.Reasons.GoodReasons)
 	}
 }
@@ -861,7 +861,7 @@ func TestNov5_AdobeBaitOnOldDomain(t *testing.T) {
 		t.Fatal("adobeBaitStrong missed a named and titled Adobe page")
 	}
 	got := GenerateResult(resp)
-	if hasReason(got.Reasons.GoodReasons, "Long-standing") {
+	if hasReason(got.Reasons.GoodReasons, "历史悠久") {
 		t.Errorf("age counted for a fake Adobe viewer: %v", got.Reasons.GoodReasons)
 	}
 	// One sign alone stays the milder case.

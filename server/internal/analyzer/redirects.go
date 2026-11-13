@@ -65,30 +65,30 @@ func worthFollowing(src Response, dest string) bool {
 func originFindings(src Response) *OriginFindings {
 	o := &OriginFindings{URL: src.URL}
 	host := hostOf(src.URL)
-	link := fmt.Sprintf("The link you were given (%s)", host)
+	link := fmt.Sprintf("你拿到的这条链接（%s）", host)
 
 	// How it's written.
 	if src.Features.URL.UsesIP {
-		o.add(link+" is a bare IP address.", 100)
+		o.add(link+"是一个裸 IP 地址。", 100)
 	}
 	if service, ip, ok := checks.IPHostname(host); ok {
-		what := "a bare server"
+		what := "一个裸服务器"
 		if ip != "" {
-			what = fmt.Sprintf("a bare server (%s)", ip)
+			what = fmt.Sprintf("一个裸服务器（%s）", ip)
 		}
-		o.add(fmt.Sprintf("%s is %s written as a name on %s.", link, what, service), 100)
+		o.add(fmt.Sprintf("%s是%s，被 %s 写成了域名。", link, what, service), 100)
 	}
 	if src.Features.URL.ContainsPunycode {
-		o.add(link+" uses punycode, which can make one address look like another.", 100)
+		o.add(link+"使用了 punycode，可以让一个地址看起来像另一个。", 100)
 	}
 	if src.Features.URL.HasHomoglyph {
-		o.add(link+" uses lookalike letters.", 60)
+		o.add(link+"使用了形近字母。", 60)
 	}
 	if src.Features.URL.Keywords.HasKeywords {
-		o.add(fmt.Sprintf("%s contains words like %s.", link, strings.Join(src.Features.URL.Keywords.Found, ", ")), 10)
+		o.add(fmt.Sprintf("%s中含有 %s 这样的词。", link, strings.Join(src.Features.URL.Keywords.Found, "、")), 10)
 	}
 	if victimAddressInLink(src.URL) {
-		o.add(link+" carries an email address for a page to fill in, a common way phishing tailors a login to each target.", 20)
+		o.add(link+"里带有供页面自动填写的邮箱地址，这是钓鱼页面为每个目标定制登录页的常用方式。", 20)
 	}
 
 	// Brands it borrows.
@@ -99,61 +99,61 @@ func originFindings(src Response) *OriginFindings {
 		if src.Features.TLD.IsHostingPlatform {
 			risk = 40
 		}
-		o.add(fmt.Sprintf("%s uses the brand name '%s' but isn't theirs.", link, ts.MatchedBrand), risk)
+		o.add(fmt.Sprintf("%s使用了品牌名「%s」，但该网站并不属于这个品牌。", link, ts.MatchedBrand), risk)
 	case ts.IsSuspicious:
-		o.add(fmt.Sprintf("%s closely resembles %s.", link, ts.MatchedDomain), 40)
+		o.add(fmt.Sprintf("%s 与 %s 非常相似。", link, ts.MatchedDomain), 40)
 	}
 	switch {
 	case ts.EmbeddedDomain != "":
-		o.add(fmt.Sprintf("%s starts like %s but isn't.", link, ts.EmbeddedDomain), 60)
+		o.add(fmt.Sprintf("%s 的开头看起来像 %s，实际并不是。", link, ts.EmbeddedDomain), 60)
 	case ts.SubdomainBrand != "" && ts.SubdomainBrandExact:
-		o.add(fmt.Sprintf("%s has a subdomain named '%s', on a site that isn't theirs.", link, ts.SubdomainBrand), 20)
+		o.add(fmt.Sprintf("%s 有一个以「%s」命名的子域名，但该网站并不属于这个品牌。", link, ts.SubdomainBrand), 20)
 	case ts.SubdomainBrand != "":
-		o.add(fmt.Sprintf("%s has a subdomain using the brand name '%s', on a site that isn't theirs.", link, ts.SubdomainBrand), 40)
+		o.add(fmt.Sprintf("%s 有一个使用品牌名「%s」的子域名，但该网站并不属于这个品牌。", link, ts.SubdomainBrand), 40)
 	}
 	if ts.PathBrand != "" {
 		if src.Features.TLD.IsTrusted {
-			o.add(fmt.Sprintf("%s is a '%s' sign-in path under a government or university address, which suggests the site was hacked.", link, ts.PathBrand), 60)
+			o.add(fmt.Sprintf("%s 是政府或大学域名下「%s」的登录路径，说明该网站可能已被入侵。", link, ts.PathBrand), 60)
 		} else {
-			o.add(fmt.Sprintf("%s names '%s' in its path, on a site that isn't theirs.", link, ts.PathBrand), 20)
+			o.add(fmt.Sprintf("%s 的路径中包含「%s」，但该网站并不属于这个品牌。", link, ts.PathBrand), 20)
 		}
 	}
 
 	// What lists say about it.
 	if fm := src.ThreatFeeds; fm != nil && fm.Listed {
-		sources := strings.Join(fm.Sources, " and ")
+		sources := strings.Join(fm.Sources, " 和 ")
 		if fm.Match == "url" {
-			o.add(fmt.Sprintf("CONFIRMED THREAT: %s is listed as phishing or malware by %s.", link, sources), 200)
+			o.add(fmt.Sprintf("已确认威胁：%s 被 %s 列为钓鱼或恶意软件。", link, sources), 200)
 			o.Confirmed = true
 		} else {
-			o.add(fmt.Sprintf("Other pages on %s are listed as phishing or malware by %s.", host, sources), 80)
+			o.add(fmt.Sprintf("%s 的其他页面被 %s 列为钓鱼或恶意软件。", host, sources), 80)
 		}
 	}
 	for _, g := range []*threatfeeds.GoogleThreatResult{src.WebRisk, src.SafeBrowsing} {
 		if g != nil && g.Listed {
-			o.add(fmt.Sprintf("CONFIRMED THREAT: Google lists %s as %s (advisory provided by Google).", host, webRiskThreatNames(g.ThreatTypes)), 200)
+			o.add(fmt.Sprintf("已确认威胁：Google 将 %s 列为%s（由 Google 提供提示）。", host, webRiskThreatNames(g.ThreatTypes)), 200)
 			o.Confirmed = true
 			break
 		}
 	}
 	if p := src.Phishing; p != nil && p.InDatabase && p.Valid && p.Verified {
-		o.add(fmt.Sprintf("CONFIRMED PHISHING: %s is a verified phishing link.", link), 200)
+		o.add(fmt.Sprintf("已确认钓鱼：%s 是经过核实的钓鱼链接。", link), 200)
 		o.Confirmed = true
 	}
 
 	// How its own domain looks.
 	if age, known := src.DomainInfo.Age(); known && age <= newDomainDays &&
 		!(src.Features.TLD.IsHostingPlatform && hostingRegistration(src)) {
-		o.add(fmt.Sprintf("%s is on a domain registered %s.", link, ago(src.DomainInfo.AgeHuman)), 25)
+		o.add(fmt.Sprintf("%s 所在的域名比较新（%s注册）。", link, ago(age)), 25)
 	}
 	if src.Features.TLD.IsRisky {
-		o.add(link+" uses a high-risk domain ending.", 20)
+		o.add(link+"使用了高风险域名后缀。", 20)
 	}
 	if isWordPressSystemPage(src.URL) {
-		o.add(link+" points into a WordPress system folder, where phishing kits hide on hacked sites.", 30)
+		o.add(link+"指向 WordPress 系统目录，钓鱼工具包常藏在被入侵网站的这类目录里。", 30)
 	}
 	if store := userContentHost(host); store != "" && src.ContentData != nil && src.ContentData.ScriptRedirect != nil {
-		o.add(fmt.Sprintf("%s is a file anyone could upload to %s, and it only forwards visitors.", link, store), 60)
+		o.add(fmt.Sprintf("%s 是任何人都能上传到 %s 的文件，它只负责把访客转发走。", link, store), 60)
 	}
 	return o
 }
@@ -176,22 +176,22 @@ func addHopFindings(o *OriginFindings, chain []string, from, to string) {
 		seen[host] = true
 		switch {
 		case net.ParseIP(strings.Trim(host, "[]")) != nil:
-			o.add(fmt.Sprintf("On the way, it passes through a bare IP address (%s).", host), 60)
+			o.add(fmt.Sprintf("途中经过了裸 IP 地址（%s）。", host), 60)
 		default:
 			if service, ip, ok := checks.IPHostname(host); ok {
-				o.add(fmt.Sprintf("On the way, it passes through a bare server (%s) written as a name on %s.", ip, service), 60)
+				o.add(fmt.Sprintf("途中经过了被 %[2]s 写成域名的裸服务器（%[1]s）。", ip, service), 60)
 			}
 		}
 		if risky, _, _ := checks.IsRiskyTld(domain); risky {
-			o.add(fmt.Sprintf("On the way, it passes through %s, on a high-risk domain ending.", host), 10)
+			o.add(fmt.Sprintf("途中经过了 %s，该域名使用高风险后缀。", host), 10)
 		}
 		if fm := threatfeeds.LookupLocal(hop, false); fm.Listed {
-			sources := strings.Join(fm.Sources, " and ")
+			sources := strings.Join(fm.Sources, " 和 ")
 			if fm.Match == "url" {
-				o.add(fmt.Sprintf("CONFIRMED THREAT: on the way, it passes through %s, listed as phishing or malware by %s.", host, sources), 200)
+				o.add(fmt.Sprintf("已确认威胁：途中经过了 %s，它被 %s 列为钓鱼或恶意软件。", host, sources), 200)
 				o.Confirmed = true
 			} else {
-				o.add(fmt.Sprintf("On the way, it passes through %s, where other pages are listed as phishing or malware by %s.", host, sources), 80)
+				o.add(fmt.Sprintf("途中经过了 %s，该网站的其他页面被 %s 列为钓鱼或恶意软件。", host, sources), 80)
 			}
 		}
 	}

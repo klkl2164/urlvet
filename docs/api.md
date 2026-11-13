@@ -62,7 +62,7 @@ Most clients only need `result`:
 | `result.verdict` | `Safe`, `Suspicious` or `Risky` |
 | `result.final_score` | 0 to 100, higher is safer. Below 30 is `Risky`, below 65 is `Suspicious`, 65 and up is `Safe` |
 | `result.risk_score` / `result.trust_score` | The two sides of the score, each 0 to 100. `final_score = 50 + (trust − risk) / 2`, rounded and clamped |
-| `result.reasons.bad_reasons` | Red flags, in plain English (`null` when there are none) |
+| `result.reasons.bad_reasons` | Red flags, in plain Chinese (`null` when there are none) |
 | `result.reasons.good_reasons` | Green flags |
 | `result.reasons.neutral_reasons` | Facts worth knowing that don't move the score |
 
@@ -289,13 +289,13 @@ Complete results are cached for 24 hours per normalized URL, so repeat scans are
     "verdict": "Safe",
     "reasons": {
       "neutral_reasons": [
-        "Standard, officially recognized domain extension.",
-        "No email server configured for this domain."
+        "标准的、官方认可的域名后缀。",
+        "这个域名没有配置邮件服务器。"
       ],
       "good_reasons": [
-        "Global Giant: Ranked #167 worldwide.",
-        "Long-standing domain history (31 years 2 months).",
-        "Advanced DNS security enabled (DNSSEC)."
+        "全球头部网站：全球排名第 167。",
+        "域名历史悠久（已注册 31 年 2 个月）。",
+        "启用了高级 DNS 安全（DNSSEC）。"
       ],
       "bad_reasons": null
     }

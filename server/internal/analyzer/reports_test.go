@@ -45,7 +45,7 @@ func TestReport_UnrankedFreshDomainStaysPenalised(t *testing.T) {
 		DomainInfo:     &domaininfo.RegistrationData{AgeDays: days(20), CreatedDate: since(20), AgeHuman: "20 days"},
 	}
 	got := GenerateResult(resp)
-	if !hasReason(got.Reasons.BadReasons, "Very low traffic") || !hasReason(got.Reasons.BadReasons, "Registered 20 days ago") {
+	if !hasReason(got.Reasons.BadReasons, "流量非常低") || !hasReason(got.Reasons.BadReasons, "20 天前注册") {
 		t.Errorf("bad reasons = %v, want low traffic and a new-registration warning", got.Reasons.BadReasons)
 	}
 }
@@ -68,7 +68,7 @@ func TestReport_ProgramOnUploadHostCappedAtSuspicious(t *testing.T) {
 	if got.Verdict != "Suspicious" || got.FinalScore != safeThreshold-1 {
 		t.Errorf("verdict = %s (final %d), want Suspicious at %d", got.Verdict, got.FinalScore, safeThreshold-1)
 	}
-	if !hasReason(got.Reasons.BadReasons, "uploaded to github.com") {
+	if !hasReason(got.Reasons.BadReasons, "上传到 github.com") {
 		t.Errorf("bad reasons = %v, want the upload-host reason", got.Reasons.BadReasons)
 	}
 }
@@ -77,7 +77,7 @@ func TestReport_ProgramFromPublisherIsNeutral(t *testing.T) {
 	resp := safeBase()
 	resp.URL = "https://download.example-vendor.com/setup.msi"
 	got := GenerateResult(resp)
-	if got.Verdict != "Safe" || !hasReason(got.Reasons.NeutralReasons, "downloads a program (.msi)") {
+	if got.Verdict != "Safe" || !hasReason(got.Reasons.NeutralReasons, "下载一个程序（.msi）") {
 		t.Errorf("verdict = %s, neutral = %v; want Safe with a download note", got.Verdict, got.Reasons.NeutralReasons)
 	}
 }
@@ -108,7 +108,7 @@ func TestReport_ScriptRedirectToIPOnCloudStorage(t *testing.T) {
 	if got.Verdict != "Risky" {
 		t.Errorf("verdict = %s (final %d), want Risky; bad: %v", got.Verdict, got.FinalScore, got.Reasons.BadReasons)
 	}
-	for _, unwanted := range []string{"Unregulated", "low traffic", "DNS configuration"} {
+	for _, unwanted := range []string{"不受监管", "流量非常低", "DNS 配置"} {
 		if hasReason(got.Reasons.BadReasons, unwanted) {
 			t.Errorf("hosting platform got penalised for %q", unwanted)
 		}
@@ -176,7 +176,7 @@ func TestReport_UploadOnProviderHostSaysSo(t *testing.T) {
 		Features: Features{TLD: TLDInfo{TLD: "googleapis.com", IsHostingPlatform: true}},
 	}
 	got := GenerateResult(resp)
-	if !hasReason(got.Reasons.NeutralReasons, "File hosted on Google Cloud Storage") {
+	if !hasReason(got.Reasons.NeutralReasons, "Google Cloud Storage 上托管的文件") {
 		t.Errorf("neutral reasons = %v, want the upload-host wording", got.Reasons.NeutralReasons)
 	}
 }
@@ -207,16 +207,16 @@ func TestReport_UnpublishedCreationDateIsUnknown(t *testing.T) {
 	resp.Features.Rank = 0
 	resp.DomainInfo = &domaininfo.RegistrationData{}
 	got := GenerateResult(resp)
-	if hasReason(got.Reasons.GoodReasons, "history") || hasReason(got.Reasons.BadReasons, "Registered") {
+	if hasReason(got.Reasons.GoodReasons, "历史悠久") || hasReason(got.Reasons.BadReasons, "钓鱼网站通常都是新注册的") {
 		t.Errorf("unknown age scored as known: good %v, bad %v", got.Reasons.GoodReasons, got.Reasons.BadReasons)
 	}
-	if !hasReason(got.Reasons.BadReasons, "Very low traffic") {
+	if !hasReason(got.Reasons.BadReasons, "流量非常低") {
 		t.Errorf("unranked site with unknown age lost the low-traffic penalty: %v", got.Reasons.BadReasons)
 	}
 
 	// A result cached before the fix still carries the bogus day count.
 	resp.DomainInfo = &domaininfo.RegistrationData{AgeDays: days(106751), AgeHuman: "2025 years 9 months"}
-	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "history") {
+	if got := GenerateResult(resp); hasReason(got.Reasons.GoodReasons, "历史悠久") {
 		t.Errorf("stale cached age counted: %v", got.Reasons.GoodReasons)
 	}
 }

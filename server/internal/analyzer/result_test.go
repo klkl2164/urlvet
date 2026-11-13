@@ -365,7 +365,7 @@ func TestGenerateResult_SameSiteRedirectChainIsFine(t *testing.T) {
 		t.Errorf("same-site redirect chain added risk: %d, want %d", got.RiskScore, base.RiskScore)
 	}
 	for _, r := range got.Reasons.BadReasons {
-		if strings.Contains(r, "redirection chain") {
+		if strings.Contains(r, "重定向链") {
 			t.Errorf("unexpected bad reason %q", r)
 		}
 	}

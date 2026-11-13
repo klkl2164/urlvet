@@ -97,7 +97,7 @@ func Analyze(ctx context.Context, rawURL string) (Response, []error) {
 			}
 			resp.ShortLink = &ShortLinkInfo{URL: normalizedURL, Chain: chain, Target: resp.URL, Resolved: true}
 			resp.Result.Reasons.NeutralReasons = append([]string{
-				fmt.Sprintf("This is a short link. It leads to %s, and these results are for that page.", hostOf(resp.URL)),
+				fmt.Sprintf("这是一个短链接，指向 %s，以下结果是针对那一页的。", hostOf(resp.URL)),
 			}, resp.Result.Reasons.NeutralReasons...)
 			if cacheInstance != nil && !resp.Incomplete {
 				_ = cacheInstance.SetJSON(context.Background(), resultKey, resp, constants.AnalyzeResultTTL)
@@ -222,7 +222,7 @@ func Analyze(ctx context.Context, rawURL string) (Response, []error) {
 			origin := originFindings(resp)
 			addHopFindings(origin, chain, normalizedURL, dest)
 			if resp.Features.Rank == 0 && !resp.Features.TLD.IsTrusted {
-				origin.add(fmt.Sprintf("The link sends visitors from one little-known site on to another (%s, then %s).", hostOf(normalizedURL), hostOf(dest)), 30)
+				origin.add(fmt.Sprintf("这个链接会把访客从一个不知名网站转到另一个不知名网站（先是 %s，然后是 %s）。", hostOf(normalizedURL), hostOf(dest)), 30)
 			}
 			// The destination may itself have led on: keep its link's
 			// findings and the rest of the chain.
@@ -238,7 +238,7 @@ func Analyze(ctx context.Context, rawURL string) (Response, []error) {
 			target.Origin = origin
 			target.Result = GenerateResult(target)
 			target.Result.Reasons.NeutralReasons = append([]string{
-				fmt.Sprintf("This link on %s sends visitors on to %s. This result is for that page, plus anything wrong with the link itself.", hostOf(normalizedURL), hostOf(target.URL)),
+				fmt.Sprintf("这个位于 %s 的链接会把访客转发到 %s。以下结果是针对那一页的，也包括链接本身的问题。", hostOf(normalizedURL), hostOf(target.URL)),
 			}, target.Result.Reasons.NeutralReasons...)
 			if cacheInstance != nil && !target.Incomplete {
 				_ = cacheInstance.SetJSON(context.Background(), resultKey, target, constants.AnalyzeResultTTL)

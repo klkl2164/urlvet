@@ -41,7 +41,7 @@ func TestOriginFindings_LuresCount(t *testing.T) {
 	days := 2
 	src.DomainInfo = &domaininfo.RegistrationData{AgeDays: &days, AgeKnown: true, CreatedDate: time.Now().AddDate(0, 0, -days), AgeHuman: "2 days"}
 	o := originFindings(src)
-	for _, want := range []string{"brand name 'paypal'", "words like verify", "email address", "registered 2 days ago"} {
+	for _, want := range []string{"品牌名「paypal」", "含有 verify 这样的词", "邮箱地址", "2 天前注册"} {
 		if !hasReason(o.BadReasons, want) {
 			t.Errorf("missing %q in %v", want, o.BadReasons)
 		}
@@ -90,7 +90,7 @@ func TestHopFindings(t *testing.T) {
 		"https://start.example/again", // same site as the start
 		"https://end.example/",
 	}, "https://start.example/", "https://end.example/")
-	if !hasReason(o.BadReasons, "bare IP address (203.0.113.9)") || !hasReason(o.BadReasons, "50.6.22.93") {
+	if !hasReason(o.BadReasons, "裸 IP 地址（203.0.113.9）") || !hasReason(o.BadReasons, "50.6.22.93") {
 		t.Errorf("hops: %v", o.BadReasons)
 	}
 	if len(o.BadReasons) != 2 {
